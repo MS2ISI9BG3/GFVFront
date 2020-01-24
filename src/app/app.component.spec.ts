@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'GFVFront'`, () => {
+  it(`should have as title 'Gestion flotte véhicules'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('GFVFront');
+    expect(app.title).toEqual('Gestion flotte véhicules');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('GFVFront app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('Gestion flotte véhicules');
   });
 });
