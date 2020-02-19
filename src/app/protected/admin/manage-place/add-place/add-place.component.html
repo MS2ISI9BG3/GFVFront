@@ -1,0 +1,80 @@
+<form [formGroup]="formPlace" #formDirPlace="ngForm" (ngSubmit)="onSubmit()">
+
+    <div [hidden]="formDirPlace.submitted">
+        <!--Nom du lieu-->
+        <p>
+            <mat-form-field>
+                <mat-label>Nom du lieu</mat-label>
+                <input matInput [formControl]="nameFormControl">
+            </mat-form-field>
+            <mat-error *ngIf="nameFormControl.hasError('required') && (nameFormControl.dirty || nameFormControl.touched)">
+                <span>Le nom du lien doit être saisie</span>
+            </mat-error>
+        </p>
+
+        <!--Adresse-->
+        <p>
+            <mat-form-field>
+                <mat-label>Adresse</mat-label>
+                <input matInput [formControl]="addressFormControl">
+            </mat-form-field>
+            <mat-error *ngIf="addressFormControl.hasError('required') && (addressFormControl.dirty || addressFormControl.touched)">
+                <span>L'adresse doit être saisie</span>
+            </mat-error>
+        </p>
+
+        <!--Code postal-->
+        <p>
+            <mat-form-field>
+                <mat-label>Code postal</mat-label>
+                <input matInput [formControl]="zipCodeFormControl">
+            </mat-form-field>
+            <mat-error *ngIf="zipCodeFormControl.hasError('required') && (zipCodeFormControl.dirty || zipCodeFormControl.touched)">
+                <span>Le code postal doit être saisie</span>
+            </mat-error>
+        </p>
+
+        <!--Ville-->
+        <p>
+            <mat-form-field>
+                <mat-label>Ville</mat-label>
+                <input matInput [formControl]="cityFormControl">
+            </mat-form-field>
+            <mat-error *ngIf="cityFormControl.hasError('required') && (cityFormControl.dirty || cityFormControl.touched)">
+                <span>La ville doit être saisie</span>
+            </mat-error>
+        </p>
+
+        <!--Téléphone-->
+        <p>
+            <mat-form-field>
+                <mat-label>Téléphone</mat-label>
+                <input matInput [formControl]="phoneFormControl">
+            </mat-form-field>
+            <mat-error *ngIf="phoneFormControl.hasError('required') && (phoneFormControl.dirty || phoneFormControl.touched)">
+                <span>Le téléphone doit être saisie</span>
+            </mat-error>
+        </p>
+
+        <!--Bouton ajouter-->
+        <button mat-raised-button type="submit" class="btn btn-default"
+            [disabled]="formPlace.invalid">Ajouter</button>
+        <!--Bouton réinitialiser-->
+        <button mat-raised-button type="button" class="btn btn-default"
+            (click)="formDirPlace.resetForm({})">Réinitialiser</button>
+    </div>
+</form>
+
+<!--Bloc remplaçant le formulaire après validation de celui-ci-->
+<div *ngIf="formDirPlace.submitted">
+    <!--Messages de succès ou d'erreurs-->
+    <p *ngIf="placeSaved">Le nouveau lieu : {{ formPlace.value.name }} a été ajouté</p>
+    <p *ngIf="error">{{ error }}</p>
+    <!--Boutons de réinitialisation-->
+    <button mat-raised-button (click)="formDirPlace.resetForm({})">
+        <span *ngIf="!error">Ajouter un lieu</span>
+        <span *ngIf="error">Réinitialiser</span>
+    </button>
+    <!--Bouton de retour à la liste des lieux-->
+    <button mat-raised-button routerLink="/protected/admin/manage-place/manage-place">Liste des lieux</button>
+</div>

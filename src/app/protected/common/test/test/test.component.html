@@ -1,0 +1,92 @@
+<h2>Se composant ne sera pas chargé en version de production ni lors des démos. 
+    Merci de ne pas le supprimer</h2>
+<p>Attention, le code de ce module ne suit pas les bonnes pratiques de développement</p>
+
+<!--BOOTSTRAP-->
+<h3>Bootstrap</h3>
+
+<div class="alert alert-danger" role="alert">
+    Bootstrap is working
+</div>
+<p>Ne pas utiliser Bootstrap directement. Utiliser Angular Material</p>
+
+<!--ANGULAR MATERIAL-->
+<h3>Angular Material</h3>
+<a href="https://material.angular.io/components/categories" target="_blank">
+    Lien vers la doc (sélectionner le composant voulu dans le menu de gauche)
+</a>
+<p>Exemple avec mat-spinner et mat-button</p>
+<p>Pensez à importer les composants Angular Material dans le fichier material-module.ts et 
+    à les exporter dans ce même fichier pour pouvoir les utiliser dans les autres compossants de l'application</p>
+    <p>Utilisation de "color" qui provient du thème déifnit dans Angular Material</p>
+<mat-spinner *ngIf="isLoading" color="primary" diameter="30"></mat-spinner>
+<button mat-raised-button color="accent" (click)="onClickLoading()">{{labelLoading}}</button>
+
+<!--RxJS-->
+<h3>RxJS</h3>
+<p>Librairie pour manipuler les observables</p>
+<p><a href="https://rxjs-dev.firebaseapp.com/guide/operators" target="_blank">Lien vers la liste des opérateurs</a></p>
+<p><a href="https://rxjs-dev.firebaseapp.com/operator-decision-tree" target="_blank">Lien qui aide à trouver l'opérateur voulu en fonction du contexte</a></p>
+<p><a href="https://www.learnrxjs.io/learn-rxjs/operators" target="_blank">Lien vers une doc non officiel mais qui donne des explications et exemples plus concrets</a></p>
+
+<!--In Memory Web API-->
+<h3>In Memory Web API</h3>
+<p>Module permettant d'émuler des CRUD vers une fausse API REST</p>
+<a href="https://github.com/angular/in-memory-web-api" target="_blank">Lien vers la doc</a>
+
+<!--MOMENT JS-->
+<!--MOMENT DATE-->
+<h3>Librairie Moment pour la gestion des dates</h3>
+<a href="https://momentjs.com/docs/" target="_blank">Lien vers la doc</a>
+<p>Date du jour: {{today}}</p>
+<p>Date du jour formatée via un pipe fournit par Angular: {{today | date:'dd/MM/yyyy'}}</p>
+<!--MOMENT DURATION-->
+<a href="https://momentjs.com/docs/#/durations/" target="_blank">Lien vers le chapitre sur la gestion des durées dans la doc Moment</a>
+<p>Utilisation du moment.Duration pour les durées :</p>
+<p>
+    Durée en jour entre le {{dateStart | date:'dd/MM/yyyy'}} et le {{dateEnd | date:'dd/MM/yyyy'}} : 
+    {{getDurationDay(dateStart, dateEnd)}}
+</p>
+
+<!--MOMENT RANGE-->
+<h3>Librairie Moment-range pour la gestion des intervals de dates</h3>
+<a href="https://github.com/rotaready/moment-range" target="_blank">Lien vers la doc</a>
+<p>Date de début de l'interval: {{dateStart | date:'dd/MM/yyyy'}}</p>
+<p>Date de fin de l'interval: {{dateEnd | date:'dd/MM/yyyy'}}</p>
+<p>{{today | date:'dd/MM/yyyy'}} est-il dans l'interval de date? Réponse: {{isRangeContainToday}}</p>
+
+<!--FLEX LAYOUT-->
+<h3>Librairies flex-layout</h3>
+<p>Permet de disposer les éléments dans une page à la manière du "grid system" de Bootstrap (mais en plus puissant)</p>
+<p>La doc officiel pu, je vous recommande (pour le placement de divs dans des divs) : 
+    <a href="https://tburleson-layouts-demos.firebaseapp.com/#/docs" target="_blank">ce lien</a>
+</p>
+<div class="container-flex" fxLayout="row" fxLayoutAlign="space-around center">
+    <div class="content-flex">
+        <h4>1</h4>
+    </div>
+    <div class="content-flex">
+        <h4>2</h4>
+    </div>
+    <div class="content-flex">
+        <h4>3</h4>
+    </div>
+</div>
+
+<!--MATERIAL DESIGN ICON-->
+<h3>Material Design Icon</h3>
+<a href="https://material.io/resources/icons/?icon=description&style=baseline" target="_blank">Accéder à la liste des icones</a>
+<p>
+    Material Design Icon seul: 
+    <span class="material-icons">face</span>
+</p>
+<div class="exemple-mat-icon">
+    <p>
+        Material Design Icon encapsulé dans Angular Material (à utiliser comme cela dans l'application): 
+    </p>
+    <p>
+        La classe CSS (.mat-icon) utilisée par Angular Material est redéfinie 
+        dans le fichier test.component.scss pour augmenter la taille de l'icône
+    </p>
+    <mat-icon color="primary">home</mat-icon>
+</div>

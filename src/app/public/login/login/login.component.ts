@@ -1,0 +1,120 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
+import { first } from 'rxjs/operators';
+import { RestUserService } from 'src/app/core/services/rest/rest-user.service';
+import { FakeRestUserService } from 'src/app/core/services/rest/fake-rest-user.service';
+
+/**
+ * Connexion à l'application
+ * @export
+ * @class LoginComponent
+ * @implements {OnInit}
+ */
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
+})
+export class LoginComponent implements OnInit {
+
+  /**
+   * Formulaire de connexion à l'application
+   * @type {FormGroup}
+   * @memberof LoginComponent
+   */
+  loginForm: FormGroup;
+  /**
+   * Est en train de charger la page?
+   * @memberof LoginComponent
+   */
+  loading = false;
+  /**
+   * Le formulaire de connexion a été validé?
+   * @memberof LoginComponent
+   */
+  submitted = false;
+  /**
+   * Libellé de l'URL de redirection après une authentification réussie
+   * @type {string}
+   * @memberof LoginComponent
+   */
+  returnUrl: string;
+  /**
+   * Libellé des erreurs du formulaire de connexion
+   * @memberof LoginComponent
+   */
+  error = '';
+
+  /**
+   * Creates an instance of LoginComponent.
+   * @param {FormBuilder} formBuilder
+   * @param {ActivatedRoute} route
+   * @param {Router} router
+   * @param {AuthenticationService} authenticationService
+   * @memberof LoginComponent
+   */
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private restUser: RestUserService,
+    private fakeRestUser: FakeRestUserService
+  ) {}
+
+  /**
+   * Initalisation du formulaire de connexion
+   * @memberof LoginComponent
+   */
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
+    // reset login status
+    //this.authenticationService.logout(); TODO
+    this.restUser.logout();
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  // convenience getter for easy access to form fields
+  /**
+   * Renvoie les controles des champs du formulaire
+   * @readonly
+   * @memberof LoginComponent
+   */
+  get f() { return this.loginForm.controls; }
+
+  /**
+   * Gère la validation du formulaire de connexion
+   * @returns
+   * @memberof LoginComponent
+   */
+  onSubmit() {
+      this.submitted = true;
+
+      // stop here if form is invalid
+      if (this.loginForm.invalid) {
+          return;
+      }
+
+      this.loading = true;
+      //this.authenticationService.login(this.f.username.value, this.f.password.value) TODO
+      this.fakeRestUser.login(this.f.username.value, this.f.password.value)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  this.router.navigate([this.returnUrl]);
+              },
+              error => {
+                this.error = "Login ou mot de passe incorrect";
+                this.loading = false;
+              });
+  }
+
+}

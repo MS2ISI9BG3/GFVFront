@@ -1,0 +1,15 @@
+<mat-list>
+    <h3 mat-subheader>
+      Listes des lieux
+      <!--Bouton plus pour ajouter un lieu-->
+      <mat-icon mat-list-icon routerLink="/protected/admin/manage-place/add-place">add_circle</mat-icon>
+    </h3>
+    <mat-list-item *ngFor="let place of places;">
+        <mat-icon mat-list-icon>place</mat-icon>
+        <h4 mat-line (click)="onClickPlace(place)">{{ place.name }}</h4>
+        <!--Adresse du lieu formaté avec la rue, le code postal et la ville-->
+        <p mat-line (click)="onClickPlace(place)">{{ place | formatAddress }}</p>
+      <!--Bouton de suppression d'un lieu-->
+      <mat-icon (click)="onClickDelete(place)">delete</mat-icon>
+    </mat-list-item>
+</mat-list>

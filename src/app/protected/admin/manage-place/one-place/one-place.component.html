@@ -1,0 +1,56 @@
+<p>
+    <!--Nom du lieu-->
+    <mat-form-field class="example-form-field">
+        <mat-label>Nom du lieu</mat-label>
+        <input matInput type="text" [value]="place.name" [readonly]="showEditName" (keyup)="onKeyupEditName($event)">
+        <button mat-button *ngIf="showEditName" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditName()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-form-field>
+</p>
+<p>
+    <!--Adresse (rue)-->
+    <mat-form-field class="example-form-field">
+        <mat-label>Adresse</mat-label>
+        <input matInput type="text" [value]="place.address" [readonly]="showEditAddress">
+        <button mat-button *ngIf="showEditAddress" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditAddress()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-form-field>
+</p>
+<p>
+    <!--Code postal-->
+    <mat-form-field class="example-form-field">
+        <mat-label>Code postal</mat-label>
+        <input matInput type="text" [value]="place.zipCode" [readonly]="showEditZipCode">
+        <button mat-button *ngIf="showEditZipCode" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditZipCode()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-form-field>
+</p>
+<p>
+    <!--Ville-->
+    <mat-form-field class="example-form-field">
+        <mat-label>Ville</mat-label>
+        <input matInput type="text" [value]="place.city" [readonly]="showEditCity">
+        <button mat-button *ngIf="showEditCity" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditCity()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-form-field>
+</p>
+<p>
+    <!--Téléphone-->
+    <mat-form-field class="example-form-field">
+        <mat-label>Téléphone</mat-label>
+        <input matInput type="text" [value]="place.phone" [readonly]="showEditPhone">
+        <button mat-button *ngIf="showEditPhone" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditPhone()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </mat-form-field>
+</p>
+<p>
+    <!--Est archivé ou non-->
+    <mat-slide-toggle [checked]="place.isArchive" (change)="onChangeIsArchive()">Archivé</mat-slide-toggle>
+</p>
+<!--Bouton de retour à la liste des lieux-->
+<button mat-raised-button routerLink="/protected/admin/manage-place/manage-place">Liste des lieux</button>
