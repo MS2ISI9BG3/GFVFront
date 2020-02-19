@@ -33,8 +33,8 @@ export class AddPlaceComponent {
   /**
    * Creates an instance of AddPlaceComponent.
    * Initialise les validateurs des champs du formulaire
-   * @param {FormBuilder} formBuilder
-   * @param {RestPlaceService} restPlace
+   * @param {FormBuilder} formBuilder Form builder
+   * @param {RestPlaceService} restPlace Service exposant les lieux aux autres composants du module
    * @memberof AddPlaceComponent
    */
   constructor(
