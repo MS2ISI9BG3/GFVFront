@@ -41,10 +41,10 @@ export class ListPlaceComponent implements OnInit {
         this.places = places;
         this.placeService.changePlaces(places);
       });
-    /*this.placeService.$places
+    this.placeService.$places
       .subscribe(places => 
         this.places = places
-      );*/
+      );
   }
 
   /**
