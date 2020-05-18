@@ -1,1 +1,41 @@
-<p>report works!</p>
+<form [formGroup]="formReport" #formDirPlace="ngForm" (ngSubmit)="onSubmit()" class="reportPage"
+      fxLayout="column"
+      fxLayoutAlign="space-around">
+
+  <h2> Déclaration d'incident</h2>
+
+  <!--Input file photo -->
+  <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file" fxLayoutAlign="space-around center">
+    <i class="material-icons">file_upload</i><input type="file" id="file">
+  </label>
+
+
+  <!--Input description de l'incident  -->
+  <div  fxLayout="column">
+    <mat-form-field class="descriptionInput" appearance="fill" color="accent">
+      <mat-label>Description de l'incident</mat-label>
+      <textarea matInput placeholder="Ex. It makes me feel..." cdkTextareaAutosize
+                cdkAutosizeMinRows="6"
+                cdkAutosizeMaxRows="6" [formControl]="descriptionFormControl"></textarea>
+    </mat-form-field>
+    <mat-error
+      *ngIf="descriptionFormControl.hasError('required') && (descriptionFormControl.dirty || descriptionFormControl.touched)">
+      <span>Une description de l'incident doit être saisie</span>
+    </mat-error>
+  </div>
+
+  <!--Toggle incident bloquant -->
+  <div class="container" fxLayout="row" fxLayoutAlign="end none">
+    <mat-slide-toggle>Incident bloquant</mat-slide-toggle>
+  </div>
+
+
+  <div class="container" fxLayout="row" fxLayoutAlign="space-around ">
+    <!--Bouton Annuler-->
+    <button mat-flat-button color="primary" routerLink="/protected/admin/manage-place/manage-place">Annuler</button>
+    <!--Bouton ENvoyer -->
+    <button mat-flat-button color="accent" type="submit" [disabled]="formReport.invalid">Envoyer</button>
+  </div>
+
+</form>
+
