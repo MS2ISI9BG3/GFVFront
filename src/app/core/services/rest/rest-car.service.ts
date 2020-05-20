@@ -56,7 +56,7 @@ export class RestCarService {
       );
   }
 
-//**
+
   public deleteCar(car: (Car | number)): Observable<Car> {
     let id = car instanceof Car ? car.id : car;
     return this.http.delete(`${this.baseUrl}+${id}`, this.httpOptions)
