@@ -1,11 +1,11 @@
 export interface iUser {
 
     id: string;
-    username: string;
+    login: string;
     password: string;
     firstName: string;
     lastName: string;
-    token?: string;
+    id_token?: string;
     isAdmin: string;
 
-} 
+}

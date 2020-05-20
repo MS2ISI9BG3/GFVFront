@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'protected/user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [AuthGuardService] },
   { path: 'protected/admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuardService] },
   { path: 'protected/common', loadChildren: () => import('./common/common.module').then(m => m.CommonModule) },
+  { path: '', redirectTo: 'protected/user', pathMatch: 'full' }
   //{ path: '', redirectTo: 'user', pathMatch: 'full' }
 ];
 
