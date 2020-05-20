@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MapperCarService} from "../mappers/mapper-car.service";
@@ -13,16 +13,17 @@ import {Car} from "../../../shared/models/entities/car";
 export class RestCarService {
 
 
-  private baseUrl = environment.baseUrl+"api/car/";
+  private baseUrl = environment.baseUrl + "api/car/";
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
   constructor(
     private http: HttpClient,
     private mapperCar: MapperCarService
-  ) { }
+  ) {
+  }
 
   public getCars() {
     return this.http.get<ICar[]>(this.baseUrl, this.httpOptions)
@@ -55,6 +56,7 @@ export class RestCarService {
       );
   }
 
+//**
   public deleteCar(car: (Car | number)): Observable<Car> {
     let id = car instanceof Car ? car.id : car;
     return this.http.delete(`${this.baseUrl}+${id}`, this.httpOptions)
