@@ -59,7 +59,7 @@ export class Car {
    * @memberof Car
    */
 
-  private _insurance_date: string;
+  private _insuranceDate: string;
   /**
    * Nom du lieu
    * @private
@@ -67,19 +67,25 @@ export class Car {
    * @memberof Car
    */
 
-  private _service_date: string;
+  private _serviceDate: string;
 
 
   /**
    * Creates an instance of Car.
    * @param {number} id Identifiant unique du lieu
    * @param {string} name Nom du lieu
+   * @param matricule
+   * @param power
+   * @param places
    * @param {boolean} [isArchive=false] Est archivé ou non
+   * @param odometer
+   * @param insuranceDate
+   * @param serviceDate
    * @memberof Car
    */
 
 
-  constructor(id: number, name: string, matricule: number, power: number, places: number, isArchive: number, odometer: string, insurance_date: string, service_date: boolean) {
+  constructor(id: number, name: string, matricule: number, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, serviceDate: string) {
     this._id = id;
     this._name = name;
     this._matricule = matricule;
@@ -87,8 +93,8 @@ export class Car {
     this._places = places;
     this._isArchive = Boolean(isArchive);
     this._odometer = odometer;
-    this._insurance_date = insurance_date;
-    this._service_date = service_date;
+    this._insuranceDate = insuranceDate;
+    this._serviceDate = serviceDate;
   }
 
 
@@ -120,12 +126,12 @@ export class Car {
     return this._odometer;
   }
 
-  get insurance_date(): string {
-    return this._insurance_date;
+  get insuranceDate(): string {
+    return this._insuranceDate;
   }
 
-  get service_date(): string {
-    return this._service_date;
+  get serviceDate(): string {
+    return this._serviceDate;
   }
 
 
@@ -153,11 +159,11 @@ export class Car {
     this._odometer = value;
   }
 
-  set insurance_date(value: string) {
-    this._insurance_date = value;
+  set insuranceDate(value: string) {
+    this._insuranceDate = value;
   }
 
-  set service_date(value: string) {
-    this._service_date = value;
+  set serviceDate(value: string) {
+    this._serviceDate = value;
   }
 }

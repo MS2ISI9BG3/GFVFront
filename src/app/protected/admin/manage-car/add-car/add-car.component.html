@@ -1,1 +1,104 @@
 <p>add-car works!</p>
+<form [formGroup]="formCar" #formDirCar="ngForm" (ngSubmit)="onSubmit()">
+
+  <div [hidden]="formDirCar.submitted">
+    <!--Nom du véhicule-->
+    <p>
+      <mat-form-field>
+        <mat-label>Nom du véhicule</mat-label>
+        <input matInput [formControl]="nameFormControl">
+      </mat-form-field>
+      <mat-error *ngIf="nameFormControl.hasError('required') && (nameFormControl.dirty || nameFormControl.touched)">
+        <span>Le nom du véhicule doit être saisie</span>
+      </mat-error>
+    </p>
+
+    <!--Plaque d'immatriculation -->
+    <p>
+      <mat-form-field>
+        <mat-label>Plaque d'immatriculation</mat-label>
+        <input matInput [formControl]="matriculeFormControl">
+      </mat-form-field>
+      <mat-error *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
+        <span>La plaque d'immatriculation doit être saisie</span>
+      </mat-error>
+    </p>
+
+    <!--Puissance-->
+    <p>
+      <mat-form-field>
+        <mat-label>Puissance</mat-label>
+        <input matInput [formControl]="powerFormControl">
+      </mat-form-field>
+      <mat-error *ngIf="powerFormControl.hasError('required') && (powerFormControl.dirty || powerFormControl.touched)">
+        <span>La puissance doit être saisie</span>
+      </mat-error>
+    </p>
+
+    <!--Site de rattachement -->
+    <p>
+      <mat-form-field>
+        <mat-label>Site de rattachement</mat-label>
+        <input matInput [formControl]="placesFormControl">
+      </mat-form-field>
+      <mat-error *ngIf="placesFormControl.hasError('required') && (placesFormControl.dirty || placesFormControl.touched)">
+        <span>Le site de rattachement doit être saisie</span>
+      </mat-error>
+    </p>
+
+    <!--Kilometrage-->
+    <p>
+      <mat-form-field>
+        <mat-label>Kilometrage</mat-label>
+        <input matInput [formControl]="odometerFormControl">
+      </mat-form-field>
+      <mat-error *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
+        <span>Le kilometrage doit être saisie</span>
+      </mat-error>
+    </p>
+
+    <!--Date de l'assurance-->
+    <p>
+      <mat-form-field>
+        <mat-label>Date de l'assurance</mat-label>
+        <input matInput [formControl]="insuranceDateFormControl">
+      </mat-form-field>
+      <mat-error *ngIf="insuranceDateFormControl.hasError('required') && (insuranceDateFormControl.dirty || insuranceDateFormControl.touched)">
+        <span>La date de l'assurance doit être saisie</span>
+      </mat-error>
+    </p>
+
+    <!--Date de mise en service du véhicule -->
+    <p>
+      <mat-form-field>
+        <mat-label>Date de mise en service du véhicule</mat-label>
+        <input matInput [formControl]="serviceDateFormControl">
+      </mat-form-field>
+      <mat-error *ngIf="serviceDateFormControl.hasError('required') && (serviceDateFormControl.dirty || serviceDateFormControl.touched)">
+        <span>Le date de mise en service du véhicule doit être saisie</span>
+      </mat-error>
+    </p>
+
+
+    <!--Bouton ajouter-->
+    <button mat-raised-button type="submit" class="btn btn-default"
+            [disabled]="formCar.invalid">Ajouter</button>
+    <!--Bouton réinitialiser-->
+    <button mat-raised-button type="button" class="btn btn-default"
+            (click)="formDirCar.resetForm({})">Réinitialiser</button>
+  </div>
+</form>
+
+<!--Bloc remplaçant le formulaire après validation de celui-ci-->
+<div *ngIf="formDirCar.submitted">
+  <!--Messages de succès ou d'erreurs-->
+  <p *ngIf="carSaved">La nouvelle voiture : {{ formCar.value.name }} a été ajouté</p>
+  <p *ngIf="error">{{ error }}</p>
+  <!--Boutons de réinitialisation-->
+  <button mat-raised-button (click)="formDirCar.resetForm({})">
+    <span *ngIf="!error">Ajouter un lieu</span>
+    <span *ngIf="error">Réinitialiser</span>
+  </button>
+  <!--Bouton de retour à la liste des lieux-->
+  <button mat-raised-button routerLink="/protected/admin/manage-car/manage-car">Liste des Voitures</button>
+</div>

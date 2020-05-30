@@ -7,7 +7,7 @@ export interface ICar {
   places: string;
   isArchive: string;
   odometer: string;
-  insurance_date: string;
-  service_date: string;
+  insuranceDate: string;
+  serviceDate: string;
 
 }

@@ -32,10 +32,11 @@ export class MapperCarService {
       Number(car.matricule),
       Number(car.power),
       Number(car.places),
+      Boolean(car.isArchive),
       Number(car.odometer),
-      car.insurance_date,
-      car.service_date,
-      Boolean(car.isArchive)
+      car.insuranceDate,
+      car.serviceDate,
+
     );
   }
 
@@ -52,10 +53,10 @@ export class MapperCarService {
       matricule: String(car.matricule),
       power: String(car.power),
       places: String(car.places),
+      isArchive: String(car.isArchive),
       odometer: String(car.odometer),
-      insurance_date: car.insurance_date,
-      service_date: car.service_date,
-      isArchive: String(car.isArchive)
+      insuranceDate: car.insuranceDate,
+      serviceDate: car.serviceDate,
     }
   }
 }

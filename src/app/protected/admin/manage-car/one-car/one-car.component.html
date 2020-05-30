@@ -1,1 +1,89 @@
-<p>one-car works!</p>
+<!--Nom du véhicule-->
+<p>
+  <mat-form-field>
+    <mat-label>Nom du véhicule</mat-label>
+    <input matInput type="text" [value]="car.name" [readonly]="showEditName" (keyup)="onKeyupEditName($event)"><button mat-button *ngIf="showEditName" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditName()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-form-field>
+
+</p>
+
+<!--Plaque d'immatriculation -->
+<p>
+  <mat-form-field>
+    <mat-label>Plaque d'immatriculation</mat-label>
+    <input matInput type="text" [value]="car.matricule" [readonly]="showEditMatricule">
+    <button mat-button *ngIf="showEditMatricule" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditMatricule()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-form-field>
+
+</p>
+
+<!--Puissance-->
+<p>
+  <mat-form-field>
+    <mat-label>Puissance</mat-label>
+    <input matInput type="text" [value]="car.power" [readonly]="showEditPower">
+    <button mat-button *ngIf="showEditPower" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditPower()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-form-field>
+
+</p>
+
+<!--Site de rattachement -->
+<p>
+  <mat-form-field>
+    <mat-label>Site de rattachement</mat-label>
+    <input matInput type="text" [value]="car.places" [readonly]="showEditPlaces">
+    <button mat-button *ngIf="showEditPlaces" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditPlaces()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-form-field>
+
+</p>
+
+<!--Kilometrage-->
+<p>
+  <mat-form-field>
+    <mat-label>Kilometrage</mat-label>
+    <input matInput type="text" [value]="car.odometer" [readonly]="showEditOdometer">
+    <button mat-button *ngIf="showEditOdometer" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditOdometer()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-form-field>
+
+</p>
+
+<!--Date de l'assurance-->
+<p>
+  <mat-form-field>
+    <mat-label>Date de l'assurance</mat-label>
+    <input matInput type="text" [value]="car.insuranceDate" [readonly]="showEditInsuranceDate">
+    <button mat-button *ngIf="showEditInsuranceDate" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditInsuranceDate()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-form-field>
+
+</p>
+
+<!--Date de mise en service du véhicule -->
+<p>
+  <mat-form-field>
+    <mat-label>Date de mise en service du véhicule</mat-label>
+    <input matInput type="text" [value]="car.serviceDate" [readonly]="showEditServiceDate">
+    <button mat-button *ngIf="showEditServiceDate" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditServiceDate()">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-form-field>
+
+</p>
+
+<p>
+  <!--Est archivé ou non-->
+  <mat-slide-toggle [checked]="car.isArchive" (change)="onChangeIsArchive()">Archivé</mat-slide-toggle>
+</p>
+<!--Bouton de retour à la liste des lieux-->
+<button mat-raised-button routerLink="/protected/admin/manage-car/manage-car">Liste des voitures</button>
