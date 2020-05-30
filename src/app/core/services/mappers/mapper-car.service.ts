@@ -29,7 +29,7 @@ export class MapperCarService {
     return new Car(
       Number(car.id),
       car.name,
-      Number(car.matricule),
+      car.matricule,
       Number(car.power),
       Number(car.places),
       Boolean(car.isArchive),
@@ -50,7 +50,7 @@ export class MapperCarService {
     return {
       id: String(car.id),
       name: car.name,
-      matricule: String(car.matricule),
+      matricule: car.matricule,
       power: String(car.power),
       places: String(car.places),
       isArchive: String(car.isArchive),

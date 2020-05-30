@@ -21,7 +21,7 @@ export class Car {
    * @memberof Car
    */
 
-  private _matricule: number;
+  private _matricule: string;
   /**
    * Nom du lieu
    * @private
@@ -85,7 +85,7 @@ export class Car {
    */
 
 
-  constructor(id: number, name: string, matricule: number, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, serviceDate: string) {
+  constructor(id: number, name: string, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, serviceDate: string) {
     this._id = id;
     this._name = name;
     this._matricule = matricule;
@@ -106,7 +106,7 @@ export class Car {
     return this._name;
   }
 
-  get matricule(): number {
+  get matricule(): string {
     return this._matricule;
   }
 
@@ -139,7 +139,7 @@ export class Car {
     this._name = value;
   }
 
-  set matricule(value: number) {
+  set matricule(value: string) {
     this._matricule = value;
   }
 

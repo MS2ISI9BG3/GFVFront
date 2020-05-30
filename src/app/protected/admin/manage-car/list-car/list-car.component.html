@@ -1,16 +1,29 @@
-
-<mat-list>
+<mat-list fxLayoutAlign="space-around center" fxLayout="column">
   <h3 mat-subheader>
     Listes des voitures
     <!--Bouton plus pour ajouter un lieu-->
     <mat-icon mat-list-icon routerLink="/protected/admin/manage-car/add-car">add_circle</mat-icon>
   </h3>
-  <mat-list-item *ngFor="let car of cars;">
-    <mat-icon mat-list-icon>car</mat-icon>
-    <h4 mat-line (click)="onClickCar(car)">{{ car.name }}</h4>
-    <!--Adresse du lieu formaté avec la rue, le code postal et la ville-->
-    <p mat-line (click)="onClickCar(car)">{{ car | formatAddress }}</p>
-    <!--Bouton de suppression d'un lieu-->
-    <mat-icon (click)="onClickDelete(car)">delete</mat-icon>
-  </mat-list-item>
+
+  <div fxLayout="column" fxLayout.gt-sm="row" fxFlex
+       fxLayoutAlign="space-around" fxLayoutAlign.gt-sm="space-around center">
+    <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"
+              fxFlex="100" fxLayoutAlign="center">
+      <div fxFlex="20"  fxLayoutAlign="space-around center">
+        <img mat-card-image src="../../../../../assets/img/carDefault.jpg" alt="car default"
+             (click)="onClickCar(car)">
+      </div>
+
+      <div class="nameMatricule" fxFlex="60" fxLayout="column"
+           fxLayoutAlign="space-around " (click)="onClickCar(car)">
+        <h4>{{ car.name }}</h4>
+        <H5>{{ car.matricule }}</H5>
+      </div>
+      <div class="nameMatricule" fxFlex fxLayout="column"
+           fxLayoutAlign="space-around center " (click)="onClickCar(car)">
+        <mat-icon (click)="onClickDelete(car)">delete</mat-icon>
+      </div>
+    </mat-card>
+  </div>
+
 </mat-list>
