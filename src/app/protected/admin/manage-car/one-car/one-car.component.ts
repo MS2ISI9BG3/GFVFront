@@ -35,9 +35,10 @@ export class OneCarComponent implements OnInit {
   showEditPower: boolean = true;
   showEditPlaces: boolean = true;
   showEditOdometer: boolean = true;
-
   showEditInsuranceDate: boolean = true;
   showEditServiceDate: boolean = true;
+
+  selected = 'none';
 
   /**
    * Creates an instance of OneCarComponent.

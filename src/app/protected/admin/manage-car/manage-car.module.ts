@@ -5,6 +5,8 @@ import { ManageCarComponent } from './manage-car/manage-car.component';
 import { ListCarComponent } from './list-car/list-car.component';
 import { AddCarComponent } from './add-car/add-car.component';
 import { OneCarComponent } from './one-car/one-car.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { OneCarComponent } from './one-car/one-car.component';
   ],
   imports: [
     SharedModule,
-    ManageCarRoutingModule
+    ManageCarRoutingModule,
+    MatChipsModule,
+    MatSelectModule
   ]
 })
 export class ManageCarModule { }

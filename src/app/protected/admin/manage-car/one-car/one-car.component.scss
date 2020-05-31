@@ -1,0 +1,33 @@
+.pageOneCar {
+  background-color: #e8e8e8;
+  min-width: 100vw;
+  min-height: 100vh;
+  padding: 15px;
+
+  .div1 {
+    img {
+      padding: 0;
+      height: 100%;
+      max-height: 20vh;
+      max-width: 20vh;
+      margin-right: 20px;
+    }
+
+    .mat-form-field {
+      margin: 0;
+      width: 100%;
+    }
+
+  }
+
+  .div2 {
+
+  }
+
+
+  .mat-form-field {
+    background-color: #004B82;
+    margin: 20px 0 0 0px;
+    padding: 0;
+  }
+}
