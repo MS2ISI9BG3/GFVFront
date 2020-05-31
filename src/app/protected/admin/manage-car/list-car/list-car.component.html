@@ -1,4 +1,4 @@
-<mat-list class="pageListCar" fxLayoutAlign="none center"  fxLayout="column">
+<mat-list class="pageListCar" fxLayoutAlign="none center" fxLayout="column">
   <h3 mat-subheader>
     Listes des voitures
     <!--Bouton plus pour ajouter un lieu-->
@@ -13,9 +13,9 @@
   </mat-chip-list>
 
   <div fxLayout="column" fxLayout.gt-sm="row wrap"
-       fxLayoutAlign.gt-sm="space-around" fxLayoutAlign="none center" >
+       fxLayoutAlign.gt-sm="space-around" fxLayoutAlign="none center">
     <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"
-                                                 fxLayoutAlign="center">
+              fxLayoutAlign="center">
       <div fxFlex="20" fxLayoutAlign="space-around center">
         <img mat-card-image src="../../../../../assets/img/carDefault.jpg" alt="car default"
              (click)="onClickCar(car)">
@@ -23,8 +23,8 @@
 
       <div class="nameMatricule" fxFlex="60" fxLayout="column"
            fxLayoutAlign="space-around " (click)="onClickCar(car)">
-        <h4>{{ car.name }}</h4>
-        <H5>{{ car.matricule }}</H5>
+        <h5>{{ car.name }}</h5>
+        <p>{{ car.matricule }}</p>
       </div>
       <div class="nameMatricule" fxFlex fxLayout="column"
            fxLayoutAlign="space-around center " (click)="onClickCar(car)">

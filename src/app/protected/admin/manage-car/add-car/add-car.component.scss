@@ -1,3 +1,11 @@
-.mat-form-field {
-  width: 250px;
+.pageAddCar {
+  background-color: #e8e8e8;
+  min-width: 100vw;
+  min-height: 100vh;
+  padding: 10px;
+
+  .mat-form-field {
+    margin: 20px 0 0 0px;
+    padding: 0;
+  }
 }

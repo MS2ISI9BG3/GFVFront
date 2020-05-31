@@ -1,104 +1,176 @@
-<p>add-car works!</p>
-<form [formGroup]="formCar" #formDirCar="ngForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="formCar" #formDirCar="ngForm" (ngSubmit)="onSubmit()" class="pageAddCar">
 
-  <div [hidden]="formDirCar.submitted">
+  <div [hidden]="formDirCar.submitted" fxLayout="column" fxLayout.gt-sm="row wrap"
+       fxLayoutAlign.gt-sm="space-around center" fxLayoutAlign="space-around">
+
+
+    <div fxFlex.gt-sm="100" fxLayout="row" fxLayoutAlign.gt-sm=" center center">
+      <h3>Ajouter un véhicule</h3>
+    </div>
+
+
     <!--Nom du véhicule-->
-    <p>
-      <mat-form-field>
-        <mat-label>Nom du véhicule</mat-label>
-        <input matInput [formControl]="nameFormControl">
-      </mat-form-field>
-      <mat-error *ngIf="nameFormControl.hasError('required') && (nameFormControl.dirty || nameFormControl.touched)">
-        <span>Le nom du véhicule doit être saisie</span>
-      </mat-error>
-    </p>
+    <mat-form-field>
+      <mat-label>Nom du véhicule</mat-label>
+      <input matInput [formControl]="nameFormControl">
+    </mat-form-field>
+    <mat-error *ngIf="nameFormControl.hasError('required') && (nameFormControl.dirty || nameFormControl.touched)">
+      <span>Le nom du véhicule doit être saisie</span>
+    </mat-error>
 
     <!--Plaque d'immatriculation -->
-    <p>
-      <mat-form-field>
-        <mat-label>Plaque d'immatriculation</mat-label>
-        <input matInput [formControl]="matriculeFormControl">
-      </mat-form-field>
-      <mat-error *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
-        <span>La plaque d'immatriculation doit être saisie</span>
-      </mat-error>
-    </p>
+    <mat-form-field>
+      <mat-label>Plaque d'immatriculation</mat-label>
+      <input matInput [formControl]="matriculeFormControl">
+    </mat-form-field>
+    <mat-error
+      *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
+      <span>La plaque d'immatriculation doit être saisie</span>
+    </mat-error>
 
-    <!--Puissance-->
-    <p>
-      <mat-form-field>
-        <mat-label>Puissance</mat-label>
-        <input matInput [formControl]="powerFormControl">
-      </mat-form-field>
-      <mat-error *ngIf="powerFormControl.hasError('required') && (powerFormControl.dirty || powerFormControl.touched)">
-        <span>La puissance doit être saisie</span>
-      </mat-error>
-    </p>
+    <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+      <div fxLayout="column" fxLayoutAlign="space-between" fxFlex="45">
+        <!--Kilometrage-->
+        <mat-form-field>
+          <mat-label>Kilometrage</mat-label>
+          <input matInput [formControl]="odometerFormControl">
+        </mat-form-field>
+        <mat-error
+          *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
+          <span>Le kilometrage doit être saisie</span>
+        </mat-error>
+      </div>
+
+
+      <div fxLayout="column" fxLayoutAlign="space-between" fxFlex="45">
+
+        <!--Puissance-->
+        <mat-form-field>
+          <mat-label>Puissance</mat-label>
+          <input matInput [formControl]="powerFormControl">
+        </mat-form-field>
+        <mat-error
+          *ngIf="powerFormControl.hasError('required') && (powerFormControl.dirty || powerFormControl.touched)">
+          <span>La puissance doit être saisie</span>
+        </mat-error>
+      </div>
+    </div>
+
 
     <!--Site de rattachement -->
-    <p>
-      <mat-form-field>
-        <mat-label>Site de rattachement</mat-label>
-        <input matInput [formControl]="placesFormControl">
+    <mat-form-field>
+      <mat-label>Site de rattachement</mat-label>
+      <input matInput [formControl]="placesFormControl">
+    </mat-form-field>
+    <mat-error
+      *ngIf="placesFormControl.hasError('required') && (placesFormControl.dirty || placesFormControl.touched)">
+      <span>Le site de rattachement doit être saisie</span>
+    </mat-error>
+
+    <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+
+      <mat-form-field fxFlex="45">
+        <mat-label>Assurance</mat-label>
+        <input matInput [matDatepicker]="picker1">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
-      <mat-error *ngIf="placesFormControl.hasError('required') && (placesFormControl.dirty || placesFormControl.touched)">
-        <span>Le site de rattachement doit être saisie</span>
-      </mat-error>
-    </p>
 
-    <!--Kilometrage-->
-    <p>
-      <mat-form-field>
-        <mat-label>Kilometrage</mat-label>
-        <input matInput [formControl]="odometerFormControl">
+      <mat-form-field fxFlex="45">
+        <mat-label>Révision</mat-label>
+        <input matInput [matDatepicker]="picker2">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
-      <mat-error *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
-        <span>Le kilometrage doit être saisie</span>
-      </mat-error>
-    </p>
 
-    <!--Date de l'assurance-->
-    <p>
-      <mat-form-field>
-        <mat-label>Date de l'assurance</mat-label>
-        <input matInput [formControl]="insuranceDateFormControl">
+    </div>
+
+
+    <!--    A supprimer et garder que les deux agenda ci-dessus -->
+    <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+
+      <div fxLayout="column" fxLayoutAlign="space-between" fxFlex="45">
+        <!--Date de l'assurance-->
+        <mat-form-field>
+          <mat-label>Date de l'assurance</mat-label>
+          <input matInput [formControl]="insuranceDateFormControl">
+        </mat-form-field>
+        <mat-error
+          *ngIf="insuranceDateFormControl.hasError('required') && (insuranceDateFormControl.dirty || insuranceDateFormControl.touched)">
+          <span>La date de l'assurance doit être saisie</span>
+        </mat-error>
+      </div>
+
+
+      <!--Date de mise en service du véhicule -->
+
+      <div fxLayout="column" fxLayoutAlign="space-between" fxFlex="45">
+        <mat-form-field>
+          <mat-label>Date de mise en service du véhicule</mat-label>
+          <input matInput [formControl]="serviceDateFormControl">
+        </mat-form-field>
+        <mat-error
+          *ngIf="serviceDateFormControl.hasError('required') && (serviceDateFormControl.dirty || serviceDateFormControl.touched)">
+          <span>Le date de mise en service du véhicule doit être saisie</span>
+        </mat-error>
+      </div>
+
+    </div>
+
+
+    <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+
+      <mat-form-field fxFlex="45" appearance="outline">
+        <mat-label>
+          <mat-icon>vpn_key</mat-icon>
+          <b> Clé 1</b></mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option>None</mat-option>
+          <mat-option value="option1">Option 1</mat-option>
+          <mat-option value="option2">Option 2</mat-option>
+          <mat-option value="option3">Option 3</mat-option>
+        </mat-select>
       </mat-form-field>
-      <mat-error *ngIf="insuranceDateFormControl.hasError('required') && (insuranceDateFormControl.dirty || insuranceDateFormControl.touched)">
-        <span>La date de l'assurance doit être saisie</span>
-      </mat-error>
-    </p>
 
-    <!--Date de mise en service du véhicule -->
-    <p>
-      <mat-form-field>
-        <mat-label>Date de mise en service du véhicule</mat-label>
-        <input matInput [formControl]="serviceDateFormControl">
+
+      <mat-form-field fxFlex="45" appearance="outline">
+        <mat-label>
+          <mat-icon>vpn_key</mat-icon>
+          <b> Clé 2</b></mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option>None</mat-option>
+          <mat-option value="option1">Option 1</mat-option>
+          <mat-option value="option2">Option 2</mat-option>
+          <mat-option value="option3">Option 3</mat-option>
+        </mat-select>
       </mat-form-field>
-      <mat-error *ngIf="serviceDateFormControl.hasError('required') && (serviceDateFormControl.dirty || serviceDateFormControl.touched)">
-        <span>Le date de mise en service du véhicule doit être saisie</span>
-      </mat-error>
-    </p>
 
+    </div>
 
-    <!--Bouton ajouter-->
-    <button mat-raised-button type="submit" class="btn btn-default"
-            [disabled]="formCar.invalid">Ajouter</button>
-    <!--Bouton réinitialiser-->
-    <button mat-raised-button type="button" class="btn btn-default"
-            (click)="formDirCar.resetForm({})">Réinitialiser</button>
+    <div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center">
+
+      <!--Bouton ajouter-->
+      <button mat-raised-button type="submit" class="btn btn-default"
+              [disabled]="formCar.invalid" fxFlex="45">Ajouter
+      </button>
+      <!--Bouton réinitialiser-->
+      <button mat-raised-button type="button" class="btn btn-default"
+              (click)="formDirCar.resetForm({})" fxFlex="45">Réinitialiser
+      </button>
+    </div>
   </div>
 </form>
 
 <!--Bloc remplaçant le formulaire après validation de celui-ci-->
 <div *ngIf="formDirCar.submitted">
   <!--Messages de succès ou d'erreurs-->
-  <p *ngIf="carSaved">La nouvelle voiture : {{ formCar.value.name }} a été ajouté</p>
-  <p *ngIf="error">{{ error }}</p>
-  <!--Boutons de réinitialisation-->
-  <button mat-raised-button (click)="formDirCar.resetForm({})">
-    <span *ngIf="!error">Ajouter un lieu</span>
-    <span *ngIf="error">Réinitialiser</span>
-  </button>
-  <!--Bouton de retour à la liste des lieux-->
-  <button mat-raised-button routerLink="/protected/admin/manage-car/manage-car">Liste des Voitures</button>
+  <p *ngIf="carSaved">La nouvelle voiture : {{ formCar.value.name }} a été ajouté
+  <p *ngIf="error">{{ error }}
+    <!--Boutons de réinitialisation-->
+    <button mat-raised-button (click)="formDirCar.resetForm({})">
+      <span *ngIf="!error">Ajouter un lieu</span>
+      <span *ngIf="error">Réinitialiser</span>
+    </button>
+    <!--Bouton de retour à la liste des lieux-->
+    <button mat-raised-button routerLink="/protected/admin/manage-car/manage-car">Liste des Voitures</button>
 </div>
