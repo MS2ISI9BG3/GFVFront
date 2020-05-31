@@ -1,4 +1,4 @@
-<mat-list class="pageListCar" fxLayoutAlign="space-around center" fxLayout="column">
+<mat-list class="pageListCar" fxLayoutAlign="none center"  fxLayout="column">
   <h3 mat-subheader>
     Listes des voitures
     <!--Bouton plus pour ajouter un lieu-->
@@ -12,9 +12,9 @@
     <mat-chip>Quimper</mat-chip>
   </mat-chip-list>
 
-  <div fxLayout="column" fxLayout.gt-sm="row" fxFlex
-       fxLayoutAlign="none center" fxLayoutAlign.gt-sm="space-around center">
-    <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="20"
+  <div fxLayout="column" fxLayout.gt-sm="row wrap"
+       fxLayoutAlign.gt-sm="space-around" fxLayoutAlign="none center" >
+    <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"
                                                  fxLayoutAlign="center">
       <div fxFlex="20" fxLayoutAlign="space-around center">
         <img mat-card-image src="../../../../../assets/img/carDefault.jpg" alt="car default"

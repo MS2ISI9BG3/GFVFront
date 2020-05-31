@@ -1,34 +1,47 @@
-<div class="pageOneCar" fxLayout="column" fxLayout.gt-sm="row" fxFlex=""
-     fxLayoutAlign.gt-sm="space-around" fxFlex.gt-sm="20">
-
-  <div class="div1" fxLayout="row" fxFlex.gt-sm="20">
+<div class="pageOneCar" fxLayout="column" fxLayout.gt-sm="row wrap"
+     fxLayoutAlign.gt-sm="space-around center" fxLayoutAlign="space-around" fxFlex.gt-sm="20">
+ 
+  <div class="div1" fxLayout="row"  fxFlex.gt-sm="30" >
 
     <img src="../../../../../assets/img/carDefault.jpg" alt="car default">
 
-    <!--Nom du véhicule-->
-    <mat-form-field>
-      <mat-label>Nom du véhicule</mat-label>
-      <input matInput type="text" [value]="car.name" [readonly]="showEditName" (keyup)="onKeyupEditName($event)">
-      <button mat-button *ngIf="showEditName" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditName()">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </mat-form-field>
+    <div class="div2" fxLayout="column" fxLayoutAlign="space-between"  fxFlex="50">
+
+      <!--Nom du véhicule-->
+      <mat-form-field>
+        <mat-label>Nom du véhicule</mat-label>
+        <input matInput type="text" [value]="car.name" [readonly]="showEditName" (keyup)="onKeyupEditName($event)">
+        <button mat-button *ngIf="showEditName" matSuffix mat-icon-button aria-label="Clear"
+                (click)="onClickEditName()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!--Plaque d'immatriculation -->
+      <mat-form-field>
+        <mat-label>Plaque d'immatriculation</mat-label>
+        <input matInput type="text" [value]="car.matricule" [readonly]="showEditMatricule">
+        <button mat-button *ngIf="showEditMatricule" matSuffix mat-icon-button aria-label="Clear"
+                (click)="onClickEditMatricule()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-form-field>
+
+    </div>
 
   </div>
 
-  <div class="div2" fxLayout="row" fxFlex.gt-sm="20" fxLayoutAlign="space-between">
+  <div class="div2" fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
 
-
-    <!--Plaque d'immatriculation -->
+    <!--Kilometrage-->
     <mat-form-field fxFlex="45">
-      <mat-label>Plaque d'immatriculation</mat-label>
-      <input matInput type="text" [value]="car.matricule" [readonly]="showEditMatricule">
-      <button mat-button *ngIf="showEditMatricule" matSuffix mat-icon-button aria-label="Clear"
-              (click)="onClickEditMatricule()">
+      <mat-label>Kilometrage</mat-label>
+      <input matInput type="text" [value]="car.odometer" [readonly]="showEditOdometer">
+      <button mat-button *ngIf="showEditOdometer" matSuffix mat-icon-button aria-label="Clear"
+              (click)="onClickEditOdometer()">
         <mat-icon>edit</mat-icon>
       </button>
     </mat-form-field>
-
 
     <!--Puissance-->
     <mat-form-field fxFlex="45">
@@ -42,9 +55,8 @@
 
   </div>
 
-
   <!--Site de rattachement -->
-  <mat-form-field>
+  <mat-form-field fxFlex.gt-sm="30" >
     <mat-label>Site de rattachement</mat-label>
     <input matInput type="text" [value]="car.places" [readonly]="showEditPlaces">
     <button mat-button *ngIf="showEditPlaces" matSuffix mat-icon-button aria-label="Clear"
@@ -54,21 +66,11 @@
   </mat-form-field>
 
 
-  <!--Kilometrage-->
-  <mat-form-field>
-    <mat-label>Kilometrage</mat-label>
-    <input matInput type="text" [value]="car.odometer" [readonly]="showEditOdometer">
-    <button mat-button *ngIf="showEditOdometer" matSuffix mat-icon-button aria-label="Clear"
-            (click)="onClickEditOdometer()">
-      <mat-icon>edit</mat-icon>
-    </button>
-  </mat-form-field>
+  <div  fxLayout="row" fxLayoutAlign="space-between" fxFlex.gt-sm="30">
 
-
-  <div class="div2" fxLayout="row" fxFlex.gt-sm="20" fxLayoutAlign="space-between">
     <!--Date de l'assurance-->
     <mat-form-field fxFlex="45">
-      <mat-label>Assurance</mat-label>
+      <mat-label><mat-icon>calendar_today</mat-icon> Assurance</mat-label>
       <input matInput type="text" [value]="car.insuranceDate" [readonly]="showEditInsuranceDate">
       <button mat-button *ngIf="showEditInsuranceDate" matSuffix mat-icon-button aria-label="Clear"
               (click)="onClickEditInsuranceDate()">
@@ -76,23 +78,25 @@
       </button>
     </mat-form-field>
 
-
     <!--Date de mise en service du véhicule -->
     <mat-form-field fxFlex="45">
-      <mat-label>Révision</mat-label>
+      <mat-label> <mat-icon>calendar_today</mat-icon> Révision</mat-label>
+
       <input matInput type="text" [value]="car.serviceDate" [readonly]="showEditServiceDate">
       <button mat-button *ngIf="showEditServiceDate" matSuffix mat-icon-button aria-label="Clear"
               (click)="onClickEditServiceDate()">
-        <mat-icon>edit</mat-icon>
+        <mat-icon>date</mat-icon>
       </button>
     </mat-form-field>
 
   </div>
 
-  <div class="div2" fxLayout="row" fxFlex.gt-sm="20" fxLayoutAlign="space-between">
+  <div  fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
 
     <mat-form-field fxFlex="45" appearance="outline">
-      <mat-label><mat-icon>vpn_key</mat-icon> <b> Clé 1</b> </mat-label>
+      <mat-label>
+        <mat-icon>vpn_key</mat-icon>
+        <b> Clé 1</b></mat-label>
       <mat-select [(value)]="selected">
         <mat-option>None</mat-option>
         <mat-option value="option1">Option 1</mat-option>
@@ -103,7 +107,9 @@
 
 
     <mat-form-field fxFlex="45" appearance="outline">
-      <mat-label><mat-icon>vpn_key</mat-icon> <b> Clé 2</b> </mat-label>
+      <mat-label>
+        <mat-icon>vpn_key</mat-icon>
+        <b> Clé 2</b></mat-label>
       <mat-select [(value)]="selected">
         <mat-option>None</mat-option>
         <mat-option value="option1">Option 1</mat-option>
@@ -113,9 +119,6 @@
     </mat-form-field>
 
   </div>
-
-
-
 
 
   <!--Est archivé ou non-->
