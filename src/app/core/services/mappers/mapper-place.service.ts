@@ -32,13 +32,11 @@ export class MapperPlaceService {
    */
   public mapPlace(place: IPlace): Place {
     return new Place(
-      Number(place.id),
-      place.name,
-      place.address,
-      place.zipCode,
-      place.city,
-      place.phone,
-      Boolean(place.isArchive)
+      Number(place.siteId),
+      place.siteName,
+      place.siteAddress,
+      place.sitePhoneNumber,
+      Boolean(place.archived)
     );
   }
 
@@ -50,13 +48,11 @@ export class MapperPlaceService {
    */
   mapIPlace(place: Place): IPlace {
     return {
-      id: String(place.id),
-      name: place.name,
-      address: place.address,
-      zipCode: place.zipCode,
-      city: place.city,
-      phone: place.phone,
-      isArchive: String(place.isArchive)
+      siteId: String(place.siteId),
+      siteName: place.siteName,
+      siteAddress: place.siteAddress,
+      sitePhoneNumber: place.sitePhoneNumber,
+      archived: String(place.archived)
     }
   }
 }

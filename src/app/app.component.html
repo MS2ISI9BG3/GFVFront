@@ -1,1 +1,21 @@
-<router-outlet></router-outlet>
+<!--<router-outlet></router-outlet>-->
+<mat-sidenav-container class="main-container">
+    
+    <mat-sidenav #sidenav>
+        <app-menu-header
+        (hideMenu)=onHideMenu()>
+        </app-menu-header>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+        <app-menu-content
+        (showMenu)=onShowMenu()>
+        </app-menu-content>
+
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

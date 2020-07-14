@@ -1,0 +1,14 @@
+<div class="menu-content">
+    
+    <h4>{{ user?._firstName }} {{ user?._lastName }}</h4>
+    <h5>{{ userRole }}</h5>
+
+</div>
+<mat-nav-list>
+    <mat-list-item (click)="onClickPlace()">
+        <mat-icon>place</mat-icon>Sites
+    </mat-list-item>
+    <mat-list-item (click)="onClickLogout()">
+        <mat-icon>exit_to_app</mat-icon>Déconnexion
+    </mat-list-item>
+</mat-nav-list>

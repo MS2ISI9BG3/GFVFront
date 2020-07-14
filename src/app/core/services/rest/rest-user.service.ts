@@ -30,9 +30,9 @@ export class RestUserService {
     private authentication: AuthenticationService,
     private mapperUser: MapperUserService
   ) { }
-
-  public login(username: string, password: string): Observable<User> {
-    return this.http.post<iUser>(this.baseUrl+'login', { username, password }, this.httpOptions)
+  // Utilisation d'authenticationService
+  /*public login(login: string, password: string): Observable<User> {
+    return this.http.post<iUser>(this.baseUrl+'authenticate', { login, password }, this.httpOptions)
       .pipe(map(iUser => {
         let user: User = this.mapperUser.mapUser(iUser);
           // login successful if there's a jwt token in the response
@@ -50,5 +50,5 @@ export class RestUserService {
     localStorage.removeItem('currentUser');
     this.authentication.nextCurrentUserSubject(null);
     //this.router.navigate(['/login']); TODO
-  }
+  }*/
 }

@@ -2,9 +2,13 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PublicModule } from '../public/public.module';
 import { ProtectedModule } from '../protected/protected.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './services/fake-backend/in-memory-data.service';
+//import { InMemoryDataService }  from './services/fake-backend/in-memory-data.service';
+import { JwtInterceptorService } from './services/helpers/jwt-interceptor.service';
+import { MenuHeaderComponent } from './menu-components/menu-header/menu-header.component';
+import { MenuContentComponent } from './menu-components/menu-content/menu-content.component';
+import { MaterialModule } from '../shared/dependencies/material-module';
 
 /**
  * Rôle: démarer l'application
@@ -21,13 +25,17 @@ import { InMemoryDataService }  from './services/fake-backend/in-memory-data.ser
     CommonModule,
     PublicModule,
     ProtectedModule,
-    HttpClientModule,
+    HttpClientModule
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
+    /*HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false, delay: 2000 }
-    )
+    )*/
+  ],
+  exports: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }
   ]
 })
 export class CoreModule {

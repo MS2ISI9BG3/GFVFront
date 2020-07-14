@@ -5,14 +5,14 @@ import { Place } from 'src/app/shared/models/entities/place';
 import { IPlace } from 'src/app/shared/models/dto-interfaces/iPlace';
 import { MapperPlaceService } from '../mappers/mapper-place.service';
 import { map, catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestPlaceService {
 
-  private baseUrl = environment.baseUrl+"api/place/";
+  private baseUrl = environment.baseUrl+"api/sites/";
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -23,14 +23,25 @@ export class RestPlaceService {
     private mapperPlace: MapperPlaceService
   ) { }
 
-  public getPlaces() {
+  public getPlaces(): Observable<Place[]> {
     return this.http.get<IPlace[]>(this.baseUrl, this.httpOptions)
       .pipe(
         map(places => {
           return this.mapperPlace.mapPlaces(places);
         },
         error => Observable.throw(error)),
-        catchError(error => of(error))
+        catchError(error => { return throwError(error) })
+      );
+  }
+
+  public getPlace(id: string): Observable<Place> {
+    return this.http.get<IPlace>(this.baseUrl+id, this.httpOptions)
+      .pipe(
+        map( (place: IPlace) => {
+          return this.mapperPlace.mapPlace(place);
+        },
+        error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
       );
   }
 
@@ -42,7 +53,7 @@ export class RestPlaceService {
           return this.mapperPlace.mapPlace(iPlace)
         }, 
         error => Observable.throw(error)),
-        catchError(error => of(error))
+        catchError(error => { return throwError(error) })
       );
   }
 
@@ -50,15 +61,24 @@ export class RestPlaceService {
     let iPlace: IPlace = this.mapperPlace.mapIPlace(place);
     return this.http.put<IPlace>(this.baseUrl, iPlace, this.httpOptions)
       .pipe(
-        catchError(error => of(error))
+        map( (place: IPlace) => {
+          return this.mapperPlace.mapPlace(place);
+        },
+        error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
       );
   }
 
-  public deletePlace(place: (Place | number)): Observable<Place> {
-    let id = place instanceof Place ? place.id : place;
+  /*public deletePlace(place: (Place | number)): Observable<Place> {
+    let id = place instanceof Place ? place.siteId : place;
     return this.http.delete(`${this.baseUrl}+${id}`, this.httpOptions)
       .pipe(
-        catchError(error => of(error))
+        map( (place: IPlace) => {
+          return this.mapperPlace.mapPlace(place)
+        },
+        error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
       );
-  }
+  }*/
+  
 }

@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './dependencies/material-module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { FormatAddressPipe } from './pipes/format-address.pipe';
+import { BtnCloseDirective } from './directives/btn-close.directive';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 /**
  * Centralise l'importation des composants, des directives et des pipes partagés par différents modules de l'application
@@ -14,11 +15,16 @@ import { FormatAddressPipe } from './pipes/format-address.pipe';
  * @class SharedModule
  */
 @NgModule({
-  declarations: [FormatAddressPipe],
+  declarations: [
+    FormatAddressPipe,
+    BtnCloseDirective,
+    ConfirmDialogComponent
+  ],
   imports: [ //? TODO Check import is useless here
     CommonModule,
     FlexLayoutModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ],
   exports: [
     CommonModule,
@@ -27,6 +33,9 @@ import { FormatAddressPipe } from './pipes/format-address.pipe';
     ReactiveFormsModule,
     //HttpClientModule //TODO à supprimer, httpClient ne doit être utiliser que dans les services rest qui se trouve dans le core-module
     FormatAddressPipe
+  ],
+  entryComponents: [
+    ConfirmDialogComponent
   ]
 })
 export class SharedModule { }

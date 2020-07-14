@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import * as jwt_decode from "jwt-decode";
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/entities/user';
+import { MapperUserService } from '../mappers/mapper-user.service';
+import { IToken } from 'src/app/shared/models/dto-interfaces/iToken';
+import { Token } from 'src/app/shared/models/entities/token';
+import { iUser } from 'src/app/shared/models/dto-interfaces/iUser';
 
 /**
  * Gère l'authentification des utilisateurs à l'application
@@ -37,6 +41,10 @@ export class AuthenticationService {
    */
   public currentUser: Observable<User>;
 
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
   /**
    * Creates an instance of AuthenticationService.
    * @param {HttpClient} http
@@ -45,7 +53,8 @@ export class AuthenticationService {
    */
   constructor(
     private http: HttpClient,
-    private router: Router) {
+    private router: Router,
+    private mapperUser: MapperUserService) {
       this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
       this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -84,17 +93,54 @@ export class AuthenticationService {
           return user;
       }));
   }*/
+  login(login: string, password: string): Observable<Token> {
+    console.log('username, password: '+login+' - '+password);
+    return this.http.post<IToken>(this.baseUrl+'api/authenticate', { login, password }, this.httpOptions)
+      .pipe(map( (token: IToken) => {
+        return this.mapperUser.mapToken(token);
+      }));
+  }
+
+  getUser(token?: string): Observable<User> {
+    let options = this.httpOptions;
+    console.log('options 1: '+JSON.stringify(options));
+    console.log('TOKEN : '+token);
+    if (token) {
+      options = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer '+token })
+      };
+      console.log('options 2: '+options.headers.getAll('Authorization'));
+    }
+    console.log('header => '+options.headers.getAll('Authorization'));
+    return this.http.get<iUser>(this.baseUrl+'api/account', options)
+    .pipe(
+      map( (iuser: iUser) => {
+        iuser.token = token;
+        let user: User = this.mapperUser.mapUser(iuser);
+        console.log('res getUser object: '+JSON.stringify(user));
+        console.log('res getUser token: '+JSON.stringify(user.token));
+        if (user && user.token) {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+        }
+        console.log('return user firstName: '+user.firstName);
+        console.log('return user isAdmin: '+user.isAdmin);
+        return user;
+      })
+    )
+  }
 
   /**
    * Déconnecte l'utilisateur de l'application
    * @memberof AuthenticationService
    */
-  /*logout() {
+  logout() {
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
       this.currentUserSubject.next(null);
-      this.router.navigate(['/login']);
-  }*/
+      this.router.navigate(['/public/login/login']);
+  }
 
   /**
    * Retourne si l'utilisateur est administrateur ou non de l'application

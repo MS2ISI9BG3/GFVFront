@@ -1,3 +1,5 @@
+import { isArray } from 'util';
+
 /**
  * Utilisateur de l'application
  * @export
@@ -16,7 +18,7 @@ export class User {
      * @type {string}
      * @memberof User
      */
-    private _username: string;
+    private _login: string;
     /**
      * Mot de passe de l'utilisateur
      * @type {string}
@@ -50,25 +52,28 @@ export class User {
 
     constructor(
         id: number, 
-        username: string, 
+        login: string, 
         password: string, 
         firstName: string, 
-        lastName: string, 
-        token: string, 
-        isAdmin: boolean) {
+        lastName: string,  
+        authorities: string[],
+        token?: string) {
 
             this._id = id;
-            this._username = username;
+            this._login = login;
             this._password = password;
             this._firstName = firstName;
             this._lastName = lastName;
-            this._token = token;
-            this._isAdmin = isAdmin;
+            this._token = token || '';
+            if (authorities && isArray(authorities)) {
+                (authorities.find( a => a == 'ROLE_ADMIN' ) != undefined) ? this._isAdmin = true : this._isAdmin = false;
+            } else this._isAdmin = false;
+            //this._isAdmin = true; //TODO remove for test
     }
 
     get id(): number { return this._id; }
-    get username(): string { return this._username; }
-    //get password(): string { return this._password; } //TODO
+    get login(): string { return this._login; }
+    //get password(): string { return this._password; }
     get firstName(): string { return this._firstName; }
     get lastName(): string { return this._lastName; }
     get token(): string { return this._token }

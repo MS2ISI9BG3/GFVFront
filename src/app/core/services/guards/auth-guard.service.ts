@@ -16,11 +16,11 @@ export class AuthGuardService implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const currentUser = this.authenticationService.currentUserValue;
     if (currentUser) {
-        if (state.url.includes("/admin") && this.authenticationService.isAdmin == false) {
+        if ( state.url.includes("/admin") && /*this.authenticationService.isAdmin == false*/ !currentUser.isAdmin ) {
           // Si l'utilisateur essaye d'accéder à la zone admin de l'application
           // alors qu'il n'a pas les droits d'administration :
           // il est redirigé vers la page d'accueil
-          this.router.navigate(['/'], { queryParams: { returnUrl: state.url } });
+          this.router.navigate(['/protected/user'], { queryParams: { returnUrl: state.url } });
           return false;
         }
         // logged in so return true

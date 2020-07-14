@@ -21,8 +21,8 @@ export class FormatAddressPipe implements PipeTransform {
    * @memberof FormatAddressPipe
    */
   transform(place: Place): any {
-    if (place.address && place.zipCode && place.city) {
-      return `${place.address.trim()}, ${place.zipCode} ${place.city}`;
+    if (place.siteAddress /*&& place.zipCode && place.city*/) {
+      return `${place.siteAddress.trim()}`; //`${place.siteAddress.trim()}, ${place.zipCode} ${place.city}`
     }
     return null;
   }

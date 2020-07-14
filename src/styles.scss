@@ -8,5 +8,33 @@
 @import './app/core/styles/material-theme.scss';
 
 //Template définie par Angular Material lors de son installation
-html, body { height: 100%; }
+//html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.example-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.success-alert {
+    background-color: green;
+}
+
+.warning-alert {
+    background-color: orange;
+}
+
+.danger-alert {
+    background-color: red;
+}
+
+/*.mat-form-field-empty.mat-form-field-label {
+    color: mat-color($app-accent) !important;
+}
+
+.mat-form-field-underline {
+    background-color: green !important;
+}*/

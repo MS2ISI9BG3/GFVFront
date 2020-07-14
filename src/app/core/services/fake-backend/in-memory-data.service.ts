@@ -99,7 +99,7 @@ export class InMemoryDataService implements InMemoryDbService {
     }
     if (object instanceof Place) {
       let places: Place[] = object as Place[];
-      return places.length > 0 ? Math.max(...places.map(user => user.id)) + 1 : 1;
+      return places.length > 0 ? Math.max(...places.map(user => user.siteId)) + 1 : 1;
     }
   }
 

@@ -1,56 +1,64 @@
-<p>
+<form [formGroup]="placeForm">
+
     <!--Nom du lieu-->
-    <mat-form-field class="example-form-field">
-        <mat-label>Nom du lieu</mat-label>
-        <input matInput type="text" [value]="place.name" [readonly]="showEditName" (keyup)="onKeyupEditName($event)">
-        <button mat-button *ngIf="showEditName" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditName()">
-            <mat-icon>edit</mat-icon>
-        </button>
+    <mat-form-field class="input-form" appearance="fill" color="accent">
+        <mat-label color="accent">Nom du lieu</mat-label>
+        <input matInput [formControl]="nameFormControl" [readonly]="formMode == 'show' ? true : false">
+        <mat-error *ngIf="nameFormControl.hasError('required') && (nameFormControl.dirty || nameFormControl.touched)">
+            <span>Le nom du lieu doit être saisie</span>
+        </mat-error>
     </mat-form-field>
-</p>
-<p>
-    <!--Adresse (rue)-->
-    <mat-form-field class="example-form-field">
+
+    <!--Adresse-->
+    <mat-form-field class="input-form" appearance="fill" color="accent">
         <mat-label>Adresse</mat-label>
-        <input matInput type="text" [value]="place.address" [readonly]="showEditAddress">
-        <button mat-button *ngIf="showEditAddress" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditAddress()">
-            <mat-icon>edit</mat-icon>
-        </button>
+        <input matInput [formControl]="addressFormControl" [readonly]="formMode == 'show' ? true : false">
+        <mat-error *ngIf="addressFormControl.hasError('required') && (addressFormControl.dirty || addressFormControl.touched)">
+            <span>L'adresse doit être saisie</span>
+        </mat-error>
     </mat-form-field>
-</p>
-<p>
+
     <!--Code postal-->
-    <mat-form-field class="example-form-field">
+    <mat-form-field class="input-form" appearance="fill" color="accent" *ngIf="formMode == 'create'">
         <mat-label>Code postal</mat-label>
-        <input matInput type="text" [value]="place.zipCode" [readonly]="showEditZipCode">
-        <button mat-button *ngIf="showEditZipCode" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditZipCode()">
-            <mat-icon>edit</mat-icon>
-        </button>
+        <input matInput [formControl]="zipCodeFormControl">
+        <mat-error *ngIf="zipCodeFormControl.hasError('required') && (zipCodeFormControl.dirty || zipCodeFormControl.touched)">
+            <span>Le code postal doit être saisie</span>
+        </mat-error>
     </mat-form-field>
-</p>
-<p>
+
     <!--Ville-->
-    <mat-form-field class="example-form-field">
+    <mat-form-field class="input-form" appearance="fill" color="accent" *ngIf="formMode == 'create'">
         <mat-label>Ville</mat-label>
-        <input matInput type="text" [value]="place.city" [readonly]="showEditCity">
-        <button mat-button *ngIf="showEditCity" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditCity()">
-            <mat-icon>edit</mat-icon>
-        </button>
+        <input matInput [formControl]="cityFormControl">
+        <mat-error *ngIf="cityFormControl.hasError('required') && (cityFormControl.dirty || cityFormControl.touched)">
+            <span>La ville doit être saisie</span>
+        </mat-error>
     </mat-form-field>
-</p>
-<p>
+    
     <!--Téléphone-->
-    <mat-form-field class="example-form-field">
+    <mat-form-field class="input-form" type="number" appearance="fill" color="accent">
         <mat-label>Téléphone</mat-label>
-        <input matInput type="text" [value]="place.phone" [readonly]="showEditPhone">
-        <button mat-button *ngIf="showEditPhone" matSuffix mat-icon-button aria-label="Clear" (click)="onClickEditPhone()">
-            <mat-icon>edit</mat-icon>
-        </button>
+        <input matInput [formControl]="phoneFormControl" [readonly]="formMode == 'show' ? true : false">
+        <mat-error *ngIf="phoneFormControl.hasError('required') && (phoneFormControl.dirty || phoneFormControl.touched)">
+            <span>Le numéro de téléphone doit être saisie</span>
+        </mat-error>
     </mat-form-field>
-</p>
-<p>
-    <!--Est archivé ou non-->
-    <mat-slide-toggle [checked]="place.isArchive" (change)="onChangeIsArchive()">Archivé</mat-slide-toggle>
-</p>
-<!--Bouton de retour à la liste des lieux-->
-<button mat-raised-button routerLink="/protected/admin/manage-place/manage-place">Liste des lieux</button>
+
+</form>
+
+<!--Bouton de retour-->
+<button mat-fab color="primary" class="btn-close" (click)="onClickClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+<!--Bouton de suppression-->
+<button mat-fab *ngIf="formMode == 'show'" color="accent" class="btn-delete" (click)="onClickDelete()">
+    <mat-icon>delete</mat-icon>
+</button>
+
+<!--Bouton de validation du formulaire-->
+<button mat-fab color="accent" class="btn-done" [disabled]="placeForm.invalid" (click)="onClickBtnPlace(formMode)">
+    <mat-icon *ngIf="formMode == 'create' || formMode == 'update'">done</mat-icon>
+    <mat-icon *ngIf="formMode == 'show'">edit</mat-icon>
+</button>

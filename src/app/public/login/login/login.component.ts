@@ -5,6 +5,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication/auth
 import { first } from 'rxjs/operators';
 import { RestUserService } from 'src/app/core/services/rest/rest-user.service';
 import { FakeRestUserService } from 'src/app/core/services/rest/fake-rest-user.service';
+import { Token } from 'src/app/shared/models/entities/token';
 
 /**
  * Connexion à l'application
@@ -60,8 +61,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private restUser: RestUserService,
-    private fakeRestUser: FakeRestUserService
+    /*private restUser: RestUserService,*/
+    //private fakeRestUser: FakeRestUserService
   ) {}
 
   /**
@@ -76,7 +77,7 @@ export class LoginComponent implements OnInit {
 
     // reset login status
     //this.authenticationService.logout(); TODO
-    this.restUser.logout();
+    this.authenticationService.logout();
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -105,16 +106,27 @@ export class LoginComponent implements OnInit {
 
       this.loading = true;
       //this.authenticationService.login(this.f.username.value, this.f.password.value) TODO
-      this.fakeRestUser.login(this.f.username.value, this.f.password.value)
+      this.authenticationService.login(this.f.username.value, this.f.password.value)
           .pipe(first())
           .subscribe(
-              data => {
-                  this.router.navigate([this.returnUrl]);
-              },
-              error => {
-                this.error = "Login ou mot de passe incorrect";
-                this.loading = false;
-              });
+            (token: Token) => {
+                //Hydrate l'utilisateur dans le service authentification
+                this.authenticationService.getUser(token.idToken).subscribe( () => {
+                  let url: string = this.returnUrl;
+                  if (url == '/') {
+                    url = '/protected';
+                  }
+                  this.router.navigate([url]);
+                },
+                error => {
+                  this.error = "Erreur lors de la récupération des informations de l'utilisateur";
+                  this.loading = false;
+                });
+            },
+            error => {
+              this.error = "Login ou mot de passe incorrect";
+              this.loading = false;
+            });
   }
 
 }
