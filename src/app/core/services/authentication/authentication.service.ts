@@ -55,8 +55,12 @@ export class AuthenticationService {
     private http: HttpClient,
     private router: Router,
     private mapperUser: MapperUserService) {
-      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-      this.currentUser = this.currentUserSubject.asObservable();
+      this.initCurrentUser()
+  }
+
+  initCurrentUser() {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   /**
@@ -66,6 +70,8 @@ export class AuthenticationService {
    * @memberof AuthenticationService
    */
   public get currentUserValue(): User {
+    console.log('CURRENTUSERVALUE ===> '+JSON.stringify(this.currentUserSubject.value));
+    //if (!this.currentUserSubject.value) this.initCurrentUser();
     return this.currentUserSubject.value;
   }
 
@@ -148,7 +154,7 @@ export class AuthenticationService {
    * @type {boolean}
    * @memberof AuthenticationService
    */
-  public get isAdmin(): boolean {
+  /*public get isAdmin(): boolean {
     //TODO DELETE MOCK when call API is ready
     return true;
     var isAdmin: boolean = false;
@@ -169,7 +175,7 @@ export class AuthenticationService {
       }
     }
     return isAdmin;
-  }
+  }*/
   
   /**
    * Retourne le token décodé

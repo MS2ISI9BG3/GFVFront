@@ -1,5 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
 import { MatSidenav } from '@angular/material';
+import { User } from 'src/app/shared/models/entities/user';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-menu-content',
@@ -9,10 +11,14 @@ import { MatSidenav } from '@angular/material';
 export class MenuContentComponent implements OnInit {
 
   @Output() showMenu = new EventEmitter();
+  user: User;
 
-  constructor() { }
+  constructor(
+    private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit() {
+    this.user = this.authenticationService.currentUserValue;
   }
 
   onClickMenuIcon() {

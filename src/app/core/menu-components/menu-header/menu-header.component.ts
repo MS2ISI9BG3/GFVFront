@@ -22,14 +22,49 @@ export class MenuHeaderComponent implements OnInit {
   ngOnInit() {
     this.authenticationService.currentUser.subscribe(
       ( user: User ) => {
-        this.user = user;
+        this.user = <User>user;
         if ( user ) this.userRole = user.isAdmin ? 'Administrateur' : 'Utilisateur';
     });
   }
 
+  onClickBorrow() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/user/booking-ride/booking-ride']);
+  }
+
+  onClickRide() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/user/manage-ride/manage-ride']);
+  }
+
+  onClickHistory() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/user/report/report']);
+  }
+
+  onClickEmployee() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/admin/manage-user/manage-user']);
+  }
+
+  onClickCar() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/admin/manage-car/manage-car']);
+  }
+
   onClickPlace() {
     this.hideMenu.emit();
-    this.router.navigate(['/protected/admin/manage-place/manage-place']);
+    this.router.navigate(['protected/admin/manage-place/manage-place']);
+  }
+
+  onClickLoan() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/admin/booking-confirm/booking-confirm']);
+  }
+
+  onClickIncident() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/admin/show-report/show-report']);
   }
 
   onClickLogout() {
