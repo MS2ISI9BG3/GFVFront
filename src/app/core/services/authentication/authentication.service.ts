@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import * as jwt_decode from "jwt-decode";
 import { environment } from 'src/environments/environment';
@@ -134,6 +134,15 @@ export class AuthenticationService {
         return user;
       })
     )
+  }
+
+  activateUser(activationKey: string): Observable<boolean> {
+    /*let params = new HttpParams().set("key",activationKey);
+    return this.http.get<boolean>(this.baseUrl+'api/activate', { headers: this.httpOptions.headers, params: params } ).pipe(
+      map( () => { return true; } )
+    )*/
+    //TODO return true si compte activé, false sinon
+    return of(true);//TODO delete mock
   }
 
   /**
