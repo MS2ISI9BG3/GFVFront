@@ -15,6 +15,7 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const currentUser = this.authenticationService.currentUserValue;
+    //console.log('AUTHGUARD currentUser: '+JSON.stringify(currentUser));
     if (currentUser) {
         if ( state.url.includes("/admin") && /*this.authenticationService.isAdmin == false*/ !currentUser.isAdmin ) {
           // Si l'utilisateur essaye d'accéder à la zone admin de l'application

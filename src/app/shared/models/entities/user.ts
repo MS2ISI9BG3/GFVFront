@@ -38,17 +38,17 @@ export class User {
      */
     private _lastName: string;
     /**
-     * Token de connexion à l'API
-     * @type {string}
-     * @memberof User
-     */
-    private _token?: string;
-    /**
      * Est un utilisateur administrateur de l'application
      * @type {boolean}
      * @memberof User
      */
     private _isAdmin: boolean;
+    /**
+     * Token de connexion à l'API
+     * @type {string}
+     * @memberof User
+     */
+    private _token?: string;
 
     constructor(
         id: number, 
@@ -64,10 +64,13 @@ export class User {
             this._password = password;
             this._firstName = firstName;
             this._lastName = lastName;
-            this._token = token || '';
+            console.log('authorities: '+JSON.stringify(authorities));
+            console.log('isArray(authorities): '+isArray(authorities));
+            console.log('authorities.find: '+authorities.find( a => a == 'ROLE_ADMIN' ));
             if (authorities && isArray(authorities)) {
                 (authorities.find( a => a == 'ROLE_ADMIN' ) != undefined) ? this._isAdmin = true : this._isAdmin = false;
             } else this._isAdmin = false;
+            this._token = token || '';
             //this._isAdmin = true; //TODO remove for test
     }
 

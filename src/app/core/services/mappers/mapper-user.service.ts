@@ -17,6 +17,7 @@ export class MapperUserService {
   constructor() { }
 
   public mapUser(user: iUser): User {
+    if (!user) return null;
     return new User(
       Number(user.id),
       user.login,

@@ -27,7 +27,7 @@ export class AuthenticationService {
    * @type {BehaviorSubject<User>}
    * @memberof AuthenticationService
    */
-  private currentUserSubject: BehaviorSubject<User>;
+  private currentUserSubject: BehaviorSubject<iUser>;
   /**
    * Partie commune de l'URL à l'API pour tous les appels
    * @private
@@ -39,7 +39,7 @@ export class AuthenticationService {
    * @type {Observable<User>}
    * @memberof AuthenticationService
    */
-  public currentUser: Observable<User>;
+  public currentUser: Observable<iUser>;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -59,7 +59,7 @@ export class AuthenticationService {
   }
 
   initCurrentUser() {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<iUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -70,9 +70,8 @@ export class AuthenticationService {
    * @memberof AuthenticationService
    */
   public get currentUserValue(): User {
-    console.log('CURRENTUSERVALUE ===> '+JSON.stringify(this.currentUserSubject.value));
-    //if (!this.currentUserSubject.value) this.initCurrentUser();
-    return this.currentUserSubject.value;
+    this.currentUserSubject.value ? console.log('FIRSTNAME: '+this.currentUserSubject.value.firstName) : 'error!!!';
+    return this.mapperUser.mapUser(this.currentUserSubject.value);
   }
 
   public nextCurrentUserSubject(user) {
@@ -127,8 +126,8 @@ export class AuthenticationService {
         console.log('res getUser token: '+JSON.stringify(user.token));
         if (user && user.token) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
+          localStorage.setItem('currentUser', JSON.stringify(iuser));
+          this.currentUserSubject.next(iuser);
         }
         console.log('return user firstName: '+user.firstName);
         console.log('return user isAdmin: '+user.isAdmin);

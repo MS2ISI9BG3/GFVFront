@@ -1,45 +1,10 @@
-<div *ngIf="user">
-    <div class="menu-content">
-        
-        <h4>{{ user?.firstName }} {{ user?.lastName }}</h4>
-        <h5>{{ userRole }}</h5>
+<mat-toolbar class="menu-toolbar" color="accent">
+    <button mat-icon-button (click)="onClickMenuIcon()" onclick="this.blur()" *ngIf="user"><!--(click)="sidenav.toggle()"-->
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Parc Voitures</span>
+    <span class="spacer"></span>
+</mat-toolbar>
 
-    </div>
-    <mat-nav-list>
-        <!--User-->
-        <mat-list-item (click)="onClickBorrow()">
-            <mat-icon>book_online</mat-icon>Emprunter
-        </mat-list-item>
-        <mat-list-item (click)="onClickRide()">
-            <mat-icon>explore</mat-icon>Trajets
-        </mat-list-item>
-        <mat-list-item (click)="onClickHistory()">
-            <mat-icon>history</mat-icon>Historiques
-        </mat-list-item>
-        <!--Admin-->
-        <div *ngIf="user?.isAdmin">
-            <mat-divider></mat-divider>
-            <mat-list-item (click)="onClickEmployee()">
-                <mat-icon>person</mat-icon>Employés
-            </mat-list-item>
-            <mat-list-item (click)="onClickCar()">
-                <mat-icon>directions_car</mat-icon>Véhicules
-            </mat-list-item>
-            <mat-list-item (click)="onClickPlace()">
-                <mat-icon>place</mat-icon>Sites
-            </mat-list-item>
-            <mat-list-item (click)="onClickLoan()">
-                <mat-icon>schedule</mat-icon>Prêts
-            </mat-list-item>
-            <mat-list-item (click)="onClickIncident()">
-                <mat-icon>report</mat-icon>Incidents
-            </mat-list-item>
-        </div>
-        <!--Logout-->
-        <mat-divider></mat-divider>
-        <mat-list-item (click)="onClickLogout()">
-            <mat-icon>exit_to_app</mat-icon>Déconnexion
-        </mat-list-item>
-    </mat-nav-list>
-
-</div>
+<!--Toolbar static cachée sous la toolbar fixed pour que le haut de la page n'apparaisse pas sous la toolbar du menu-->
+<mat-toolbar></mat-toolbar>
