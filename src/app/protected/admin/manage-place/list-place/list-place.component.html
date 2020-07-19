@@ -1,8 +1,8 @@
 <mat-card *ngFor="let place of placesFiltered;" (click)="onClickPlace(place)" class="card">
   <mat-card-header>
     <div mat-card-avatar><mat-icon mat-list-icon color="accent">place</mat-icon></div>
-    <mat-card-title>{{ place.siteName }}</mat-card-title>
-    <mat-card-subtitle class="card-subtitle">{{ place.siteAddress }}</mat-card-subtitle>
+    <mat-card-title>{{ place?.siteName }}</mat-card-title>
+    <mat-card-subtitle class="card-subtitle">{{ place?.siteAddress }}</mat-card-subtitle>
   </mat-card-header>
   <!--<mat-card-content>
     <p>

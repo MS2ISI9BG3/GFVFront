@@ -1,0 +1,35 @@
+.search-form {
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    background-color: grey;
+    margin-bottom: -1.25em; //Supprime la marge par défaut (/!\ empêche l'utilisation des messages d'erreurs)
+}
+
+.form-field-hidden {
+    visibility: hidden;
+    margin-bottom: -1.25em;
+}
+
+.btn-add {
+    position: fixed;
+    right: 10px;
+    bottom: 30px;
+}
+
+.card {
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.card-subtitle {
+    margin-bottom: 0px
+}
+
+.btn-close {
+    position: fixed;
+    top: 25px;
+    right: 10px;
+    z-index: 20;
+}

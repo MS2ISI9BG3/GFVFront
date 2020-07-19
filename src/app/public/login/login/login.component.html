@@ -3,48 +3,48 @@
   <!--<div fxLayout="column" fxLayout.gt-sm="row wrap" fxFlex
        fxLayoutAlign="space-evenly center" fxLayoutAlign.gt-sm="space-evenly center">-->
 
-       <div fxLayout="column" fxLayoutAlign="center center" class="login-container">
+<div fxLayout="column" fxLayoutAlign="center center" class="login-container">
 
+  <!--Logo-->
+  <img src="../../../../assets/img/logo.png" alt="logo" class="login-img"><!--fxFlex.gt-sm="30"-->
+  
+  <!--Forumaire de connexion-->
+  <mat-card class="card"><!--fxFlex.gt-sm="30"-->
+
+    <mat-card-title class="card-title">Se connecter</mat-card-title>
     
-    <img src="../../../../assets/img/logo.png" alt="logo" class="login-img"><!--fxFlex.gt-sm="30"-->
-    
-    <mat-card class="card"><!--fxFlex.gt-sm="30"-->
+      <mat-card-content> <!--style="display: flex; flex-direction:column;"-->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-      <mat-card-title class="card-title">Se connecter</mat-card-title>
+        <mat-form-field color="primary" class="login-field">
+          <input matInput placeholder="Nom d'utilisateur" type="text" formControlName="username"/>
+          <mat-error *ngIf="f.username.errors">
+            <div *ngIf="f.username.errors.required">Le nom d'utilisateur doit être renseigné</div>
+          </mat-error>
+        </mat-form-field>
 
-      
-        <mat-card-content> <!--style="display: flex; flex-direction:column;"-->
-          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field color="primary" class="pwd-field">
+          <input matInput placeholder="Mot de passe" type="password" formControlName="password"/>
+          <mat-error *ngIf="f.password.errors">
+            <div *ngIf="f.password.errors.required">Le mot de passe doit être renseigné</div>
+          </mat-error>
+        </mat-form-field>
 
-          <mat-form-field color="primary" class="login-field">
-            <input matInput placeholder="Nom d'utilisateur" type="text" formControlName="username"/>
-            <mat-error *ngIf="f.username.errors">
-              <div *ngIf="f.username.errors.required">Le nom d'utilisateur doit être renseigné</div>
-            </mat-error>
-          </mat-form-field>
+        <!--Spinner-->
+        <div *ngIf="loading" class="spinner-wrapper" >
+          <mat-spinner [diameter]="20" color="primary"></mat-spinner>
+        </div>
+        <!--Button connexion-->
+        <div class="connection-btn">
+          <button mat-raised-button [disabled]="loading" color="primary"
+                  class="btn-connection">Connexion
+          </button>
+        </div>
 
-          <mat-form-field color="primary" class="pwd-field">
-            <input matInput placeholder="Mot de passe" type="password" formControlName="password"/>
-            <mat-error *ngIf="f.password.errors">
-              <div *ngIf="f.password.errors.required">Le mot de passe doit être renseigné</div>
-            </mat-error>
-          </mat-form-field>
-
-          <!--Spinner-->
-          <div *ngIf="loading" class="spinner-wrapper" >
-            <mat-spinner [diameter]="20" color="primary"></mat-spinner>
-          </div>
-          <!--Button connexion-->
-          <div class="connection-btn">
-            <button mat-raised-button [disabled]="loading" color="primary"
-                    class="btn-connection">Connexion
-            </button>
-          </div>
-
-          </form>
-        </mat-card-content>
-    </mat-card>
-  </div>
+        </form>
+      </mat-card-content>
+  </mat-card>
+</div>
         <!--<mat-card-actions fxLayout="row wrap "
                           fxLayoutAlign="end  center">-->
           <!--Spinner-->

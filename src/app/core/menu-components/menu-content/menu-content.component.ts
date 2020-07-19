@@ -55,6 +55,16 @@ export class MenuContentComponent implements OnInit {
     this.router.navigate(['protected/admin/manage-car/manage-car']);
   }
 
+  onClickBrand() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/admin/manage-brand/manage-brand']);
+  }
+
+  onClickModel() {
+    this.hideMenu.emit();
+    this.router.navigate(['protected/admin/manage-model/manage-model']);
+  }
+  
   onClickPlace() {
     this.hideMenu.emit();
     this.router.navigate(['protected/admin/manage-place/manage-place']);

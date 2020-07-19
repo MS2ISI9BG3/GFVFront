@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ManagerPlaceService } from './manager-place.service';
+import { RestBrandService } from './rest-brand.service';
 
-describe('ManagerPlaceService', () => {
+describe('RestBrandService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ManagerPlaceService = TestBed.get(ManagerPlaceService);
+    const service: RestBrandService = TestBed.get(RestBrandService);
     expect(service).toBeTruthy();
   });
 });

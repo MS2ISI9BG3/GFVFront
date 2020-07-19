@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Place } from 'src/app/shared/models/entities/place';
-import { ManagerPlaceService } from '../services/manager-place.service';
 import { RestPlaceService } from 'src/app/core/services/rest/rest-place.service';
 import { Router } from '@angular/router';
 import { PlacesService } from 'src/app/core/services/datas/places.service';
@@ -33,7 +32,7 @@ export class ListPlaceComponent implements OnInit {
    * Creates an instance of ListPlaceComponent.
    * @param {RestPlaceService} restPlace Service appel à l'API Rest
    * @param {Router} router Angular Router
-   * @param {ManagerPlaceService} placeService Service gérant les lieux
+   * @param {placesService} placeService Service gérant les lieux
    * @memberof ListPlaceComponent
    */
   constructor(
@@ -41,7 +40,6 @@ export class ListPlaceComponent implements OnInit {
     private router: Router,
     private placesService: PlacesService,
     private messageService: MessagesService
-    //private placeService: ManagerPlaceService
   ) { }
 
   /**
@@ -104,21 +102,17 @@ export class ListPlaceComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   onInputSearch(event: any) {
-    console.log('event: '+event);
+
     try {
-      console.log('try!');
-      let test: boolean = !isString(event.toString());
-      console.log('test: '+test);
+
       if (!isString(event.toString())) throw new Error();
 
       const inputValue: string = event.trim().toLocaleLowerCase();
-      console.log('inputValue: '+inputValue);
 
       if ( inputValue.length >= 3 ) {
         this.placesFiltered = this.removeDeletedPlaces(this.places).filter( 
-          family => family.siteName.toLocaleLowerCase().search(inputValue) > -1
+          place => place.siteName.toLocaleLowerCase().search(inputValue) > -1
         );
-        console.log('this.placesFiltered: '+JSON.stringify(this.placesFiltered));
       } else {
         throw new Error();
       }
