@@ -7,4 +7,5 @@
 </mat-toolbar>
 
 <!--Toolbar static cachée sous la toolbar fixed pour que le haut de la page n'apparaisse pas sous la toolbar du menu-->
-<mat-toolbar></mat-toolbar>
+<!--La toolbar caché est supprimé sur la page de login (page centré au milieu) pour éviter d'avoir un ascenseur-->
+<mat-toolbar *ngIf="isToolbar"></mat-toolbar>

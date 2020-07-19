@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { User } from 'src/app/shared/models/entities/user';
 import { Router, NavigationEnd } from '@angular/router';
 import { pipe } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { MatToolbar } from '@angular/material';
 
 @Component({
   selector: 'app-menu-header',
@@ -15,6 +16,7 @@ export class MenuHeaderComponent implements OnInit {
   @Output() showMenu = new EventEmitter();
   public user: User;
   public title: string = 'Parc véhivules';
+  public isToolbar: boolean = true;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -36,7 +38,11 @@ export class MenuHeaderComponent implements OnInit {
         filter(event => event instanceof NavigationEnd)
       )
       .subscribe( ( event: NavigationEnd ) => {
+        //Change le titre
         this.title = this.getTitle(event.url);
+        //Enlève la toolbar caché sous la toolbar affichée dans le cas da la page login
+        //pour éviter d'avoir un asenceur
+        ( event.url && event.url.search('/public/login/login') > -1 ) ? this.isToolbar = false : this.isToolbar = true;
       });
     
   }
@@ -49,13 +55,13 @@ export class MenuHeaderComponent implements OnInit {
    */
   getTitle(url: string): string {
     if ( url ) {
-      if ( url.search('booking-ride') > 0 ) return 'Emprunts';
-      if ( url.search('manage-ride') > 0 ) return 'Trajets';
-      if ( url.search('manage-user') > 0 ) return 'Gestion des employés';
-      if ( url.search('manage-car') > 0 ) return 'Gestion des véhicules';
-      if ( url.search('manage-place') > 0 ) return 'Gestion des sites';
-      if ( url.search('booking-confirm') > 0 ) return 'Gestion des prêts';
-      if ( url.search('show-report') > 0 ) return 'Gestion des incidents';
+      if ( url.search('booking-ride') > -1 ) return 'Emprunts';
+      if ( url.search('manage-ride') > -1 ) return 'Trajets';
+      if ( url.search('manage-user') > -1 ) return 'Gestion des employés';
+      if ( url.search('manage-car') > -1 ) return 'Gestion des véhicules';
+      if ( url.search('manage-place') > -1 ) return 'Gestion des sites';
+      if ( url.search('booking-confirm') > -1 ) return 'Gestion des prêts';
+      if ( url.search('show-report') > -1 ) return 'Gestion des incidents';
     }
     return 'Parc véhicules';
   }

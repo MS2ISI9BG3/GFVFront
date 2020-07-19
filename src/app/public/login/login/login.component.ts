@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { RestUserService } from 'src/app/core/services/rest/rest-user.service';
 import { FakeRestUserService } from 'src/app/core/services/rest/fake-rest-user.service';
 import { Token } from 'src/app/shared/models/entities/token';
+import { MessagesService } from 'src/app/core/services/messages/messages.service';
 
 /**
  * Connexion à l'application
@@ -42,11 +43,6 @@ export class LoginComponent implements OnInit {
    * @memberof LoginComponent
    */
   returnUrl: string;
-  /**
-   * Libellé des erreurs du formulaire de connexion
-   * @memberof LoginComponent
-   */
-  error = '';
 
   /**
    * Creates an instance of LoginComponent.
@@ -61,6 +57,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private messageService: MessagesService
     /*private restUser: RestUserService,*/
     //private fakeRestUser: FakeRestUserService
   ) {}
@@ -119,12 +116,14 @@ export class LoginComponent implements OnInit {
                   this.router.navigate([url]);
                 },
                 error => {
-                  this.error = "Erreur lors de la récupération des informations de l'utilisateur";
+                  //this.error = "Erreur lors de la récupération des informations de l'utilisateur";
+                  this.messageService.openSnackBar('Erreur lors de la récupération des informations de l\'utilisateur', 5000, 'danger', error);
                   this.loading = false;
                 });
             },
             error => {
-              this.error = "Login ou mot de passe incorrect";
+              //this.error = "Login ou mot de passe incorrect";
+              this.messageService.openSnackBar('Login ou mot de passe incorrect', 5000, 'danger');
               this.loading = false;
             });
   }

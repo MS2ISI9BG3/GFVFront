@@ -1,5 +1,5 @@
 
-.containerPageLogin {
+/*.containerPageLogin {
   min-width: 100vw;
   min-height: 100vh;
   padding: 5%;
@@ -14,4 +14,30 @@
     width: 80%;
   }
 
+}*/
+.login-container {
+  height: 100%
+}
+
+.login-img {
+  width: 30vh;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-field {
+  width: 100%;
+}
+
+.pwd-field {
+  width: 100%;
+}
+
+.connection-btn {
+  text-align: center;
+  margin-top: 10px;
 }
