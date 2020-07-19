@@ -41,7 +41,7 @@ export class MenuHeaderComponent implements OnInit {
         //Change le titre
         this.title = this.getTitle(event.url);
         //Enlève la toolbar caché sous la toolbar affichée dans le cas da la page login
-        //pour éviter d'avoir un asenceur
+        //pour éviter d'avoir un ascenseur
         ( event.url && event.url.search('/public/login/login') > -1 ) ? this.isToolbar = false : this.isToolbar = true;
       });
     

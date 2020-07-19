@@ -15,7 +15,7 @@
         (showMenu)=onShowMenu()>
         </app-menu-header>
 
-        <div class="content">
+        <div class="content" [ngClass]="{'content-height': !isToolbar}">
             <router-outlet></router-outlet>
         </div>
 
