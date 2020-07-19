@@ -19,8 +19,8 @@
 <p>Pensez à importer les composants Angular Material dans le fichier material-module.ts et 
     à les exporter dans ce même fichier pour pouvoir les utiliser dans les autres compossants de l'application</p>
     <p>Utilisation de "color" qui provient du thème déifnit dans Angular Material</p>
-<mat-spinner *ngIf="isLoading" color="primary" diameter="30"></mat-spinner>
-<button mat-raised-button color="accent" (click)="onClickLoading()">{{labelLoading}}</button>
+<mat-spinner *ngIf="isLoading" color="accent" diameter="30"></mat-spinner>
+<button mat-raised-button color="primary" (click)="onClickLoading()">{{labelLoading}}</button>
 
 <!--RxJS-->
 <h3>RxJS</h3>
@@ -88,5 +88,5 @@
         La classe CSS (.mat-icon) utilisée par Angular Material est redéfinie 
         dans le fichier test.component.scss pour augmenter la taille de l'icône
     </p>
-    <mat-icon color="primary">home</mat-icon>
+    <mat-icon color="accent">home</mat-icon>
 </div>

@@ -8,37 +8,46 @@
     <mat-nav-list>
         <!--User-->
         <mat-list-item (click)="onClickBorrow()">
-            <mat-icon>book_online</mat-icon>Emprunter
+            <mat-icon>book_online</mat-icon>
+            <span class="label-menu">Emprunter</span>
         </mat-list-item>
         <mat-list-item (click)="onClickRide()">
-            <mat-icon>explore</mat-icon>Trajets
+            <mat-icon>explore</mat-icon>
+            <span class="label-menu">Trajets</span>
         </mat-list-item>
         <mat-list-item (click)="onClickHistory()">
-            <mat-icon>history</mat-icon>Historiques
+            <mat-icon>history</mat-icon>
+            <span class="label-menu">Historiques</span>
         </mat-list-item>
         <!--Admin-->
         <div *ngIf="user?.isAdmin">
             <mat-divider></mat-divider>
             <mat-list-item (click)="onClickEmployee()">
-                <mat-icon>person</mat-icon>Employés
+                <mat-icon>person</mat-icon>
+                <span class="label-menu">Employés</span>
             </mat-list-item>
             <mat-list-item (click)="onClickCar()">
-                <mat-icon>directions_car</mat-icon>Véhicules
+                <mat-icon>directions_car</mat-icon>
+                <span class="label-menu">Véhicules</span>
             </mat-list-item>
             <mat-list-item (click)="onClickPlace()">
-                <mat-icon>place</mat-icon>Sites
+                <mat-icon>place</mat-icon>
+                <span class="label-menu">Sites</span>
             </mat-list-item>
             <mat-list-item (click)="onClickLoan()">
-                <mat-icon>schedule</mat-icon>Prêts
+                <mat-icon>schedule</mat-icon>
+                <span class="label-menu">Prêts</span>
             </mat-list-item>
             <mat-list-item (click)="onClickIncident()">
-                <mat-icon>report</mat-icon>Incidents
+                <mat-icon>report</mat-icon>
+                <span class="label-menu">Incidents</span>
             </mat-list-item>
         </div>
         <!--Logout-->
         <mat-divider></mat-divider>
         <mat-list-item (click)="onClickLogout()">
-            <mat-icon>exit_to_app</mat-icon>Déconnexion
+            <mat-icon>exit_to_app</mat-icon>
+            <span class="label-menu">Déconnexion</span>
         </mat-list-item>
     </mat-nav-list>
 

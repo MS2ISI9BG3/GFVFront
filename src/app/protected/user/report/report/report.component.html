@@ -12,7 +12,7 @@
 
   <!--Input description de l'incident  -->
   <div  fxLayout="column">
-    <mat-form-field class="descriptionInput" appearance="fill" color="accent">
+    <mat-form-field class="descriptionInput" appearance="fill" color="primary">
       <mat-label>Description de l'incident</mat-label>
       <textarea matInput placeholder="Ex. It makes me feel..." cdkTextareaAutosize
                 cdkAutosizeMinRows="6"
@@ -32,9 +32,9 @@
 
   <div class="container" fxLayout="row" fxLayoutAlign="space-around ">
     <!--Bouton Annuler-->
-    <button mat-flat-button color="primary" routerLink="/protected/admin/manage-place/manage-place">Annuler</button>
+    <button mat-flat-button color="accent" routerLink="/protected/admin/manage-place/manage-place">Annuler</button>
     <!--Bouton ENvoyer -->
-    <button mat-flat-button color="accent" type="submit" [disabled]="formReport.invalid">Envoyer</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="formReport.invalid">Envoyer</button>
   </div>
 
 </form>

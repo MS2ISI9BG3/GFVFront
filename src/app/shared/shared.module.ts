@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormatAddressPipe } from './pipes/format-address.pipe';
 import { BtnCloseDirective } from './directives/btn-close.directive';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { FirstLetterCasePipe } from './pipes/first-letter-case.pipe';
 
 /**
  * Centralise l'importation des composants, des directives et des pipes partagés par différents modules de l'application
@@ -17,6 +18,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 @NgModule({
   declarations: [
     FormatAddressPipe,
+    FirstLetterCasePipe,
     BtnCloseDirective,
     ConfirmDialogComponent
   ],
@@ -32,7 +34,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     FlexLayoutModule,
     ReactiveFormsModule,
     //HttpClientModule //TODO à supprimer, httpClient ne doit être utiliser que dans les services rest qui se trouve dans le core-module
-    FormatAddressPipe
+    FormatAddressPipe,
+    FirstLetterCasePipe
   ],
   entryComponents: [
     ConfirmDialogComponent

@@ -11,7 +11,6 @@ export class AppComponent {
   @ViewChild('sidenav', { static: false }) public sidenav: MatSidenav;
 
   onShowMenu() {
-    console.log('toogle!');
     this.sidenav.toggle();
   }
 

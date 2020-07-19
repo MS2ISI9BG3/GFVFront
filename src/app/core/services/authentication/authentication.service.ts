@@ -136,6 +136,12 @@ export class AuthenticationService {
     )
   }
 
+  /**
+   * Active le compte d'un utilisateur
+   * @param {string} activationKey
+   * @returns {Observable<boolean>}
+   * @memberof AuthenticationService
+   */
   activateUser(activationKey: string): Observable<boolean> {
     /*let params = new HttpParams().set("key",activationKey);
     return this.http.get<boolean>(this.baseUrl+'api/activate', { headers: this.httpOptions.headers, params: params } ).pipe(

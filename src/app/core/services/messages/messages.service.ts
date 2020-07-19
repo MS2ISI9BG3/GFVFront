@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 
+/**
+ * Gestion des messages affichés sous forme de snackbar
+ * @export
+ * @class MessagesService
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +15,16 @@ export class MessagesService {
     private _snackBar: MatSnackBar
   ) { }
 
+  /**
+   * Affiche un message
+   * @param {string} msg Message à afficher
+   * @param {number} duration Durée en millisecondes
+   * @param {('warning' | 'danger' | 'success')} color Couleur du message
+   * @param {*} [error] Error remontée
+   * @example openSnackBar('test', 5000, 'danger', error) affiche une snackbar avec le message 'test' en rouge pendant 5 secondes
+   * (error s'affiche dans les logs)
+   * @memberof MessagesService
+   */
   openSnackBar(msg: string, duration: number, color: 'warning' | 'danger' | 'success', error?: any) {
 
     let message: string = String(msg).startsWith('Error: ') ? String(msg).slice(7) : msg;

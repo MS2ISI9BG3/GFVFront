@@ -9,14 +9,14 @@
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-card-content style="display: flex; flex-direction:column;">
-          <mat-form-field color="accent">
+          <mat-form-field color="primary">
             <input matInput placeholder="Nom d'utilisateur" type="text" formControlName="username"/>
             <mat-error *ngIf="f.username.errors">
               <div *ngIf="f.username.errors.required">Le nom d'utilisateur doit être renseigné</div>
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field color="accent">
+          <mat-form-field color="primary">
             <input matInput placeholder="Mot de passe" type="password" formControlName="password"/>
             <mat-error *ngIf="f.password.errors">
               <div *ngIf="f.password.errors.required">Le mot de passe doit être renseigné</div>
@@ -28,18 +28,18 @@
                           fxLayoutAlign="end  center">
           <!--Spinner-->
           <div *ngIf="loading" class="spinner-wrapper" >
-            <mat-spinner [diameter]="20" color="accent"></mat-spinner>
+            <mat-spinner [diameter]="20" color="primary"></mat-spinner>
           </div>
           <!--Button connexion-->
           <div class="form-group">
-            <button mat-raised-button [disabled]="loading" color="accent"
+            <button mat-raised-button [disabled]="loading" color="primary"
                     class="btn-connection">Connexion
             </button>
           </div>
 
         </mat-card-actions>
 
-        <mat-toolbar *ngIf="error" class="toolbar" color="primary">
+        <mat-toolbar *ngIf="error" class="toolbar" color="accent">
           <span class="span-error">{{error}}</span>
         </mat-toolbar>
 
