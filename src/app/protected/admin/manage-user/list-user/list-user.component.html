@@ -1,0 +1,34 @@
+<mat-card *ngFor="let user of usersFiltered;" (click)="onClickUser(user)" class="card">
+  <mat-card-header>
+    <div mat-card-avatar><mat-icon mat-list-icon color="accent">user</mat-icon></div>
+    <mat-card-title>{{ user?.firstName }}</mat-card-title>
+    <mat-card-subtitle class="card-subtitle">{{ user?.lastName }}</mat-card-subtitle>
+  </mat-card-header>
+  <!--<mat-card-content>
+    <p>
+      {{ place.siteAddress }}
+    </p>
+  </mat-card-content>-->
+</mat-card>
+
+<!--Element de la même taille que la zone de recherche-->
+<!--Permet de créer un espace en bas de page pour que la fin de la liste des utilisateurs ne chevauche pas l'input search fixed-->
+<mat-form-field class="form-field-hidden">
+  <input matInput>
+</mat-form-field>
+
+<!--Recherche-->
+<mat-form-field appearance="fill" class="search-form" color="primary">
+  <mat-label>Rechercher</mat-label>
+  <input matInput placeholder="3 caractères minimum" type="search">
+</mat-form-field>
+
+<!--Bouton plus pour ajouter un lieu-->
+<button mat-fab color="primary" class="btn-add">
+  <mat-icon>add</mat-icon>
+</button>
+
+<!--Bouton de retour-->
+<button mat-fab color="accent" class="btn-close" (click)="onClickClose()">
+  <mat-icon>close</mat-icon>
+</button>

@@ -124,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "GFVFront"
+    }
+  },
+  "defaultProject": "GFVFront",
+  "cli": {
+    "analytics": false
+  }
 }
