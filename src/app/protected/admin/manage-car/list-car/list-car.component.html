@@ -37,6 +37,7 @@
          (click)="onClickCar(car)">
   </div>
 
+  {{ car|json}}
   <div class="nameMatricule" fxFlex="60" fxLayout="column"
        fxLayoutAlign="space-around " (click)="onClickCar(car)">
     <h5>{{ car.name }}</h5>

@@ -13,7 +13,7 @@ import {Car} from "../../../shared/models/entities/car";
 export class RestCarService {
 
 
-  private baseUrl = environment.baseUrl + "api/car/";
+  private baseUrl = environment.baseUrl + "api/cars/";
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})

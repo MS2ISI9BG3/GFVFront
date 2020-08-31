@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import {ICar} from "../../../shared/models/dto-interfaces/iCar";
 import {Car} from "../../../shared/models/entities/car";
+import {MapperBrandService} from "./mapper-brand.service";
+import {MapperModelService} from "./mapper-model.service";
+import {MapperPlaceService} from "./mapper-place.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapperCarService {
+
+  constructor(private mapperBrand : MapperBrandService,private mapperModel : MapperModelService,private mapperSite : MapperPlaceService) {
+  }
 
   /**
    * Transforme une interface de liste de lieu en objet de liste de lieu
@@ -19,6 +25,7 @@ export class MapperCarService {
     });
   }
 
+
   /**
    * Transforme une interface lieu en objet lieu
    * @param {ICar[]} cars
@@ -27,16 +34,20 @@ export class MapperCarService {
    */
   public mapCar(car: ICar): Car {
     return new Car(
-      Number(car.id),
+      Number(car.carId),
       car.name,
-      car.matricule,
+      car.registrationNumber,
       Number(car.power),
-      Number(car.places),
+      Number(car.numberOfSeats),
       Boolean(car.isArchive),
       Number(car.odometer),
-      car.insuranceDate,
+      car.insuranceValidityDate,
       car.serviceDate,
-
+      car.vin,
+      this.mapperBrand.mapBrand(car.carBrand),
+      this.mapperModel.mapModel(car.carModel),
+      this.mapperSite.mapPlace(car.carSite),
+      car.serviceValidityDate,
     );
   }
 
@@ -48,15 +59,20 @@ export class MapperCarService {
    */
   mapICar(car: Car): ICar {
     return {
-      id: String(car.id),
+      carId: String(car.id),
       name: car.name,
-      matricule: car.matricule,
+      registrationNumber: car.matricule,
       power: String(car.power),
-      places: String(car.places),
+      numberOfSeats: String(car.places),
       isArchive: String(car.isArchive),
       odometer: String(car.odometer),
-      insuranceDate: car.insuranceDate,
+      insuranceValidityDate: car.insuranceDate,
       serviceDate: car.serviceDate,
+      vin: car.vin,
+      carBrand: this.mapperBrand.mapIBrand(car.carBrand),
+      carModel: this.mapperModel.mapIModel(car.carModel),
+      carSite: this.mapperSite.mapIPlace(car.carSite),
+      serviceValidityDate: car.serviceValidityDate,
     }
   }
 }

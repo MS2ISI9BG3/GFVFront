@@ -1,3 +1,7 @@
+import {Brand} from "./brand";
+import {Place} from "./place";
+import {Model} from "./model";
+
 export class Car {
 
   /**
@@ -68,6 +72,11 @@ export class Car {
    */
 
   private _serviceDate: string;
+  private _vin: string;
+  private _carBrand: Brand;
+  private _carModel: Model;
+  private _carSite: Place;
+  private _serviceValidityDate: string;
 
 
   /**
@@ -81,11 +90,16 @@ export class Car {
    * @param odometer
    * @param insuranceDate
    * @param serviceDate
+   * @param vin
+   * @param carBrand
+   * @param carModel
+   * @param carSite
+   * @param serviceValidityDate
    * @memberof Car
    */
 
 
-  constructor(id: number, name: string, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, serviceDate: string) {
+  constructor(id: number, name: string, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, serviceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string) {
     this._id = id;
     this._name = name;
     this._matricule = matricule;
@@ -95,6 +109,11 @@ export class Car {
     this._odometer = odometer;
     this._insuranceDate = insuranceDate;
     this._serviceDate = serviceDate;
+    this._vin = vin;
+    this._carBrand = carBrand
+    this._carModel = carModel
+    this._carSite = carSite
+    this._serviceValidityDate = serviceValidityDate
   }
 
 
@@ -134,6 +153,29 @@ export class Car {
     return this._serviceDate;
   }
 
+  get vin(): string {
+    return this._vin;
+  }
+
+  get carBrand(): Brand {
+    return this._carBrand;
+  }
+
+  get carModel(): Model {
+    return this._carModel;
+  }
+
+  get carSite(): Place {
+    return this._carSite;
+  }
+  get serviceValidityDate(): string {
+    return this._serviceValidityDate;
+  }
+
+
+
+
+
 
   set name(value: string) {
     this._name = value;
@@ -166,4 +208,13 @@ export class Car {
   set serviceDate(value: string) {
     this._serviceDate = value;
   }
+
+  set vin(value: string) {
+    this._vin = value;
+  }
+
+  set serviceValidityDate(value: string) {
+    this._serviceValidityDate = value ;
+  }
+
 }

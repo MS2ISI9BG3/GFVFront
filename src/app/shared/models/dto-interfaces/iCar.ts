@@ -1,13 +1,21 @@
+import {IBrand} from "./iBrand";
+import {IPlace} from "./iPlace";
+import {IModel} from "./iModel";
+
 export interface ICar {
 
-  id: string;
+  carId: string;
   name: string;
-  matricule: string;
+  registrationNumber: string;
   power: string;
-  places: string;
+  numberOfSeats: string;
   isArchive: string;
   odometer: string;
-  insuranceDate: string;
+  insuranceValidityDate: string;
   serviceDate: string;
-
+  vin: string;
+  carBrand: IBrand;
+  carModel: IModel;
+  carSite: IPlace;
+  serviceValidityDate: string;
 }
