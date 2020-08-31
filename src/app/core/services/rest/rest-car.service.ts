@@ -4,8 +4,10 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MapperCarService} from "../mappers/mapper-car.service";
 import {ICar} from "../../../shared/models/dto-interfaces/iCar";
 import {catchError, map} from "rxjs/operators";
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {Car} from "../../../shared/models/entities/car";
+import {Place} from "../../../shared/models/entities/place";
+import {IPlace} from "../../../shared/models/dto-interfaces/iPlace";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +37,20 @@ export class RestCarService {
         catchError(error => of(error))
       );
   }
+
+  public getCar(id: string): Observable<Car> {
+    return this.http.get<ICar>(this.baseUrl + id, this.httpOptions)
+      .pipe(
+        map((car: ICar) => {
+            return this.mapperCar.mapCar(car);
+          },
+          error => Observable.throw(error)),
+        catchError(error => {
+          return throwError(error)
+        })
+      );
+  }
+
 
   public addCar(car: Car): Observable<Car> {
     let iCar: ICar = this.mapperCar.mapICar(car);

@@ -35,14 +35,12 @@ export class MapperCarService {
   public mapCar(car: ICar): Car {
     return new Car(
       Number(car.carId),
-      car.name,
       car.registrationNumber,
       Number(car.power),
       Number(car.numberOfSeats),
       Boolean(car.isArchive),
       Number(car.odometer),
       car.insuranceValidityDate,
-      car.serviceDate,
       car.vin,
       this.mapperBrand.mapBrand(car.carBrand),
       this.mapperModel.mapModel(car.carModel),
@@ -60,14 +58,12 @@ export class MapperCarService {
   mapICar(car: Car): ICar {
     return {
       carId: String(car.id),
-      name: car.name,
       registrationNumber: car.matricule,
       power: String(car.power),
       numberOfSeats: String(car.places),
       isArchive: String(car.isArchive),
       odometer: String(car.odometer),
       insuranceValidityDate: car.insuranceDate,
-      serviceDate: car.serviceDate,
       vin: car.vin,
       carBrand: this.mapperBrand.mapIBrand(car.carBrand),
       carModel: this.mapperModel.mapIModel(car.carModel),

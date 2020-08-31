@@ -84,7 +84,7 @@ export class ListCarComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   removeDeletedCars(cars: Car[]) {
-    if ( cars && isArray(cars) ) return cars.filter( p => p.name );
+    if ( cars && isArray(cars) ) return cars.filter( p => p.id );
     return cars;
   }
 
@@ -105,7 +105,7 @@ export class ListCarComponent implements OnInit {
 
       if ( inputValue.length >= 3 ) {
         this.carsFiltered = this.removeDeletedCars(this.cars).filter(
-          car => ( car.name.toLocaleLowerCase().search(inputValue) > -1 || car.matricule.toLocaleLowerCase().search(inputValue) > -1 )
+          car => ( car.carBrand.brandName.toLocaleLowerCase().search(inputValue) > -1 || car.matricule.toLocaleLowerCase().search(inputValue) > -1 )
         );
       } else {
         throw new Error();
@@ -122,10 +122,10 @@ export class ListCarComponent implements OnInit {
    * Gestion de l'événement clic sur la boutton d'ajout d'un lieu
    * @memberof ListPlaceComponent
    */
-  onClickAddPlace() {
+  onClickAddCar() {
     //L'id du site n'est pas passé en paramètre,
     //la page affichée sera donc en mode création d'un nouveau site
-    this.router.navigate(['/protected/admin/manage-car/add-car']);
+    this.router.navigate(['/protected/admin/manage-car/one-car']);
   }
 
   /**
