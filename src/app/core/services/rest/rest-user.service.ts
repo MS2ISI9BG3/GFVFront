@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { User } from 'src/app/shared/models/entities/user';
-import { Observable } from 'rxjs';
-import { iUser } from 'src/app/shared/models/dto-interfaces/iUser';
+import {Observable, throwError} from 'rxjs';
+import { IUser } from 'src/app/shared/models/dto-interfaces/iUser';
 import { MapperUserService } from '../mappers/mapper-user.service';
+import {Place} from '../../../shared/models/entities/place';
+import {IPlace} from '../../../shared/models/dto-interfaces/iPlace';
 
 /**
  * Classe gérant l'authentification des utilisateurs
@@ -19,7 +21,7 @@ import { MapperUserService } from '../mappers/mapper-user.service';
 })
 export class RestUserService {
 
-  private baseUrl = environment.baseUrl+"api/";
+  private baseUrl = environment.baseUrl+"api/users/";
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -30,6 +32,41 @@ export class RestUserService {
     private authentication: AuthenticationService,
     private mapperUser: MapperUserService
   ) { }
+
+  public getUsers(): Observable<User[]> {
+    return this.http.get<IUser[]>(this.baseUrl, this.httpOptions)
+      .pipe(
+        map(users => {
+            return this.mapperUser.mapUsers(users);
+          },
+          error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
+      );
+  }
+
+  public getUser(id: string): Observable<User> {
+    return this.http.get<IUser>(this.baseUrl+id, this.httpOptions)
+      .pipe(
+        map( (user: IUser) => {
+            return this.mapperUser.mapUser(user);
+          },
+          error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
+      );
+  }
+
+  public updateUser(user: User): Observable<User> {
+    let iUser: IUser = this.mapperUser.mapIUser(user);
+    return this.http.put<IUser>(this.baseUrl, iUser, this.httpOptions)
+      .pipe(
+        map( (user: IUser) => {
+            return this.mapperUser.mapUser(user);
+          },
+          error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
+      );
+  }
+
   // Utilisation d'authenticationService
   /*public login(login: string, password: string): Observable<User> {
     return this.http.post<iUser>(this.baseUrl+'authenticate', { login, password }, this.httpOptions)

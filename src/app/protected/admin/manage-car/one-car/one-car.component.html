@@ -1,103 +1,118 @@
-<div class="pageOneCar" fxLayout="column" fxLayout.gt-sm="row wrap"
-     fxLayoutAlign.gt-sm="space-around center" fxLayoutAlign="space-around" fxFlex.gt-sm="20">
- 
-  <div class="div1" fxLayout="row"  fxFlex.gt-sm="30" >
 
-    <img src="../../../../../assets/img/carDefault.jpg" alt="car default">
+<form [formGroup]="carForm">
 
-    <div class="div2" fxLayout="column" fxLayoutAlign="space-between"  fxFlex="50">
+  <!--matricule-->
+  <mat-form-field class="input-form" appearance="fill" color="primary">
+    <mat-label color="primary">Matricule</mat-label>
+    <input matInput [formControl]="matriculeFormControl" [readonly]="formMode == 'show' ? true : false">
+    <mat-error *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
+      <span>Le matricule doit être saisie</span>
+    </mat-error>
+  </mat-form-field>
 
-      <!--Nom du véhicule-->
-      <mat-form-field>
-        <mat-label>Nom du véhicule</mat-label>
-        <input matInput type="text" [value]="car.name" [readonly]="showEditName" (keyup)="onKeyupEditName($event)">
-        <button mat-button *ngIf="showEditName" matSuffix mat-icon-button aria-label="Clear"
-                (click)="onClickEditName()">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </mat-form-field>
+  <!--Power-->
+  <mat-form-field class="input-form" appearance="fill" color="primary">
+    <mat-label>Puissance</mat-label>
+    <input matInput [formControl]="powerFormControl"   [readonly]="formMode == 'show' ? true : false">
+    <mat-error *ngIf="powerFormControl.hasError('required') && (powerFormControl.dirty || powerFormControl.touched)">
+      <span>La puissance doit être saisie</span>
+    </mat-error>
+  </mat-form-field>
 
-      <!--Plaque d'immatriculation -->
-      <mat-form-field>
-        <mat-label>Plaque d'immatriculation</mat-label>
-        <input matInput type="text" [value]="car.matricule" [readonly]="showEditMatricule">
-        <button mat-button *ngIf="showEditMatricule" matSuffix mat-icon-button aria-label="Clear"
-                (click)="onClickEditMatricule()">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </mat-form-field>
-
-    </div>
-
-  </div>
-
-  <div class="div2" fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
-
-    <!--Kilometrage-->
-    <mat-form-field fxFlex="45">
-      <mat-label>Kilometrage</mat-label>
-      <input matInput type="text" [value]="car.odometer" [readonly]="showEditOdometer">
-      <button mat-button *ngIf="showEditOdometer" matSuffix mat-icon-button aria-label="Clear"
-              (click)="onClickEditOdometer()">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <!--Puissance-->
-    <mat-form-field fxFlex="45">
-      <mat-label>Puissance</mat-label>
-      <input matInput type="text" [value]="car.power" [readonly]="showEditPower">
-      <button mat-button *ngIf="showEditPower" matSuffix mat-icon-button aria-label="Clear"
-              (click)="onClickEditPower()">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </mat-form-field>
-
-  </div>
-
-  <!--Site de rattachement -->
-  <mat-form-field fxFlex.gt-sm="30" >
-    <mat-label>Site de rattachement</mat-label>
-    <input matInput type="text" [value]="car.places" [readonly]="showEditPlaces">
-    <button mat-button *ngIf="showEditPlaces" matSuffix mat-icon-button aria-label="Clear"
-            (click)="onClickEditPlaces()">
-      <mat-icon>edit</mat-icon>
-    </button>
+  <!--Kilometrage-->
+  <mat-form-field class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
+    <mat-label>Kilometrage</mat-label>
+    <input matInput [formControl]="odometerFormControl">
+    <mat-error *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
+      <span>Le kilometrage doit être saisie</span>
+    </mat-error>
   </mat-form-field>
 
 
-  <div  fxLayout="row" fxLayoutAlign="space-between" fxFlex.gt-sm="30">
 
-    <!--Date de l'assurance-->
-    <mat-form-field fxFlex="45">
-      <mat-label><mat-icon>calendar_today</mat-icon> Assurance</mat-label>
-      <input matInput type="text" [value]="car.insuranceDate" [readonly]="showEditInsuranceDate">
-      <button mat-button *ngIf="showEditInsuranceDate" matSuffix mat-icon-button aria-label="Clear"
-              (click)="onClickEditInsuranceDate()">
-        <mat-icon>edit</mat-icon>
-      </button>
+  <!--places && site  -->
+  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+
+    <!--places-->
+    <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
+      <mat-label>Nombre de places </mat-label>
+      <input matInput [formControl]="placesFormControl">
     </mat-form-field>
 
-    <!--Date de mise en service du véhicule -->
-    <mat-form-field fxFlex="45">
-      <mat-label> <mat-icon>calendar_today</mat-icon> Révision</mat-label>
-
-      <input matInput type="text" [value]="car.serviceDate" [readonly]="showEditServiceDate">
-      <button mat-button *ngIf="showEditServiceDate" matSuffix mat-icon-button aria-label="Clear"
-              (click)="onClickEditServiceDate()">
-        <mat-icon>date</mat-icon>
-      </button>
+    <mat-form-field fxFlex="45" appearance="outline">
+      <mat-label>
+        <b>Site</b></mat-label>
+      <mat-select [formControl]="siteFormControl">
+        <mat-option>None</mat-option>
+        <mat-option value="option1">Site 1</mat-option>
+        <mat-option value="option2">Site 2</mat-option>
+        <mat-option value="option3">Site 3</mat-option>
+      </mat-select>
+      <mat-error *ngIf="siteFormControl.hasError('required') && (siteFormControl.dirty || siteFormControl.touched)">
+        <span>La marque doit être saisie</span>
+      </mat-error>
     </mat-form-field>
+
+
 
   </div>
 
-  <div  fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+  <!--Marque et model  -->
+  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+    <mat-form-field fxFlex="45" appearance="outline">
+      <mat-label>
+        <b>Marque</b></mat-label>
+      <mat-select [formControl]="brandFormControl">
+        <mat-option>None</mat-option>
+        <mat-option value="option1">Option 1</mat-option>
+        <mat-option value="option2">Option 2</mat-option>
+        <mat-option value="option3">Option 3</mat-option>
+      </mat-select>
+      <mat-error *ngIf="brandFormControl.hasError('required') && (brandFormControl.dirty || brandFormControl.touched)">
+        <span>La marque doit être saisie</span>
+      </mat-error>
+    </mat-form-field>
 
+
+    <mat-form-field fxFlex="45" appearance="outline">
+      <mat-label>
+        <b> Modele </b></mat-label>
+      <mat-select [formControl]="modelFormControl" >
+        <mat-option>None</mat-option>
+        <mat-option value="option1">Option 1</mat-option>
+        <mat-option value="option2">Option 2</mat-option>
+        <mat-option value="option3">Option 3</mat-option>
+      </mat-select>
+      <mat-error *ngIf="modelFormControl.hasError('required') && (modelFormControl.dirty || brandFormControl.touched)">
+        <span>Le model doit être saisie</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!--2 date -->
+  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+    <mat-form-field fxFlex="45">
+      <mat-label>Assurance</mat-label>
+      <input matInput [matDatepicker]="picker1"  [formControl]="insuranceFormControl" [readonly]="formMode == 'show' ? true : false">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="45">
+      <mat-label>Révision</mat-label>
+      <input matInput [matDatepicker]="picker2" [formControl]="serviceFormControl" [readonly]="formMode == 'show' ? true : false">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!--2 key -->
+  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
     <mat-form-field fxFlex="45" appearance="outline">
       <mat-label>
         <mat-icon>vpn_key</mat-icon>
         <b> Clé 1</b></mat-label>
-      <mat-select [(value)]="selected">
+      <mat-select>
         <mat-option>None</mat-option>
         <mat-option value="option1">Option 1</mat-option>
         <mat-option value="option2">Option 2</mat-option>
@@ -110,21 +125,31 @@
       <mat-label>
         <mat-icon>vpn_key</mat-icon>
         <b> Clé 2</b></mat-label>
-      <mat-select [(value)]="selected">
+      <mat-select>
         <mat-option>None</mat-option>
         <mat-option value="option1">Option 1</mat-option>
         <mat-option value="option2">Option 2</mat-option>
         <mat-option value="option3">Option 3</mat-option>
       </mat-select>
     </mat-form-field>
-
   </div>
 
 
-  <!--Est archivé ou non-->
-  <mat-slide-toggle [checked]="car.isArchive" (change)="onChangeIsArchive()">Archivé</mat-slide-toggle>
+</form>
 
-  <!--Bouton de retour à la liste des lieux-->
-  <button mat-raised-button routerLink="/protected/admin/manage-car/manage-car">Liste des voitures</button>
+<!--Bouton de retour-->
+<button mat-fab color="accent" class="btn-close" (click)="onClickClose()">
+  <mat-icon>close</mat-icon>
+</button>
 
-</div>
+<!--Bouton de suppression-->
+<button mat-fab *ngIf="formMode == 'show'" color="primary" class="btn-delete" (click)="onClickDelete()">
+  <mat-icon>delete</mat-icon>
+</button>
+
+<!--Bouton de validation du formulaire-->
+<button mat-fab color="primary" class="btn-done" [disabled]="carForm.invalid" (click)="onClickBtnCar(formMode)">
+  <mat-icon *ngIf="formMode == 'create' || formMode == 'update'">done</mat-icon>
+  <mat-icon *ngIf="formMode == 'show'">edit</mat-icon>
+</button>
+
