@@ -37,20 +37,6 @@ export class OneCarComponent implements OnInit {
    */
   cars: Car[];
 
-  /**
-   * Active ou non la modification d'un champ
-   * @type {boolean}
-   * @memberof OneCarComponent
-   */
-  showEditName: boolean = true;
-  showEditMatricule: boolean = true;
-  showEditPower: boolean = true;
-  showEditPlaces: boolean = true;
-  showEditOdometer: boolean = true;
-  showEditInsuranceDate: boolean = true;
-  showEditServiceDate: boolean = true;
-
-  selected = 'none';
 
   /**
    * Creates an instance of OneCarComponent.

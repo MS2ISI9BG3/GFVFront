@@ -64,7 +64,9 @@ export class ListCarComponent implements OnInit {
    */
   onClickCar(car: Car) {
     this.carService.changeCarSelected(car);
-    this.router.navigate(['/protected/admin/manage-car/one-car']);
+    this.router.navigate(['/protected/admin/manage-car/one-car'], {
+      queryParams: { carId: car.carId }
+    });
   }
 
   /**
@@ -74,7 +76,7 @@ export class ListCarComponent implements OnInit {
    */
   onClickDelete(car: Car) {
     this.restCar.deleteCar(car).subscribe( p =>
-      this.carService.changeCars(this.cars.splice(this.cars.findIndex(p => p.id == car.id), 1))
+      this.carService.changeCars(this.cars.splice(this.cars.findIndex(p => p.carId == car.carId), 1))
     );
   }
 
@@ -84,7 +86,7 @@ export class ListCarComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   removeDeletedCars(cars: Car[]) {
-    if ( cars && isArray(cars) ) return cars.filter( p => p.id );
+    if ( cars && isArray(cars) ) return cars.filter( p => p.carId );
     return cars;
   }
 

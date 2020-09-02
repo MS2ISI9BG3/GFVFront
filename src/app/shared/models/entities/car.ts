@@ -10,7 +10,7 @@ export class Car {
    * @type {number}
    * @memberof Car
    */
-  private _id: number;
+  private _carId: number;
 
   /**
    * Adresse (numéro et rue) du lieu
@@ -90,8 +90,8 @@ export class Car {
    */
 
 
-  constructor(id: number, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string) {
-    this._id = id;
+  constructor(carId: number, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string) {
+    this._carId = carId;
     this._matricule = matricule;
     this._power = power;
     this._places = places;
@@ -106,8 +106,8 @@ export class Car {
   }
 
 
-  get id(): number {
-    return this._id;
+  get carId(): number {
+    return this._carId;
   }
 
 
