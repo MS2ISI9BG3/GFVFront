@@ -34,7 +34,8 @@ export class MapperModelService {
     return new Model(
       Number(model.modelId),
       model.modelName,
-      this.mapperBrand.mapBrand(model.carBrand)
+      this.mapperBrand.mapBrand(model.carBrand),
+      Boolean(model.archived)
     );
   }
 
@@ -48,7 +49,8 @@ export class MapperModelService {
     return {
       modelId: String(model.modelId),
       modelName: model.modelName,
-      carBrand: this.mapperBrand.mapIBrand(model.carBrand)
+      carBrand: this.mapperBrand.mapIBrand(model.carBrand),
+      archived: String(model.archived)
     }
   }
 

@@ -1,1 +1,56 @@
-<p>one-model works!</p>
+<form [formGroup]="modelForm">
+
+    <!--Nom du modèle-->
+    <mat-form-field class="input-form" appearance="fill" color="primary">
+        <mat-label color="primary">Nom du modèle</mat-label>
+        <input matInput [formControl]="nameFormControl" [readonly]="formMode == 'show' ? true : false">
+        <mat-error *ngIf="nameFormControl.hasError('required') && (nameFormControl.dirty || nameFormControl.touched)">
+            <span>Le nom du modèle doit être saisie</span>
+        </mat-error>
+    </mat-form-field>
+    
+    <!--Marque rattachée au modèle de voiture-->
+    <mat-form-field class="input-form" appearance="fill" color="primary">
+        <mat-label>Marque du modèle</mat-label>
+        <!--En mode lecture, affichage d'un input non modifiable-->
+        <!--Raison: la liste déroulante à une propriété disabled mais pas readonly-->
+        <input matInput 
+            *ngIf="formMode == 'show'"
+            [placeholder]="model?.carBrand?.brandName" 
+            [formControl]="brandFormControl" 
+            readonly
+        >
+        <!--En mode modification, affichage d'une liste déroulante avec valeurs modifiables-->
+        <!--Nb: La valeur sélectionnée par défaut est gérée par la fonction compareWithFn-->
+        <mat-select 
+            *ngIf="formMode != 'show'" 
+            [formControl]="brandFormControl" 
+            [compareWith]="compareWithFn"
+            (selectionChange)="onSelectionChangeBrand($event.value)"
+        ><!--[(ngModel)]="selectedBrand" (selectionChange)="onChangeBrand($event)"-->
+            <mat-option *ngFor="let brand of brands" [value]="brand">
+            {{ brand?.brandName }}<!--{{ brand | json }}-->
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="brandFormControl.hasError('required') && (brandFormControl.dirty || brandFormControl.touched)">
+            <span>La marque rattachée au modèle doit être saisie</span>
+        </mat-error>
+    </mat-form-field><!--[value]="brand"-->   
+
+</form>
+
+<!--Bouton de retour-->
+<button mat-fab color="accent" class="btn-close" (click)="onClickClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+<!--Bouton de suppression-->
+<button mat-fab *ngIf="formMode == 'show'" color="primary" class="btn-delete" (click)="onClickDelete()">
+    <mat-icon>delete</mat-icon>
+</button>
+
+<!--Bouton de validation du formulaire-->
+<button mat-fab color="primary" class="btn-done" [disabled]="modelForm.invalid" (click)="onClickBtnModel(formMode)">
+    <mat-icon *ngIf="formMode == 'create' || formMode == 'update'">done</mat-icon>
+    <mat-icon *ngIf="formMode == 'show'">edit</mat-icon>
+</button>

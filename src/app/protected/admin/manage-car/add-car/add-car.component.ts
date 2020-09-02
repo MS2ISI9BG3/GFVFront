@@ -122,27 +122,31 @@ export class AddCarComponent implements OnInit {
     if (this.formCar.invalid) {
       return;
     }
+    // a remettre
 
-    let car: Car = new Car(
-      null,
-      this.formCar.value.name,
-      this.formCar.value.matricule,
-      this.formCar.value.power,
-      this.formCar.value.places,
-      false,
-      this.formCar.value.odometer,
-      this.formCar.value.insuranceDate,
-      this.formCar.value.serviceDate,
-      )
-    ;
 
-    this.restCar.addCar(car).subscribe(car => {
-        this.carSaved = car;
-      },
-      error => {
-        console.log('Add car error: ' + JSON.stringify(error));
-        this.error = 'Une erreur est survenue lors de l\'ajout de la voiture ';
-      });
+    // let car: Car = new Car(
+    //   null,
+    //   this.formCar.value.name,
+    //   this.formCar.value.matricule,
+    //   this.formCar.value.power,
+    //   this.formCar.value.places,
+    //   false,
+    //   this.formCar.value.odometer,
+    //   this.formCar.value.insuranceDate,
+    //   this.formCar.value.serviceDate,
+    //   this.formCar.value.vin,
+    //   this.formCar.value.vin,
+    //   )
+    // ;
+    //
+    // this.restCar.addCar(car).subscribe(car => {
+    //     this.carSaved = car;
+    //   },
+    //   error => {
+    //     console.log('Add car error: ' + JSON.stringify(error));
+    //     this.error = 'Une erreur est survenue lors de l\'ajout de la voiture ';
+    //   });
 
   }
 

@@ -30,7 +30,8 @@ export class MapperBrandService {
   public mapBrand(brand: IBrand): Brand {
     return new Brand(
       Number(brand.brandId),
-      brand.brandName
+      brand.brandName,
+      Boolean(brand.archived)
     );
   }
 
@@ -43,7 +44,8 @@ export class MapperBrandService {
   mapIBrand(brand: Brand): IBrand {
     return {
       brandId: String(brand.brandId),
-      brandName: brand.brandName
+      brandName: brand.brandName,
+      archived: String(brand.archived)
     }
   }
 

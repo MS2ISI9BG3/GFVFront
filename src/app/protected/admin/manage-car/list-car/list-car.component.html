@@ -1,36 +1,76 @@
-<mat-list class="pageListCar" fxLayoutAlign="none center" fxLayout="column">
-  <h3 mat-subheader>
-    Listes des voitures
-    <!--Bouton plus pour ajouter un lieu-->
-    <mat-icon mat-list-icon routerLink="/protected/admin/manage-car/add-car">add_circle</mat-icon>
-  </h3>
+<!--<mat-list class="pageListCar" fxLayoutAlign="none center" fxLayout="column">-->
+<!--  -->
+<!--  <mat-chip-list>-->
+<!--    <mat-chip>Rennes</mat-chip>-->
+<!--    <mat-chip>Nantes</mat-chip>-->
+<!--    <mat-chip>Niort</mat-chip>-->
+<!--    <mat-chip>Quimper</mat-chip>-->
+<!--  </mat-chip-list>-->
 
-  <mat-chip-list>
-    <mat-chip>Rennes</mat-chip>
-    <mat-chip>Nantes</mat-chip>
-    <mat-chip>Niort</mat-chip>
-    <mat-chip>Quimper</mat-chip>
-  </mat-chip-list>
+<!--  <div fxLayout="column" fxLayout.gt-sm="row wrap"-->
+<!--       fxLayoutAlign.gt-sm="space-around" fxLayoutAlign="none center">-->
+<!--    <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"-->
+<!--              fxLayoutAlign="center">-->
+<!--      <div fxFlex="20" fxLayoutAlign="space-around center">-->
+<!--        <img mat-card-image src="../../../../../assets/img/carDefault.jpg" alt="car default"-->
+<!--             (click)="onClickCar(car)">-->
+<!--      </div>-->
 
-  <div fxLayout="column" fxLayout.gt-sm="row wrap"
-       fxLayoutAlign.gt-sm="space-around" fxLayoutAlign="none center">
-    <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"
-              fxLayoutAlign="center">
-      <div fxFlex="20" fxLayoutAlign="space-around center">
-        <img mat-card-image src="../../../../../assets/img/carDefault.jpg" alt="car default"
-             (click)="onClickCar(car)">
-      </div>
+<!--      <div class="nameMatricule" fxFlex="60" fxLayout="column"-->
+<!--           fxLayoutAlign="space-around " (click)="onClickCar(car)">-->
+<!--        <h5>{{ car.name }}</h5>-->
+<!--        <p>{{ car.matricule }}</p>-->
+<!--      </div>-->
+<!--      <div class="nameMatricule" fxFlex fxLayout="column"-->
+<!--           fxLayoutAlign="space-around center " (click)="onClickCar(car)">-->
+<!--        <mat-icon (click)="onClickDelete(car)">delete</mat-icon>-->
+<!--      </div>-->
+<!--    </mat-card>-->
+<!--  </div>-->
 
-      <div class="nameMatricule" fxFlex="60" fxLayout="column"
-           fxLayoutAlign="space-around " (click)="onClickCar(car)">
-        <h5>{{ car.name }}</h5>
-        <p>{{ car.matricule }}</p>
-      </div>
-      <div class="nameMatricule" fxFlex fxLayout="column"
-           fxLayoutAlign="space-around center " (click)="onClickCar(car)">
-        <mat-icon (click)="onClickDelete(car)">delete</mat-icon>
-      </div>
-    </mat-card>
-  </div>
+<!--</mat-list>-->
 
-</mat-list>
+<mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"
+          class="card" (click)="onClickCar(car)">
+  <!--  {{ car|json}}-->
+  <mat-card-header>
+    <div mat-card-avatar>
+      <mat-icon mat-list-icon color="accent">directions_car</mat-icon>
+    </div>
+    <div class="nameMatricule" fxFlex="60" fxLayout="column">
+      <mat-card-title>{{ car.matricule }}</mat-card-title>
+      <mat-card-subtitle class="card-subtitle">{{ car.carBrand.brandName }}
+        - {{ car.carModel.modelName }}</mat-card-subtitle>
+    </div>
+    <div class="nameMatricule" fxFlex fxLayout="column"
+         fxLayoutAlign="space-around center " (click)="onClickCar(car)">
+      <mat-icon (click)="onClickDelete(car)">delete</mat-icon>
+    </div>
+  </mat-card-header>
+
+</mat-card>
+
+
+<!--Element de la même taille que la zone de recherche-->
+<!--Permet de créer un espace en bas de page pour que la fin de la liste des places ne chevauche pas l'input search fixed-->
+<mat-form-field class="form-field-hidden">
+  <input matInput>
+</mat-form-field>
+
+<!--Recherche-->
+<mat-form-field appearance="fill" class="search-form" color="primary">
+  <mat-label>Rechercher</mat-label>
+  <input matInput placeholder="3 caractères minimum" type="search" (input)="onInputSearch($event.target.value)">
+</mat-form-field>
+
+
+<!--Bouton plus pour ajouter un lieu-->
+<button mat-fab color="primary" class="btn-add" (click)="onClickAddCar()">
+  <mat-icon>add</mat-icon>
+</button>
+
+<!--Bouton de retour-->
+<button mat-fab color="accent" class="btn-close" (click)="onClickClose()">
+  <mat-icon>close</mat-icon>
+</button>
+

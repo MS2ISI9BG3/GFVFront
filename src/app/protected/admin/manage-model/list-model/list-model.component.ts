@@ -72,7 +72,7 @@ export class ListModelComponent implements OnInit {
    * Supprime les modèles supprimés (état archivé) de la liste des modèles à afficher
    */
   removeDeletedModels(models: Model[]) {
-    if ( models && isArray(models) ) return models.filter( m => m ); //TODO !m.isArchived
+    if ( models && isArray(models) ) return models.filter( m => !m.archived );
     return models;
   }
 
