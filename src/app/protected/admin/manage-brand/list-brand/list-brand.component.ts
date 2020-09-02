@@ -90,7 +90,7 @@ export class ListBrandComponent implements OnInit {
    * @memberof ListBrandComponent
    */
   removeDeletedBrands(brands: Brand[]) {
-    if ( brands && isArray(brands) ) return brands.filter( b => b ); //TODO !b.isArchived
+    if ( brands && isArray(brands) ) return brands.filter( b => !b.archived );
     return brands;
   }
 

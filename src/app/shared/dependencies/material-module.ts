@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS, MatButtonModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatInputModule, MatIconModule, MatListModule, MatSlideToggleModule, MatSidenavModule, MatSnackBarModule, MatDialogModule } from '@angular/material';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS, MatButtonModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatInputModule, MatIconModule, MatListModule, MatSlideToggleModule, MatSidenavModule, MatSnackBarModule, MatDialogModule, MatSelectModule } from '@angular/material';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     exports: [
@@ -18,7 +19,9 @@ import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dia
       MatListModule,
       MatSlideToggleModule,
       MatSnackBarModule,
-      MatDialogModule
+      MatDialogModule,
+      MatSelectModule,
+      FormsModule
     ],
     providers: [
       //Configure Angular Material en français

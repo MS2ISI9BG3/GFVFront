@@ -5,5 +5,6 @@ export interface IModel {
     modelId: string;
     modelName: string;
     carBrand: IBrand;
+    archived: string;
 
 }
