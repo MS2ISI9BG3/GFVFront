@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Car} from "../../../../shared/models/entities/car";
 import {catchError, debounceTime, distinctUntilChanged} from "rxjs/operators";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -75,7 +75,7 @@ export class OneCarComponent implements OnInit {
     this.carForm = this.formBuilder.group({
       matricule: ['', Validators.required],
       power: ['', Validators.required],
-      places: ['', Validators.required],
+      places: [''],
       odometer: ['', Validators.required],
       insuranceDate: [''],
       serviceValidityDate: [''],
@@ -97,7 +97,10 @@ export class OneCarComponent implements OnInit {
     //le composant est en mode affichage d'un site (ou modification si l'utilisateur clic sur le bouton edit)
     //Si pas d'id, mode création d'un nouveau site
     this.queryCarId ? this.showAndUpdateCar(this.queryCarId) : this.createCar();
+
+    // appeler les deux API getBrands
   }
+
   //
   // ngOnInit() {
   //   this.carService.$carSelected
@@ -137,13 +140,13 @@ export class OneCarComponent implements OnInit {
 
   populateCar(queryCarId: string) {
     this.restCar.getCar(queryCarId)
-      .subscribe( car => {
+      .subscribe(car => {
           this.car = car;
           this.updateDefaultFormValue(FormMode.show, car);
         },
-        ( error => {
+        (error => {
           throw new Error(error)
-        })), catchError( (error: any) => {
+        })), catchError((error: any) => {
       this.messagesService.openSnackBar('Une erreur interne est survenue', 5000, 'danger', error);
       return of([]);
     });
@@ -159,8 +162,8 @@ export class OneCarComponent implements OnInit {
    * @memberof AddFamilyFormComponent
    */
   updateDefaultFormValue(formMode: FormMode, car?: Car) {
-    console.log('car: '+JSON.stringify(car));
-    if ( (formMode == FormMode.show || formMode == FormMode.update) && car ) {
+    console.log('car: ' + JSON.stringify(car));
+    if ((formMode == FormMode.show || formMode == FormMode.update) && car) {
       this.f.matricule.setValue(car.matricule);
       this.f.power.setValue(car.power);
       this.f.places.setValue(car.places);
@@ -181,7 +184,7 @@ export class OneCarComponent implements OnInit {
   populateQueryParams() {
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryCarId = params['carId'] ? params['carId'] : null;
-      console.log('queryCarId: '+this.queryCarId);
+      console.log('queryCarId: ' + this.queryCarId);
     });
   }
 
@@ -192,12 +195,45 @@ export class OneCarComponent implements OnInit {
    * @readonly
    * @memberof AddFamilyFormComponent
    */
-  get f() { return this.carForm.controls; }
+  get f() {
+    return this.carForm.controls;
+  }
 
-  get matriculeFormControl() { return this.carForm.get('matricule') }
-  get powerFormControl() { return this.carForm.get('power') }
-  get odometerFormControl() { return this.carForm.get('odometer') }
+  get matriculeFormControl() {
+    return this.carForm.get('matricule')
+  }
 
+  get powerFormControl() {
+    return this.carForm.get('power')
+  }
+
+  get odometerFormControl() {
+    return this.carForm.get('odometer')
+  }
+
+  get placesFormControl() {
+    return this.carForm.get('places')
+  }
+
+  get insuranceFormControl() {
+    return this.carForm.get('insuranceDate')
+  }
+
+  get serviceFormControl() {
+    return this.carForm.get('serviceValidityDate')
+  }
+
+  get brandFormControl() {
+    return this.carForm.get('carBrand')
+  }
+
+  get modelFormControl() {
+    return this.carForm.get('carModel')
+  }
+
+  get siteFormControl() {
+    return this.carForm.get('carSite')
+  }
 
   /**
    * Gestion du clic sur le bouton d'action
@@ -207,9 +243,22 @@ export class OneCarComponent implements OnInit {
    * @memberof AddFamilyFormComponent
    */
   onClickBtnCar(formMode: FormMode) {
-    if (formMode == FormMode.create) { this.addCar(); this.formMode = FormMode.show; return };
-    if (formMode == FormMode.show) { this.formMode = FormMode.update; return };
-    if (formMode == FormMode.update) { this.updateCar(); this.formMode = FormMode.show; return }
+    if (formMode == FormMode.create) {
+      this.addCar();
+      this.formMode = FormMode.show;
+      return
+    }
+
+    if (formMode == FormMode.show) {
+      this.formMode = FormMode.update;
+      return
+    }
+
+    if (formMode == FormMode.update) {
+      this.updateCar();
+      this.formMode = FormMode.show;
+      return
+    }
   }
 
   /**
@@ -222,11 +271,12 @@ export class OneCarComponent implements OnInit {
       maxWidth: "250px",
       data: {
         title: "Confirmer",
-        msg: "Le véhicule "+this.car.matricule +" va être supprimé"}
+        msg: "Le véhicule " + this.car.matricule + " va être supprimé"
+      }
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
-      console.log('dialogResult: '+dialogResult);
-      if ( dialogResult ) this.updateCar(true);
+      console.log('dialogResult: ' + dialogResult);
+      if (dialogResult) this.updateCar(true);
     });
   }
 
@@ -244,28 +294,29 @@ export class OneCarComponent implements OnInit {
     }
 
     try {
-
       let car: Car = new Car(
         null,
-        this.carForm.value.name,
-        this.carForm.value.address,
-        this.carForm.value.zipCode,
-        this.carForm.value.city,
-        this.carForm.value.phone,
+        this.carForm.value.matricule,
+        this.carForm.value.power,
+        this.carForm.value.places,
         null,
+        this.carForm.value.odometer,
+        this.carForm.value.insuranceDate,
         null,
-        null,
-        null,
-        null,
-        null,
+        this.carForm.value.carBrand,
+        this.carForm.value.carModel,
+        this.carForm.value.carSite,
+        this.carForm.value.serviceValidityDate,
       );
+
+      console.log("result du form : ", car)
 
       this.restCar.addCar(car).subscribe(car => {
 
         this.car = car;
         this.carsService.nextCarCreated(car);
 
-        this.messagesService.openSnackBar('Création du véhicule '+car.matricule+' enregistrée', 5000, 'success');
+        this.messagesService.openSnackBar('Création du véhicule ' + car.matricule + ' enregistrée', 5000, 'success');
         /*this.router.navigate(['/protected/admin/manage-place/one-place'], {
           queryParams: { placeId: place.siteId }
         });*/
@@ -308,9 +359,9 @@ export class OneCarComponent implements OnInit {
         this.carsService.nextCarUpdated(car);
 
         let msg: string = isDeleted ? 'Suppression' : 'Modification';
-        this.messagesService.openSnackBar(msg+' du vehicule '+car.matricule+' enregistrée', 5000, 'success');
+        this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
 
-        if ( isDeleted ) this.onClickClose();
+        if (isDeleted) this.onClickClose();
 
       }, error => {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
