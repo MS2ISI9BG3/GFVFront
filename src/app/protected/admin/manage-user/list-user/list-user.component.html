@@ -1,8 +1,8 @@
 <mat-card *ngFor="let user of usersFiltered;" (click)="onClickUser(user)" class="card">
   <mat-card-header>
     <div mat-card-avatar><mat-icon mat-list-icon color="accent">user</mat-icon></div>
-    <mat-card-title>{{ user?.firstName }}</mat-card-title>
-    <mat-card-subtitle class="card-subtitle">{{ user?.lastName }}</mat-card-subtitle>
+    <mat-card-title>{{ user?.firstName }} {{ user?.lastName }}</mat-card-title>
+    <mat-card-subtitle class="card-subtitle">{{ user?.email }}</mat-card-subtitle>
   </mat-card-header>
   <!--<mat-card-content>
     <p>

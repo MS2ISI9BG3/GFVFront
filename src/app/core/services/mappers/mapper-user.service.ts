@@ -38,8 +38,12 @@ export class MapperUserService {
       user.password,
       user.firstName,
       user.lastName,
+      user.email,
       user.authorities,
-      user.token
+      user.activated,
+      user.archived,
+      user.token,
+      user.phoneNumber,
     );
   }
 
@@ -56,7 +60,11 @@ export class MapperUserService {
       password: user.login ,
       firstName: user.firstName,
       lastName: user.lastName,
-      authorities: ["ROLE_USER", "ROLE_ADMIN"]
+      email: user.email,
+      authorities: ["ROLE_USER", "ROLE_ADMIN"],
+      activated : user.activated,
+      archived : user.archived,
+      phoneNumber: user.phoneNumber
     }
   }
 

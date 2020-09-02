@@ -20,14 +20,41 @@
 
   <!--Login-->
   <mat-form-field class="input-form" appearance="fill" color="primary">
-    <mat-label>E-Mail</mat-label>
+    <mat-label>Login</mat-label>
     <input matInput [formControl]="loginFormControl" [readonly]="formMode == 'show' ? true : false">
     <mat-error *ngIf="loginFormControl.hasError('required') && (loginFormControl.dirty || loginFormControl.touched)">
       <span>Le Login doit être saisie</span>
     </mat-error>
   </mat-form-field>
 
+  <!--Email-->
+  <mat-form-field class="input-form" appearance="fill" color="primary">
+    <mat-label>E-mail</mat-label>
+    <input matInput [formControl]="emailFormControl" [readonly]="formMode == 'show' ? true : false">
+    <mat-error *ngIf="emailFormControl.hasError('required') && (emailFormControl.dirty || emailFormControl.touched)">
+      <span>L'e-mail doit être saisie</span>
+    </mat-error>
+  </mat-form-field>
+
+  <!--Phone-->
+  <mat-form-field class="input-form" appearance="fill" color="primary">
+    <mat-label>Téléphone</mat-label>
+    <input matInput [formControl]="phoneNumberFormControl" [readonly]="formMode == 'show' ? true : false">
+    <mat-error *ngIf="phoneNumberFormControl.hasError('required') && (phoneNumberFormControl.dirty || phoneNumberFormControl.touched)">
+      <span>Le téléphone doit être saisie</span>
+    </mat-error>
+  </mat-form-field>
+
 </form>
+
+<div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center">
+
+  <!--Bouton activer-->
+  <button mat-raised-button type="submit" class="btn btn-default" (click)="onClickActive()"
+          [fxHide]="!ShowActiver" fxFlex="45">Activer
+  </button>
+
+</div>
 
 <!--Bouton de retour-->
 <button mat-fab color="accent" class="btn-close" (click)="onClickClose()">

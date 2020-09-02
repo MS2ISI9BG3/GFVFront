@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {EmailValidator, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FormMode} from '../../../../shared/enums/formMode';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MessagesService} from '../../../../core/services/messages/messages.service';
@@ -28,6 +28,7 @@ export class OneUserComponent implements OnInit {
   public queryUserId: string = null; // Null: add place, id: show and update place
   public isToUpdate: boolean = false;
   public formMode: FormMode = FormMode.show;
+  public ShowActiver: boolean = false;
 
   /**
    * Creates an instance of AddPlaceComponent.
@@ -46,9 +47,11 @@ export class OneUserComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.userForm = this.formBuilder.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      email: ['', Validators.required]
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      login: ['', Validators.required],
+      email: ['', Validators.required],
+      phoneNumber: ['', Validators.required]
     });
   }
 
@@ -71,8 +74,8 @@ export class OneUserComponent implements OnInit {
    * @readonly
    * @memberof OneUserComponent
    */
-  showAndUpdateUser(queryUserId: string) {
-    this.populateUser(queryUserId);
+  showAndUpdateUser(queryUserLogin: string) {
+    this.populateUser(queryUserLogin);
   }
 
   /**
@@ -90,8 +93,8 @@ export class OneUserComponent implements OnInit {
    * @readonly
    * @memberof OneUserComponent
    */
-  populateUser(queryUserId: string) {
-    this.restUser.getUser(queryUserId)
+  populateUser(queryUserLogin: string) {
+    this.restUser.getUser(queryUserLogin)
       .subscribe( user => {
           this.user = user;
           this.updateDefaultFormValue(FormMode.show, user);
@@ -117,10 +120,15 @@ export class OneUserComponent implements OnInit {
       this.f.firstName.setValue(user.firstName);
       this.f.lastName.setValue(user.lastName);
       this.f.login.setValue(user.login);
+      this.f.email.setValue(user.email);
+      this.f.phoneNumber.setValue(user.phoneNumber);
+      this.ShowActiver = !user.activated;
     } else {
       this.f.firstName.setValue('');
       this.f.lastName.setValue('');
       this.f.login.setValue('');
+      this.f.email.setValue('');
+      this.f.phoneNumber.setValue('');
     }
 
   }
@@ -148,6 +156,8 @@ export class OneUserComponent implements OnInit {
   get firstNameFormControl() { return this.userForm.get('firstName') }
   get lastNameFormControl() { return this.userForm.get('lastName') }
   get loginFormControl() { return this.userForm.get('login') }
+  get emailFormControl() { return this.userForm.get('email') }
+  get phoneNumberFormControl() { return this.userForm.get('phoneNumber') }
 
   /**
    * Gestion du clic sur le bouton d'action
@@ -181,6 +191,24 @@ export class OneUserComponent implements OnInit {
   }
 
   /**
+   * Gestion du clic sur le bouton activation
+   * @readonly
+   * @memberof AddFamilyFormComponent
+   */
+  onClickActive() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "250px",
+      data: {
+        title: "Confirmer",
+        msg: "L'utilisateur " + this.user.firstName + " " + this.user.lastName +" va être activé"}
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      console.log('dialogResult: '+dialogResult);
+      if ( dialogResult ) this.updateUser(false, true);
+    });
+  }
+
+  /**
    * Validation et enregistrement éventuel des valeurs du formulaire d'ajout d'un lieu
    * @returns
    * @memberof AddPlaceComponent
@@ -194,7 +222,7 @@ export class OneUserComponent implements OnInit {
    * @returns
    * @memberof AddPlaceComponent
    */
-  updateUser(isDeleted: boolean = false) {
+  updateUser(isDeleted: boolean = false, isActivate: boolean = false) {
 
     // stop here if form is invalid
     if (this.userForm.invalid) {
@@ -207,7 +235,12 @@ export class OneUserComponent implements OnInit {
       user.firstName = this.userForm.value.firstName;
       user.lastName = this.userForm.value.lastName;
       user.login = this.userForm.value.login;
-      //if ( isDeleted ) place.archived = true;
+      user.email = this.userForm.value.email;
+      user.phoneNumber = this.userForm.value.phoneNumber;
+
+      if ( isDeleted ) user.archived = true;
+
+      if ( isActivate ) user.activated = true;
 
       this.restUser.updateUser(user).subscribe(user => {
 

@@ -94,7 +94,7 @@ export class ListUserComponent implements OnInit {
     //L'id de l'utilisateur est passé en paramètre,
     //la page affichée sera donc en mode consultation d'un utilisateur
     this.router.navigate(['/protected/admin/manage-user/one-user'], {
-      queryParams: { id: user.id }
+      queryParams: { id: user.login }
     });
   }
 

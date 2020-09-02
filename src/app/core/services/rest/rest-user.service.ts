@@ -44,8 +44,8 @@ export class RestUserService {
       );
   }
 
-  public getUser(id: string): Observable<User> {
-    return this.http.get<IUser>(this.baseUrl+id, this.httpOptions)
+  public getUser(login: string): Observable<User> {
+    return this.http.get<IUser>(this.baseUrl+login, this.httpOptions)
       .pipe(
         map( (user: IUser) => {
             return this.mapperUser.mapUser(user);
