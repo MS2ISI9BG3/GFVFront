@@ -9,7 +9,7 @@ import { User } from 'src/app/shared/models/entities/user';
 import { MapperUserService } from '../mappers/mapper-user.service';
 import { IToken } from 'src/app/shared/models/dto-interfaces/iToken';
 import { Token } from 'src/app/shared/models/entities/token';
-import { iUser } from 'src/app/shared/models/dto-interfaces/iUser';
+import { IUser } from 'src/app/shared/models/dto-interfaces/iUser';
 
 /**
  * Gère l'authentification des utilisateurs à l'application
@@ -27,7 +27,7 @@ export class AuthenticationService {
    * @type {BehaviorSubject<User>}
    * @memberof AuthenticationService
    */
-  private currentUserSubject: BehaviorSubject<iUser>;
+  private currentUserSubject: BehaviorSubject<IUser>;
   /**
    * Partie commune de l'URL à l'API pour tous les appels
    * @private
@@ -39,7 +39,7 @@ export class AuthenticationService {
    * @type {Observable<User>}
    * @memberof AuthenticationService
    */
-  public currentUser: Observable<iUser>;
+  public currentUser: Observable<IUser>;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -59,7 +59,7 @@ export class AuthenticationService {
   }
 
   initCurrentUser() {
-    this.currentUserSubject = new BehaviorSubject<iUser>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<IUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -117,9 +117,9 @@ export class AuthenticationService {
       console.log('options 2: '+options.headers.getAll('Authorization'));
     }
     console.log('header => '+options.headers.getAll('Authorization'));
-    return this.http.get<iUser>(this.baseUrl+'api/account', options)
+    return this.http.get<IUser>(this.baseUrl+'api/account', options)
     .pipe(
-      map( (iuser: iUser) => {
+      map( (iuser: IUser) => {
         iuser.token = token;
         let user: User = this.mapperUser.mapUser(iuser);
         console.log('res getUser object: '+JSON.stringify(user));
@@ -190,7 +190,7 @@ export class AuthenticationService {
     }
     return isAdmin;
   }*/
-  
+
   /**
    * Retourne le token décodé
    * @param {string} token JWT token

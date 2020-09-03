@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { MapperUserService } from '../mappers/mapper-user.service';
-import { iUser } from 'src/app/shared/models/dto-interfaces/iUser';
+import { IUser } from 'src/app/shared/models/dto-interfaces/iUser';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/entities/user';
@@ -32,7 +32,7 @@ export class FakeRestUserService {
   ) { }
 
   public login(username: string, password: string): Observable<User> {
-    return this.http.get<iUser[]>(this.baseUrl+'login?username='+username, this.httpOptions)
+    return this.http.get<IUser[]>(this.baseUrl+'login?username='+username, this.httpOptions)
       .pipe(
         map(iUser => {
         let user = this.mapperUser.mapUser(iUser[0]);

@@ -3,7 +3,7 @@ import { User } from 'src/app/shared/models/entities/user';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { MapperUserService } from '../../services/mappers/mapper-user.service';
-import { iUser } from 'src/app/shared/models/dto-interfaces/iUser';
+import { IUser } from 'src/app/shared/models/dto-interfaces/iUser';
 
 @Component({
   selector: 'app-menu-content',
@@ -24,7 +24,7 @@ export class MenuContentComponent implements OnInit {
 
   ngOnInit() {
     this.authenticationService.currentUser.subscribe(
-      ( iuser: iUser ) => {
+      ( iuser: IUser ) => {
         this.user = this.mapperUser.mapUser(iuser);
         if ( this.user ) this.userRole = this.user.isAdmin ? 'Administrateur' : 'Utilisateur';
     });
@@ -64,7 +64,7 @@ export class MenuContentComponent implements OnInit {
     this.hideMenu.emit();
     this.router.navigate(['protected/admin/manage-model/manage-model']);
   }
-  
+
   onClickPlace() {
     this.hideMenu.emit();
     this.router.navigate(['protected/admin/manage-place/manage-place']);

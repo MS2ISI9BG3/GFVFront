@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {IUser, iUser} from 'src/app/shared/models/dto-interfaces/iUser';
+import {IUser} from 'src/app/shared/models/dto-interfaces/iUser';
 import { User } from 'src/app/shared/models/entities/user';
 import { Token } from 'src/app/shared/models/entities/token';
 import { IToken } from 'src/app/shared/models/dto-interfaces/iToken';
@@ -30,7 +30,7 @@ export class MapperUserService {
     });
   }
 
-  public mapUser(user: iUser): User {
+  public mapUser(user: IUser): User {
     if (!user) { return null; }
     return new User(
       Number(user.id),
