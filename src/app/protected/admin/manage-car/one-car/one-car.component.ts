@@ -15,6 +15,8 @@ import {RestBrandService} from "../../../../core/services/rest/rest-brand.servic
 import {isArray} from "util";
 import {Model} from "../../../../shared/models/entities/model";
 import {RestModelService} from "../../../../core/services/rest/rest-model.service";
+import {Place} from "../../../../shared/models/entities/place";
+import {RestPlaceService} from "../../../../core/services/rest/rest-place.service";
 
 @Component({
   selector: 'app-one-car',
@@ -37,6 +39,8 @@ export class OneCarComponent implements OnInit {
   public selectBrand: Brand;
   public models: Model[];
   public selectModel: Model;
+  public sites: Place[];
+  public selectSite: Place;
   public formMode: FormMode = FormMode.show;
   public compareWithFn = (currentBrand: Brand) => {
     // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
@@ -48,6 +52,12 @@ export class OneCarComponent implements OnInit {
     // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
     if (!this.car) return false;
     return currentModel.modelId == this.car.carModel.modelId ? true : false;
+  };
+
+  public compareWithFnSite = (currenSite: Place) => {
+    // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
+    if (!this.car) return false;
+    return currenSite.siteId == this.car.carSite.siteId ? true : false;
   };
 
 
@@ -79,7 +89,8 @@ export class OneCarComponent implements OnInit {
     private messagesService: MessagesService,
     public dialog: MatDialog,
     private restBrand: RestBrandService,
-    private restModel: RestModelService
+    private restModel: RestModelService,
+    private restSite: RestPlaceService
   ) {
     this.carForm = this.formBuilder.group({
       matricule: ['', Validators.required],
@@ -104,6 +115,7 @@ export class OneCarComponent implements OnInit {
     this.populateQueryParams();
     //Récupération de toutes les marques de voiture
     this.populateBrands();
+    this.populateSites();
     //Si un id a été passé en paramètre de la route,
     //le composant est en mode affichage d'un site (ou modification si l'utilisateur clic sur le bouton edit)
     //Si pas d'id, mode création d'un nouveau site
@@ -182,6 +194,8 @@ export class OneCarComponent implements OnInit {
       this.f.carBrand.setValue(car.carBrand.brandName);
       if (car.carModel) this.selectModel = car.carModel;
       this.f.carModel.setValue(car.carModel.modelName);
+      if (car.carSite) this.selectSite = car.carSite;
+      this.f.carSite.setValue(car.carSite.siteName);
     } else {
       this.f.matricule.setValue('');
       this.f.power.setValue('');
@@ -312,10 +326,10 @@ export class OneCarComponent implements OnInit {
       let car: Car = new Car(
         null,
         this.carForm.value.matricule,
-        this.carForm.value.power,
-        this.carForm.value.places,
+        Number(this.carForm.value.power),
+        Number(this.carForm.value.places),
         null,
-        this.carForm.value.odometer,
+        Number(this.carForm.value.odometer),
         this.carForm.value.insuranceDate,
         null,
         this.carForm.value.carBrand,
@@ -332,9 +346,7 @@ export class OneCarComponent implements OnInit {
         this.carsService.nextCarCreated(car);
 
         this.messagesService.openSnackBar('Création du véhicule ' + car.matricule + ' enregistrée', 5000, 'success');
-        /*this.router.navigate(['/protected/admin/manage-place/one-place'], {
-          queryParams: { placeId: place.siteId }
-        });*/
+
         this.showAndUpdateCar(car.carId.toString());
 
       }, error => {
@@ -460,6 +472,38 @@ export class OneCarComponent implements OnInit {
     if (model) this.selectModel = model;
 
   }
+
+
+  /**
+   * Récupération des données des marques
+   * @readonly
+   * @memberof oneModelFormComponent
+   */
+  populateSites() {
+    this.restSite.getPlaces()
+      .subscribe((sites: Place[]) => {
+          this.sites = this.removeDeletedSites(sites);
+        },
+        (error => {
+          throw new Error(error)
+        })), catchError((error: any) => {
+      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des marques', 5000, 'danger', error);
+      return of([]);
+    });
+  }
+
+  /**
+   * Supprime les marques supprimés (état archivé) de la liste des marques à afficher
+   */
+  removeDeletedSites(sites: Place[]) {
+    if (sites && isArray(sites)) return sites.filter(b => !b.archived);
+    return sites;
+  }
+
+  onSelectionChangeSite(site: Place) {
+    if (site) this.selectSite = site;
+  }
+
 
 
 }

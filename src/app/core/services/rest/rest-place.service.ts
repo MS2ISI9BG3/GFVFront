@@ -24,7 +24,7 @@ export class RestPlaceService {
   ) { }
 
   public getPlaces(): Observable<Place[]> {
-    return this.http.get<IPlace[]>(this.baseUrl, this.httpOptions)
+    return this.http.get<IPlace[]>(this.baseUrl+'available', this.httpOptions)
       .pipe(
         map(places => {
           return this.mapperPlace.mapPlaces(places);
@@ -51,7 +51,7 @@ export class RestPlaceService {
       .pipe(
         map(iPlace => {
           return this.mapperPlace.mapPlace(iPlace)
-        }, 
+        },
         error => Observable.throw(error)),
         catchError(error => { return throwError(error) })
       );
@@ -80,5 +80,5 @@ export class RestPlaceService {
         catchError(error => { return throwError(error) })
       );
   }*/
-  
+
 }

@@ -1,11 +1,11 @@
-
 <form [formGroup]="carForm">
 
   <!--matricule-->
   <mat-form-field class="input-form" appearance="fill" color="primary">
     <mat-label color="primary">Matricule</mat-label>
     <input matInput [formControl]="matriculeFormControl" [readonly]="formMode == 'show' ? true : false">
-    <mat-error *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
+    <mat-error
+      *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
       <span>Le matricule doit être saisie</span>
     </mat-error>
   </mat-form-field>
@@ -13,7 +13,7 @@
   <!--Power-->
   <mat-form-field class="input-form" appearance="fill" color="primary">
     <mat-label>Puissance</mat-label>
-    <input matInput [formControl]="powerFormControl"   [readonly]="formMode == 'show' ? true : false">
+    <input matInput [formControl]="powerFormControl" [readonly]="formMode == 'show' ? true : false">
     <mat-error *ngIf="powerFormControl.hasError('required') && (powerFormControl.dirty || powerFormControl.touched)">
       <span>La puissance doit être saisie</span>
     </mat-error>
@@ -23,11 +23,11 @@
   <mat-form-field class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
     <mat-label>Kilometrage</mat-label>
     <input matInput [formControl]="odometerFormControl">
-    <mat-error *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
+    <mat-error
+      *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
       <span>Le kilometrage doit être saisie</span>
     </mat-error>
   </mat-form-field>
-
 
 
   <!--places && site  -->
@@ -35,32 +35,45 @@
 
     <!--places-->
     <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
-      <mat-label>Nombre de places </mat-label>
+      <mat-label>Nombre de places</mat-label>
       <input matInput [formControl]="placesFormControl">
     </mat-form-field>
 
-    <mat-form-field fxFlex="45" appearance="fill">
-      <mat-label>
-        <b>Site</b></mat-label>
-      <mat-select [formControl]="siteFormControl">
-        <mat-option>None</mat-option>
-        <mat-option value="option1">Site 1</mat-option>
-        <mat-option value="option2">Site 2</mat-option>
-        <mat-option value="option3">Site 3</mat-option>
+    <!--site de rattachement  de la  voiture-->
+    <mat-form-field class="input-form" fxFlex="45" appearance="fill" color="primary">
+      <mat-label>Site</mat-label>
+      <!--En mode lecture, affichage d'un input non modifiable-->
+      <!--Raison: la liste déroulante à une propriété disabled mais pas readonly-->
+      <input matInput
+             *ngIf="formMode == 'show'"
+             [placeholder]="car?.carSite?.siteName"
+             [formControl]="siteFormControl"
+             readonly
+      >
+      <!--En mode modification, affichage d'une liste déroulante avec valeurs modifiables-->
+      <!--Nb: La valeur sélectionnée par défaut est gérée par la fonction compareWithFn-->
+      <mat-select
+        *ngIf="formMode != 'show'"
+        [formControl]="siteFormControl"
+        [compareWith]="compareWithFnSite"
+        (selectionChange)="onSelectionChangeSite($event.value)"
+      ><!--[(ngModel)]="selectedBrand" (selectionChange)="onChangeBrand($event)"-->
+        <mat-option *ngFor="let site of sites" [value]="site">
+          {{ site?.siteName }}<!--{{ brand | json }}-->
+        </mat-option>
       </mat-select>
-      <mat-error *ngIf="siteFormControl.hasError('required') && (siteFormControl.dirty || siteFormControl.touched)">
-        <span>La marque doit être saisie</span>
+      <mat-error
+        *ngIf="siteFormControl.hasError('required') && (siteFormControl.dirty || brandFormControl.touched)">
+        <span>Le site doit être saisie</span>
       </mat-error>
-    </mat-form-field>
-
-
+    </mat-form-field><!--[value]="brand"-->
 
   </div>
 
   <!--Marque et model  -->
   <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
     <!--Marque rattachée au modèle de voiture-->
-    <mat-form-field class="input-form"  fxFlex="45" appearance="fill" color="primary">
+    <mat-form-field class="input-form" fxFlex="45" appearance="fill" color="primary">
       <mat-label>Marque</mat-label>
       <!--En mode lecture, affichage d'un input non modifiable-->
       <!--Raison: la liste déroulante à une propriété disabled mais pas readonly-->
@@ -88,7 +101,7 @@
     </mat-form-field><!--[value]="brand"-->
 
     <!--Model de voiture-->
-    <mat-form-field class="input-form"  fxFlex="45" appearance="fill" color="primary">
+    <mat-form-field class="input-form" fxFlex="45" appearance="fill" color="primary">
       <mat-label>Model</mat-label>
       <!--En mode lecture, affichage d'un input non modifiable-->
       <!--Raison: la liste déroulante à une propriété disabled mais pas readonly-->
@@ -120,14 +133,16 @@
   <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
     <mat-form-field fxFlex="45">
       <mat-label>Assurance</mat-label>
-      <input matInput [matDatepicker]="picker1"  [formControl]="insuranceFormControl" [readonly]="formMode == 'show' ? true : false">
+      <input matInput [matDatepicker]="picker1" [formControl]="insuranceFormControl"
+             [readonly]="formMode == 'show' ? true : false">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field fxFlex="45">
       <mat-label>Révision</mat-label>
-      <input matInput [matDatepicker]="picker2" [formControl]="serviceFormControl" [readonly]="formMode == 'show' ? true : false">
+      <input matInput [matDatepicker]="picker2" [formControl]="serviceFormControl"
+             [readonly]="formMode == 'show' ? true : false">
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
