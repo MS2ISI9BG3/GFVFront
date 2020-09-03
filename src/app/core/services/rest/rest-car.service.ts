@@ -74,7 +74,7 @@ export class RestCarService {
 
 
   public deleteCar(car: (Car | number)): Observable<Car> {
-    let id = car instanceof Car ? car.id : car;
+    let id = car instanceof Car ? car.carId : car;
     return this.http.delete(`${this.baseUrl}+${id}`, this.httpOptions)
       .pipe(
         catchError(error => of(error))

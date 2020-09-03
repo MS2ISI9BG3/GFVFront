@@ -20,7 +20,7 @@ export class CarsService {
 
   nextCarUpdated(car: Car) {
     if (car) {
-      const index = this._cars.findIndex( s => s.id == car.id );
+      const index = this._cars.findIndex( s => s.carId == car.carId );
       this._cars[index] = car;
       this._carsSubject.next(this._cars);
     }
@@ -35,7 +35,7 @@ export class CarsService {
 
   nextCarDeleted(car: Car) {
     if (car) {
-      let index: number = this._cars.findIndex( s => s.id == car.id );
+      let index: number = this._cars.findIndex( s => s.carId == car.carId );
       this._cars.slice(index);
       this._carsSubject.next(this._cars);
     }

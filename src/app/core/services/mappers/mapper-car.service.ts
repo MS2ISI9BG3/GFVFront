@@ -57,7 +57,7 @@ export class MapperCarService {
    */
   mapICar(car: Car): ICar {
     return {
-      carId: String(car.id),
+      carId: String(car.carId),
       registrationNumber: car.matricule,
       power: String(car.power),
       numberOfSeats: String(car.places),
