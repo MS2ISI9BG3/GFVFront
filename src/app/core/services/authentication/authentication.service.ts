@@ -143,12 +143,12 @@ export class AuthenticationService {
    * @memberof AuthenticationService
    */
   activateUser(activationKey: string): Observable<boolean> {
-    /*let params = new HttpParams().set("key",activationKey);
+    let params = new HttpParams().set("key",activationKey);
     return this.http.get<boolean>(this.baseUrl+'api/activate', { headers: this.httpOptions.headers, params: params } ).pipe(
       map( () => { return true; } )
-    )*/
+    );
     //TODO return true si compte activé, false sinon
-    return of(true);//TODO delete mock
+    //return of(true);//TODO delete mock
   }
 
   /**

@@ -5,7 +5,7 @@ import { ActivateComponent } from './activate/activate.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'activate', component: ActivateComponent },
+  { path: 'activation', component: ActivateComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 
