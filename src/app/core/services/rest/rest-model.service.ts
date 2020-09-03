@@ -17,7 +17,7 @@ export class RestModelService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  
+
   constructor(
     private http: HttpClient,
     private mapperModel: MapperModelService
@@ -45,13 +45,24 @@ export class RestModelService {
       );
   }
 
+  public getModelByBrand(id: string): Observable<Model[]> {
+    return this.http.get<IModel[]>(this.baseUrl+'available/'+id, this.httpOptions)
+      .pipe(
+        map(models => {
+            return this.mapperModel.mapModels(models);
+          },
+          error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
+      );
+  }
+
   public addModel(model: Model): Observable<Model> {
     let iModel: IModel = this.mapperModel.mapIModel(model);
     return this.http.post<IModel>(this.baseUrl, iModel, this.httpOptions)
       .pipe(
         map(iModel => {
           return this.mapperModel.mapModel(iModel)
-        }, 
+        },
         error => Observable.throw(error)),
         catchError(error => { return throwError(error) })
       );

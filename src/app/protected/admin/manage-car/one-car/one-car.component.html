@@ -39,7 +39,7 @@
       <input matInput [formControl]="placesFormControl">
     </mat-form-field>
 
-    <mat-form-field fxFlex="45" appearance="outline">
+    <mat-form-field fxFlex="45" appearance="fill">
       <mat-label>
         <b>Site</b></mat-label>
       <mat-select [formControl]="siteFormControl">
@@ -59,34 +59,61 @@
 
   <!--Marque et model  -->
   <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
-    <mat-form-field fxFlex="45" appearance="outline">
-      <mat-label>
-        <b>Marque</b></mat-label>
-      <mat-select [formControl]="brandFormControl">
-        <mat-option>None</mat-option>
-        <mat-option value="option1">Option 1</mat-option>
-        <mat-option value="option2">Option 2</mat-option>
-        <mat-option value="option3">Option 3</mat-option>
+    <!--Marque rattachée au modèle de voiture-->
+    <mat-form-field class="input-form"  fxFlex="45" appearance="fill" color="primary">
+      <mat-label>Marque</mat-label>
+      <!--En mode lecture, affichage d'un input non modifiable-->
+      <!--Raison: la liste déroulante à une propriété disabled mais pas readonly-->
+      <input matInput
+             *ngIf="formMode == 'show'"
+             [placeholder]="car?.carBrand?.brandName"
+             [formControl]="brandFormControl"
+             readonly
+      >
+      <!--En mode modification, affichage d'une liste déroulante avec valeurs modifiables-->
+      <!--Nb: La valeur sélectionnée par défaut est gérée par la fonction compareWithFn-->
+      <mat-select
+        *ngIf="formMode != 'show'"
+        [formControl]="brandFormControl"
+        [compareWith]="compareWithFn"
+        (selectionChange)="onSelectionChangeBrand($event.value)"
+      ><!--[(ngModel)]="selectedBrand" (selectionChange)="onChangeBrand($event)"-->
+        <mat-option *ngFor="let brand of brands" [value]="brand">
+          {{ brand?.brandName }}<!--{{ brand | json }}-->
+        </mat-option>
       </mat-select>
       <mat-error *ngIf="brandFormControl.hasError('required') && (brandFormControl.dirty || brandFormControl.touched)">
-        <span>La marque doit être saisie</span>
+        <span>La marque rattachée au modèle doit être saisie</span>
       </mat-error>
-    </mat-form-field>
+    </mat-form-field><!--[value]="brand"-->
 
-
-    <mat-form-field fxFlex="45" appearance="outline">
-      <mat-label>
-        <b> Modele </b></mat-label>
-      <mat-select [formControl]="modelFormControl" >
-        <mat-option>None</mat-option>
-        <mat-option value="option1">Option 1</mat-option>
-        <mat-option value="option2">Option 2</mat-option>
-        <mat-option value="option3">Option 3</mat-option>
+    <!--Model de voiture-->
+    <mat-form-field class="input-form"  fxFlex="45" appearance="fill" color="primary">
+      <mat-label>Model</mat-label>
+      <!--En mode lecture, affichage d'un input non modifiable-->
+      <!--Raison: la liste déroulante à une propriété disabled mais pas readonly-->
+      <input matInput
+             *ngIf="formMode == 'show'"
+             [placeholder]="car?.carModel?.modelName"
+             [formControl]="modelFormControl"
+             readonly
+      >
+      <!--En mode modification, affichage d'une liste déroulante avec valeurs modifiables-->
+      <!--Nb: La valeur sélectionnée par défaut est gérée par la fonction compareWithFn-->
+      <mat-select
+        *ngIf="formMode != 'show'"
+        [formControl]="modelFormControl"
+        [compareWith]="compareWithFnModel"
+        (selectionChange)="onSelectionChangeModel($event.value)"
+      ><!--[(ngModel)]="selectedBrand" (selectionChange)="onChangeBrand($event)"-->
+        <mat-option *ngFor="let model of models" [value]="model">
+          {{ model?.modelName }}<!--{{ brand | json }}-->
+        </mat-option>
       </mat-select>
-      <mat-error *ngIf="modelFormControl.hasError('required') && (modelFormControl.dirty || brandFormControl.touched)">
-        <span>Le model doit être saisie</span>
+      <mat-error *ngIf="modelFormControl.hasError('required') && (modelFormControl.dirty || modelFormControl.touched)">
+        <span>La model doit être saisie</span>
       </mat-error>
-    </mat-form-field>
+    </mat-form-field><!--[value]="brand"-->
   </div>
 
   <!--2 date -->

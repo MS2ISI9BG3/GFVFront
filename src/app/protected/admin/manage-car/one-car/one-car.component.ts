@@ -10,6 +10,11 @@ import {MessagesService} from "../../../../core/services/messages/messages.servi
 import {MatDialog} from "@angular/material/dialog";
 import {of} from "rxjs";
 import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
+import {Brand} from "../../../../shared/models/entities/brand";
+import {RestBrandService} from "../../../../core/services/rest/rest-brand.service";
+import {isArray} from "util";
+import {Model} from "../../../../shared/models/entities/model";
+import {RestModelService} from "../../../../core/services/rest/rest-model.service";
 
 @Component({
   selector: 'app-one-car',
@@ -28,7 +33,23 @@ export class OneCarComponent implements OnInit {
   public car: Car;
   public queryCarId: string = null; // Null: add place, id: show and update place
   public isToUpdate: boolean = false;
+  public brands: Brand[];
+  public selectBrand: Brand;
+  public models: Model[];
+  public selectModel: Model;
   public formMode: FormMode = FormMode.show;
+  public compareWithFn = (currentBrand: Brand) => {
+    // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
+    if (!this.car) return false;
+    return currentBrand.brandId == this.car.carBrand.brandId ? true : false;
+  };
+
+  public compareWithFnModel = (currentModel: Model) => {
+    // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
+    if (!this.car) return false;
+    return currentModel.modelId == this.car.carModel.modelId ? true : false;
+  };
+
 
   /**
    * Liste de tous les lieux
@@ -56,7 +77,9 @@ export class OneCarComponent implements OnInit {
     private restCar: RestCarService,
     private carsService: CarsService,
     private messagesService: MessagesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private restBrand: RestBrandService,
+    private restModel: RestModelService
   ) {
     this.carForm = this.formBuilder.group({
       matricule: ['', Validators.required],
@@ -79,6 +102,8 @@ export class OneCarComponent implements OnInit {
   ngOnInit() {
     this.carForm.reset();
     this.populateQueryParams();
+    //Récupération de toutes les marques de voiture
+    this.populateBrands();
     //Si un id a été passé en paramètre de la route,
     //le composant est en mode affichage d'un site (ou modification si l'utilisateur clic sur le bouton edit)
     //Si pas d'id, mode création d'un nouveau site
@@ -153,6 +178,10 @@ export class OneCarComponent implements OnInit {
       this.f.matricule.setValue(car.matricule);
       this.f.power.setValue(car.power);
       this.f.places.setValue(car.places);
+      if (car.carBrand) this.selectBrand = car.carBrand;
+      this.f.carBrand.setValue(car.carBrand.brandName);
+      if (car.carModel) this.selectModel = car.carModel;
+      this.f.carModel.setValue(car.carModel.modelName);
     } else {
       this.f.matricule.setValue('');
       this.f.power.setValue('');
@@ -368,4 +397,69 @@ export class OneCarComponent implements OnInit {
   onClickClose() {
     this.router.navigate(['/protected/admin/manage-car/manage-car']);
   }
+
+  /**
+   * Récupération des données des marques
+   * @readonly
+   * @memberof oneModelFormComponent
+   */
+  populateBrands() {
+    this.restBrand.getBrands()
+      .subscribe((brands: Brand[]) => {
+          this.brands = this.removeDeletedBrands(brands);
+        },
+        (error => {
+          throw new Error(error)
+        })), catchError((error: any) => {
+      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des marques', 5000, 'danger', error);
+      return of([]);
+    });
+  }
+
+  /**
+   * Supprime les marques supprimés (état archivé) de la liste des marques à afficher
+   */
+  removeDeletedBrands(brands: Brand[]) {
+    if (brands && isArray(brands)) return brands.filter(b => !b.archived);
+    return brands;
+  }
+
+  onSelectionChangeBrand(brand: Brand) {
+    if (brand) this.selectBrand = brand;
+    //Récupération de toutes les marques de voiture
+    if (brand) this.populateModels(brand.brandId);
+  }
+
+  /**
+   * Récupération des données des marques
+   * @readonly
+   * @memberof oneModelFormComponent
+   */
+  populateModels(idBrand) {
+    this.restModel.getModelByBrand(idBrand.toString())
+      .subscribe((models: Model[]) => {
+          this.models = this.removeDeletedModels(models);
+        },
+        (error => {
+          throw new Error(error)
+        })), catchError((error: any) => {
+      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des models', 5000, 'danger', error);
+      return of([]);
+    });
+  }
+
+  /**
+   * Supprime les marques supprimés (état archivé) de la liste des marques à afficher
+   */
+  removeDeletedModels(models: Model[]) {
+    if (models && isArray(models)) return models.filter(b => !b.archived);
+    return models;
+  }
+
+  onSelectionChangeModel(model: Model) {
+    if (model) this.selectModel = model;
+
+  }
+
+
 }
