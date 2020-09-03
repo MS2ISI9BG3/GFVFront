@@ -25,7 +25,7 @@ export class ActivateComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe( params => {
       let key: string = params['key'];
       if ( key ) {
-        this.authenticationService.activateUser('').subscribe(
+        this.authenticationService.activateUser(key).subscribe(
           ( res: boolean ) => {
             if ( res ) {
               this.messageService.openSnackBar('Compte activé', 5000, 'success');
