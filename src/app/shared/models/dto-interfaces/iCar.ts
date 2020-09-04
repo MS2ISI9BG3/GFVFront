@@ -8,7 +8,6 @@ export interface ICar {
   registrationNumber: string;
   power: string;
   numberOfSeats: string;
-  isArchive: string;
   odometer: string;
   insuranceValidityDate: string;
   vin: string;

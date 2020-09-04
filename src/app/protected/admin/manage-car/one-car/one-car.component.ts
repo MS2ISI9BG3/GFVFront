@@ -93,7 +93,7 @@ export class OneCarComponent implements OnInit {
     private restSite: RestPlaceService
   ) {
     this.carForm = this.formBuilder.group({
-      matricule: ['',Validators.pattern('[A-Za-z]{2}-[0-9]{3}-[A-Za-z]{2}')],
+      matricule: ['', Validators.pattern('[A-Za-z]{2}-[0-9]{3}-[A-Za-z]{2}')],
       power: ['', Validators.required],
       vin: ['', Validators.pattern('[A-Za-z0-9]{17}')],
       places: [''],
@@ -345,7 +345,6 @@ export class OneCarComponent implements OnInit {
         this.carForm.value.matricule,
         Number(this.carForm.value.power),
         Number(this.carForm.value.places),
-        null,
         Number(this.carForm.value.odometer),
         this.carForm.value.insuranceDate,
         this.carForm.value.vin,
@@ -353,7 +352,7 @@ export class OneCarComponent implements OnInit {
         this.carForm.value.carModel,
         this.carForm.value.carSite,
         this.carForm.value.serviceValidityDate,
-        null
+        false
       );
 
       console.log("result du form : ", car)
@@ -400,11 +399,11 @@ export class OneCarComponent implements OnInit {
 
       car.insuranceDate = this.carForm.value.insuranceDate;
       car.vin = this.carForm.value.vin;
-      car.carBrand =  this.selectBrand;
+      car.carBrand = this.selectBrand;
       car.carModel = this.selectModel;
-      car.carSite =  this.selectSite;
+      car.carSite = this.selectSite;
       car.serviceValidityDate = this.carForm.value.serviceValidityDate;
-      if ( isDeleted ) car.archived = true;
+      if (isDeleted) car.archived = true;
 
       this.restCar.updateCar(car).subscribe(car => {
 

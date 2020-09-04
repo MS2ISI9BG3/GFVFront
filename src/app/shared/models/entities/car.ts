@@ -40,7 +40,6 @@ export class Car {
    * @type {number}
    * @memberof Car
    */
-  private _isArchive: boolean;
 
   /**
    * Nom du lieu
@@ -92,12 +91,11 @@ export class Car {
    */
 
 
-  constructor(carId: number, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string, archived : boolean) {
+  constructor(carId: number, matricule: string, power: number, places: number, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string, archived : boolean) {
     this._carId = carId;
     this._matricule = matricule;
     this._power = power;
     this._places = places;
-    this._isArchive = Boolean(isArchive);
     this._odometer = odometer;
     this._insuranceDate = insuranceDate;
     this._vin = vin;
@@ -106,6 +104,7 @@ export class Car {
     this._carSite = carSite
     this._serviceValidityDate = serviceValidityDate
     this._archived = archived
+
   }
 
 
@@ -126,9 +125,6 @@ export class Car {
     return this._places;
   }
 
-  get isArchive(): boolean {
-    return this._isArchive;
-  }
 
   get odometer(): number {
     return this._odometer;
@@ -172,10 +168,6 @@ export class Car {
 
   set places(value: number) {
     this._places = value;
-  }
-
-  set isArchive(value: boolean) {
-    this._isArchive = value;
   }
 
   set odometer(value: number) {
