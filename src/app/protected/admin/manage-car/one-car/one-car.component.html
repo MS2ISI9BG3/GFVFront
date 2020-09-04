@@ -22,7 +22,7 @@
     </mat-form-field>
 
     <!--Kilometrage-->
-    <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
+    <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" >
       <mat-label>Kilometrage</mat-label>
       <input matInput [formControl]="odometerFormControl">
       <mat-error
@@ -32,7 +32,7 @@
     </mat-form-field>
   </div>
 
-  <mat-form-field class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
+  <mat-form-field class="input-form" appearance="fill" color="primary" >
     <mat-label>Vin (17 c.)  </mat-label>
     <input matInput [formControl]="vinFormControl">
     <mat-error
@@ -48,7 +48,7 @@
   <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
 
     <!--places-->
-    <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
+    <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" >
       <mat-label>Nombre de places</mat-label>
       <input matInput [formControl]="placesFormControl">
     </mat-form-field>
@@ -148,11 +148,13 @@
 
   <!--2 date -->
   <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+
+
     <mat-form-field fxFlex="45">
       <mat-label>Assurance</mat-label>
       <input matInput [matDatepicker]="picker1" [formControl]="insuranceFormControl"
              [readonly]="formMode == 'show' ? true : false" required>
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker-toggle matSuffix [for]="picker1"  *ngIf="formMode != 'show'"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
 
@@ -160,7 +162,7 @@
       <mat-label>Révision</mat-label>
       <input matInput [matDatepicker]="picker2" [formControl]="serviceFormControl"
              [readonly]="formMode == 'show' ? true : false" required>
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker-toggle matSuffix [for]="picker2"  *ngIf="formMode != 'show'" ></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
   </div>

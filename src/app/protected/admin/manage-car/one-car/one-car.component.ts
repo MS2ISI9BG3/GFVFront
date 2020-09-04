@@ -191,6 +191,7 @@ export class OneCarComponent implements OnInit {
       this.f.matricule.setValue(car.matricule);
       this.f.power.setValue(car.power);
       this.f.places.setValue(car.places);
+      this.f.odometer.setValue(car.odometer);
       this.f.vin.setValue(car.vin);
       if (car.carBrand) this.selectBrand = car.carBrand;
       this.f.carBrand.setValue(car.carBrand.brandName);
@@ -198,10 +199,19 @@ export class OneCarComponent implements OnInit {
       this.f.carModel.setValue(car.carModel.modelName);
       if (car.carSite) this.selectSite = car.carSite;
       this.f.carSite.setValue(car.carSite.siteName);
+      this.f.insuranceDate.setValue(car.insuranceDate);
+      this.f.serviceValidityDate.setValue(car.serviceValidityDate);
     } else {
       this.f.matricule.setValue('');
       this.f.power.setValue('');
       this.f.places.setValue('');
+      this.f.odometer.setValue('');
+      this.f.vin.setValue('');
+      this.f.carBrand.setValue('');
+      this.f.carModel.setValue('');
+      this.f.carSite.setValue('');
+      this.f.insuranceDate.setValue('');
+      this.f.serviceValidityDate.setValue('');
     }
 
   }
@@ -381,15 +391,26 @@ export class OneCarComponent implements OnInit {
 
     try {
 
-      let car = this.car;
-      car.matricule = this.carForm.value.name;
-      car.power = this.carForm.value.address;
-      car.places = this.carForm.value.phone;
-      // if ( isDeleted ) car.archived = true;
+      let car: Car = this.car;
+      car.matricule = this.carForm.value.matricule;
+      car.power = this.carForm.value.power;
+      car.places = this.carForm.value.places;
+      car.odometer = this.carForm.value.odometer;
+
+      car.insuranceDate = this.carForm.value.insuranceDate;
+      car.vin = this.carForm.value.vin;
+      car.carBrand =  this.selectBrand;
+      car.carModel = this.selectModel;
+      car.carSite =  this.selectSite;
+      car.serviceValidityDate = this.carForm.value.serviceValidityDate;
+      if ( isDeleted ) car.archived = true;
 
       this.restCar.updateCar(car).subscribe(car => {
 
         this.car = car;
+        this.f.carBrand.setValue(car.carBrand.brandName);
+        this.f.carModel.setValue(car.carModel.modelName);
+        this.f.carSite.setValue(car.carSite.siteName);
         this.carsService.nextCarUpdated(car);
 
         let msg: string = isDeleted ? 'Suppression' : 'Modification';

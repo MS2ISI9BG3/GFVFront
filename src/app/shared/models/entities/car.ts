@@ -180,6 +180,20 @@ export class Car {
     this._insuranceDate = value;
   }
 
+  set carBrand(carBrand: Brand) {
+    this._carBrand = carBrand;
+  }
+
+  set carModel(carModel: Model) {
+    this._carModel = carModel;
+  }
+
+  set carSite(carSite: Place) {
+    this._carSite = carSite;
+  }
+
+
+
 
   set vin(value: string) {
     this._vin = value;
