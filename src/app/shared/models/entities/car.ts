@@ -70,11 +70,12 @@ export class Car {
   private _carModel: Model;
   private _carSite: Place;
   private _serviceValidityDate: string;
+  private _archived: boolean;
 
 
   /**
    * Creates an instance of Car.
-   * @param {number} id Identifiant unique du lieu
+   * @param carId
    * @param matricule
    * @param power
    * @param places
@@ -86,11 +87,12 @@ export class Car {
    * @param carModel
    * @param carSite
    * @param serviceValidityDate
+   * @param archived
    * @memberof Car
    */
 
 
-  constructor(carId: number, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string) {
+  constructor(carId: number, matricule: string, power: number, places: number, isArchive: boolean, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string, archived : boolean) {
     this._carId = carId;
     this._matricule = matricule;
     this._power = power;
@@ -103,6 +105,7 @@ export class Car {
     this._carModel = carModel
     this._carSite = carSite
     this._serviceValidityDate = serviceValidityDate
+    this._archived = archived
   }
 
 
@@ -154,6 +157,9 @@ export class Car {
     return this._serviceValidityDate;
   }
 
+  get archived(): boolean { return this._archived }
+
+
 
 
   set matricule(value: string) {
@@ -191,6 +197,9 @@ export class Car {
   set carSite(carSite: Place) {
     this._carSite = carSite;
   }
+
+  set archived( archived: boolean ) { this._archived = archived }
+
 
 
 
