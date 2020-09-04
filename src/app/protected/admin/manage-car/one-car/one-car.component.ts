@@ -93,8 +93,9 @@ export class OneCarComponent implements OnInit {
     private restSite: RestPlaceService
   ) {
     this.carForm = this.formBuilder.group({
-      matricule: ['', Validators.required],
+      matricule: ['',Validators.pattern('[A-Za-z]{2}-[0-9]{3}-[A-Za-z]{2}')],
       power: ['', Validators.required],
+      vin: ['', Validators.pattern('[A-Za-z0-9]{17}')],
       places: [''],
       odometer: ['', Validators.required],
       insuranceDate: [''],
@@ -190,6 +191,7 @@ export class OneCarComponent implements OnInit {
       this.f.matricule.setValue(car.matricule);
       this.f.power.setValue(car.power);
       this.f.places.setValue(car.places);
+      this.f.vin.setValue(car.vin);
       if (car.carBrand) this.selectBrand = car.carBrand;
       this.f.carBrand.setValue(car.carBrand.brandName);
       if (car.carModel) this.selectModel = car.carModel;
@@ -264,6 +266,11 @@ export class OneCarComponent implements OnInit {
     return this.carForm.get('carSite')
   }
 
+  get vinFormControl() {
+    return this.carForm.get('vin')
+  }
+
+
   /**
    * Gestion du clic sur le bouton d'action
    * Permet de valide la création d'un site,
@@ -331,7 +338,7 @@ export class OneCarComponent implements OnInit {
         null,
         Number(this.carForm.value.odometer),
         this.carForm.value.insuranceDate,
-        null,
+        this.carForm.value.vin,
         this.carForm.value.carBrand,
         this.carForm.value.carModel,
         this.carForm.value.carSite,
@@ -503,7 +510,6 @@ export class OneCarComponent implements OnInit {
   onSelectionChangeSite(site: Place) {
     if (site) this.selectSite = site;
   }
-
 
 
 }

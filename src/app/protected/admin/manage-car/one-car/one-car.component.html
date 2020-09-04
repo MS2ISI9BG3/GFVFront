@@ -3,31 +3,45 @@
   <!--matricule-->
   <mat-form-field class="input-form" appearance="fill" color="primary">
     <mat-label color="primary">Matricule</mat-label>
-    <input matInput [formControl]="matriculeFormControl" [readonly]="formMode == 'show' ? true : false">
+    <input matInput [formControl]="matriculeFormControl" [readonly]="formMode == 'show' ? true : false" required>
     <mat-error
       *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
       <span>Le matricule doit être saisie</span>
     </mat-error>
   </mat-form-field>
 
-  <!--Power-->
-  <mat-form-field class="input-form" appearance="fill" color="primary">
-    <mat-label>Puissance</mat-label>
-    <input matInput [formControl]="powerFormControl" [readonly]="formMode == 'show' ? true : false">
-    <mat-error *ngIf="powerFormControl.hasError('required') && (powerFormControl.dirty || powerFormControl.touched)">
-      <span>La puissance doit être saisie</span>
+  <!--Power && Kilometrage  -->
+  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+    <!--Power-->
+    <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary">
+      <mat-label>Puissance</mat-label>
+      <input matInput [formControl]="powerFormControl" [readonly]="formMode == 'show' ? true : false">
+      <mat-error *ngIf="powerFormControl.hasError('required') && (powerFormControl.dirty || powerFormControl.touched)">
+        <span>La puissance doit être saisie</span>
+      </mat-error>
+    </mat-form-field>
+
+    <!--Kilometrage-->
+    <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
+      <mat-label>Kilometrage</mat-label>
+      <input matInput [formControl]="odometerFormControl">
+      <mat-error
+        *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
+        <span>Le kilometrage doit être saisie</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
+    <mat-label>Vin (17 c.)  </mat-label>
+    <input matInput [formControl]="vinFormControl">
+    <mat-error
+      *ngIf="vinFormControl.hasError('required') && (vinFormControl.dirty || vinFormControl.touched)">
+      <span>Le Vin doit être saisie</span>
     </mat-error>
   </mat-form-field>
 
-  <!--Kilometrage-->
-  <mat-form-field class="input-form" appearance="fill" color="primary" *ngIf="formMode == 'create'">
-    <mat-label>Kilometrage</mat-label>
-    <input matInput [formControl]="odometerFormControl">
-    <mat-error
-      *ngIf="odometerFormControl.hasError('required') && (odometerFormControl.dirty || odometerFormControl.touched)">
-      <span>Le kilometrage doit être saisie</span>
-    </mat-error>
-  </mat-form-field>
+
 
 
   <!--places && site  -->
@@ -57,6 +71,7 @@
         [formControl]="siteFormControl"
         [compareWith]="compareWithFnSite"
         (selectionChange)="onSelectionChangeSite($event.value)"
+        required
       ><!--[(ngModel)]="selectedBrand" (selectionChange)="onChangeBrand($event)"-->
         <mat-option *ngFor="let site of sites" [value]="site">
           {{ site?.siteName }}<!--{{ brand | json }}-->
@@ -90,6 +105,7 @@
         [formControl]="brandFormControl"
         [compareWith]="compareWithFn"
         (selectionChange)="onSelectionChangeBrand($event.value)"
+        required
       ><!--[(ngModel)]="selectedBrand" (selectionChange)="onChangeBrand($event)"-->
         <mat-option *ngFor="let brand of brands" [value]="brand">
           {{ brand?.brandName }}<!--{{ brand | json }}-->
@@ -118,6 +134,7 @@
         [formControl]="modelFormControl"
         [compareWith]="compareWithFnModel"
         (selectionChange)="onSelectionChangeModel($event.value)"
+        required
       ><!--[(ngModel)]="selectedBrand" (selectionChange)="onChangeBrand($event)"-->
         <mat-option *ngFor="let model of models" [value]="model">
           {{ model?.modelName }}<!--{{ brand | json }}-->
@@ -134,7 +151,7 @@
     <mat-form-field fxFlex="45">
       <mat-label>Assurance</mat-label>
       <input matInput [matDatepicker]="picker1" [formControl]="insuranceFormControl"
-             [readonly]="formMode == 'show' ? true : false">
+             [readonly]="formMode == 'show' ? true : false" required>
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
@@ -142,7 +159,7 @@
     <mat-form-field fxFlex="45">
       <mat-label>Révision</mat-label>
       <input matInput [matDatepicker]="picker2" [formControl]="serviceFormControl"
-             [readonly]="formMode == 'show' ? true : false">
+             [readonly]="formMode == 'show' ? true : false" required>
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
