@@ -144,6 +144,7 @@ export class OneCarComponent implements OnInit {
    */
   showAndUpdateCar(queryCarId: string) {
     this.populateCar(queryCarId);
+
   }
 
   /**
@@ -167,6 +168,7 @@ export class OneCarComponent implements OnInit {
       .subscribe(car => {
           this.car = car;
           this.updateDefaultFormValue(FormMode.show, car);
+          this.populateModels(car.carBrand.brandId)
         },
         (error => {
           throw new Error(error)
@@ -388,9 +390,32 @@ export class OneCarComponent implements OnInit {
     if (this.carForm.invalid) {
       return;
     }
+    if ( isDeleted ){
+      try {
+        let car: Car = this.car;
+        this.restCar.deleteCar(car).subscribe(car => {
+
+          this.car = car;
+          this.f.carBrand.setValue(car.carBrand.brandName);
+          this.f.carModel.setValue(car.carModel.modelName);
+          this.f.carSite.setValue(car.carSite.siteName);
+          this.carsService.nextCarUpdated(car);
+
+          let msg: string = 'Suppression'
+          this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
+          this.onClickClose();
+
+        }, error => {
+          this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
+        });
+
+      } catch (error) {
+        this.messagesService.openSnackBar('Une erreur est survenue lors de la supression du véhicule', 5000, 'danger', error);
+      }
+      return
+    }
 
     try {
-
       let car: Car = this.car;
       car.matricule = this.carForm.value.matricule;
       car.power = this.carForm.value.power;
@@ -403,7 +428,6 @@ export class OneCarComponent implements OnInit {
       car.carModel = this.selectModel;
       car.carSite = this.selectSite;
       car.serviceValidityDate = this.carForm.value.serviceValidityDate;
-      if (isDeleted) car.archived = true;
 
       this.restCar.updateCar(car).subscribe(car => {
 
@@ -413,10 +437,9 @@ export class OneCarComponent implements OnInit {
         this.f.carSite.setValue(car.carSite.siteName);
         this.carsService.nextCarUpdated(car);
 
-        let msg: string = isDeleted ? 'Suppression' : 'Modification';
+        let msg: string = 'Modification';
         this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
 
-        if (isDeleted) this.onClickClose();
 
       }, error => {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
