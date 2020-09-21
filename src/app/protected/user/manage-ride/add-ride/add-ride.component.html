@@ -1,0 +1,91 @@
+<form [formGroup]="formRide">
+
+  <div fxLayout="column" margin="auto" width="90">
+    <h3>Emprunter un véhicule</h3>
+
+    <div fxLayout="row" fxLayoutAlign="space-around">
+      <div fxFlex="45" fxLayout="column">
+        <!-- Site de départ -->
+        <mat-form-field>
+          <mat-label>Site de départ</mat-label>
+          <mat-select
+            (selectionChange)="onSelectionChangeSite($event.value)"
+            [formControl]="departureSiteFormControl"
+            required
+          >
+            <mat-option *ngFor="let site of sites" [value]="site">
+              {{ site?.siteName }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="departureSiteFormControl.hasError('required') && (departureSiteFormControl.dirty || departureSiteFormControl.touched)">
+            <span>Le site doit être saisie</span>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Date de départ -->
+        <mat-form-field>
+          <mat-label>Date de départ</mat-label>
+          <input [matDatepicker]="departureDate" matInput required>
+          <mat-datepicker-toggle [for]="departureDate" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #departureDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="45" fxLayout="column">
+        <!-- Site d'arrivée -->
+        <mat-form-field>
+          <mat-label>Site d'arrivée</mat-label>
+          <mat-select
+            (selectionChange)="onSelectionChangeSite($event.value)"
+          >
+            <mat-option *ngFor="let site of sites" [value]="site">
+              {{ site?.siteName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Date d'arrivée -->
+        <mat-form-field>
+          <mat-label>Date d'arrivée</mat-label>
+          <input [matDatepicker]="arrivalDate" matInput>
+          <mat-datepicker-toggle [for]="arrivalDate" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #arrivalDate required></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Véhicule choisi -->
+    <mat-form-field class="input-form">
+      <mat-label>Véhicule choisi</mat-label>
+      <mat-select (selectionChange)="onSelectionChangeCar($event.value)"
+                  [formControl]="carFormControl"
+                  class="input-form"
+                  required
+      >
+        <mat-option *ngFor="let car of cars" [value]="car">
+          {{ car.carBrand.brandName + " " + car.carModel.modelName }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="carFormControl.hasError('required') && (carFormControl.dirty || carFormControl.touched)">
+        <span>Le site doit être saisie</span>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Description  -->
+    <mat-form-field class="input-form">
+      <mat-label>Commentaire :</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="my-5" fxLayoutAlign="center">
+    <button [disabled]="formRide.invalid" class="mx-5" color="primary"
+            mat-flat-button>Demander
+    </button>
+    <button class="mx-5" color="accent" mat-flat-button
+            routerLink="/protected/user/manage-ride/manage-ride">Annuler
+    </button>
+  </div>
+</form>
