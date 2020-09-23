@@ -396,9 +396,6 @@ export class OneCarComponent implements OnInit {
         this.restCar.deleteCar(car).subscribe(car => {
 
           this.car = car;
-          this.f.carBrand.setValue(car.carBrand.brandName);
-          this.f.carModel.setValue(car.carModel.modelName);
-          this.f.carSite.setValue(car.carSite.siteName);
           this.carsService.nextCarUpdated(car);
 
           let msg: string = 'Suppression'

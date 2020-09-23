@@ -1,35 +1,3 @@
-<!--<mat-list class="pageListCar" fxLayoutAlign="none center" fxLayout="column">-->
-<!--  -->
-<!--  <mat-chip-list>-->
-<!--    <mat-chip>Rennes</mat-chip>-->
-<!--    <mat-chip>Nantes</mat-chip>-->
-<!--    <mat-chip>Niort</mat-chip>-->
-<!--    <mat-chip>Quimper</mat-chip>-->
-<!--  </mat-chip-list>-->
-
-<!--  <div fxLayout="column" fxLayout.gt-sm="row wrap"-->
-<!--       fxLayoutAlign.gt-sm="space-around" fxLayoutAlign="none center">-->
-<!--    <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"-->
-<!--              fxLayoutAlign="center">-->
-<!--      <div fxFlex="20" fxLayoutAlign="space-around center">-->
-<!--        <img mat-card-image src="../../../../../assets/img/carDefault.jpg" alt="car default"-->
-<!--             (click)="onClickCar(car)">-->
-<!--      </div>-->
-
-<!--      <div class="nameMatricule" fxFlex="60" fxLayout="column"-->
-<!--           fxLayoutAlign="space-around " (click)="onClickCar(car)">-->
-<!--        <h5>{{ car.name }}</h5>-->
-<!--        <p>{{ car.matricule }}</p>-->
-<!--      </div>-->
-<!--      <div class="nameMatricule" fxFlex fxLayout="column"-->
-<!--           fxLayoutAlign="space-around center " (click)="onClickCar(car)">-->
-<!--        <mat-icon (click)="onClickDelete(car)">delete</mat-icon>-->
-<!--      </div>-->
-<!--    </mat-card>-->
-<!--  </div>-->
-
-<!--</mat-list>-->
-
 <mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"
           class="card" (click)="onClickCar(car)">
   <!--  {{ car|json}}-->
@@ -37,15 +5,9 @@
     <div mat-card-avatar>
       <mat-icon mat-list-icon color="accent">directions_car</mat-icon>
     </div>
-    <div class="nameMatricule" fxFlex="60" fxLayout="column">
-      <mat-card-title>{{ car.matricule }}</mat-card-title>
-      <mat-card-subtitle class="card-subtitle">{{ car.carBrand.brandName }}
-        - {{ car.carModel.modelName }}</mat-card-subtitle>
-    </div>
-    <div class="nameMatricule" fxFlex fxLayout="column"
-         fxLayoutAlign="space-around center " (click)="onClickCar(car)">
-      <mat-icon (click)="onClickDelete(car)">delete</mat-icon>
-    </div>
+    <mat-card-title>{{ car.matricule }}</mat-card-title>
+    <mat-card-subtitle class="card-subtitle">{{ car.carBrand.brandName }}
+      - {{ car.carModel.modelName }}</mat-card-subtitle>
   </mat-card-header>
 
 </mat-card>
