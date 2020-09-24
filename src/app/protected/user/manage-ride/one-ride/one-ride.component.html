@@ -1,3 +1,129 @@
-<!-- TODO !-->
+<form [formGroup]="rideForm">
 
-ONE RIDE
+  <div fxLayout="column" margin="auto" width="90">
+    <h3>Emprunter un véhicule</h3>
+
+    <div fxLayout="row" fxLayoutAlign="space-around">
+      <div fxFlex="45" fxLayout="column">
+        <!-- Site de départ -->
+        <mat-form-field>
+          <mat-label>Site de départ</mat-label>
+          <input matInput
+                 *ngIf="formMode == 'show'"
+                 [placeholder]="ride?.departureSite?.siteName"
+                 [formControl]="departureSiteFormControl"
+                 readonly
+          >
+          <mat-select
+            *ngIf="formMode != 'show'"
+            (selectionChange)="onSelectionChangeSite($event.value)"
+            [formControl]="departureSiteFormControl"
+            required
+          >
+            <mat-option *ngFor="let site of sites" [value]="site">
+              {{ site?.siteName }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="departureSiteFormControl.hasError('required') && (departureSiteFormControl.dirty || departureSiteFormControl.touched)">
+            <span>Le site doit être saisie</span>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Date de départ -->
+        <mat-form-field>
+          <mat-label>Date de départ</mat-label>
+          <input [matDatepicker]="departureDate" matInput required
+                 [readonly]="formMode == 'show'" [formControl]="departureDateFormControl"
+          >
+          <mat-datepicker-toggle [for]="departureDate" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #departureDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="45" fxLayout="column">
+        <!-- Site d'arivée -->
+        <mat-form-field>
+          <mat-label>Site d'arrivée</mat-label>
+          <input matInput
+                 *ngIf="formMode == 'show'"
+                 [placeholder]="ride?.arrivalSite?.siteName"
+                 [formControl]="arrivalSiteFormControl"
+                 readonly
+          >
+          <mat-select
+            *ngIf="formMode != 'show'"
+            [formControl]="arrivalSiteFormControl"
+          >
+            <mat-option *ngFor="let site of sites" [value]="site">
+              {{ site?.siteName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Date d'arrivée -->
+        <mat-form-field>
+          <mat-label>Date d'arrivée</mat-label>
+          <input [matDatepicker]="arrivalDate" matInput
+                 [readonly]="formMode == 'show'" [formControl]="arrivalDateFormControl"
+          >
+          <mat-datepicker-toggle [for]="arrivalDate" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #arrivalDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Véhicule choisi -->
+    <mat-form-field class="input-form">
+      <mat-label>Véhicule choisi</mat-label>
+      <input
+        matInput
+        *ngIf="formMode == 'show'"
+        [placeholder]="ride?.car?.carBrand?.brandName"
+        [formControl]="carFormControl"
+        readonly
+      >
+      <mat-select
+        *ngIf="formMode != 'show'"
+        (selectionChange)="onSelectionChangeCar($event.value)"
+        [formControl]="carFormControl"
+        class="input-form"
+        required
+      >
+        <mat-option *ngFor="let car of cars" [value]="car">
+          {{ car.carBrand.brandName + " " + car.carModel.modelName }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="carFormControl.hasError('required') && (carFormControl.dirty || carFormControl.touched)">
+        <span>Le site doit être saisie</span>
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Description  -->
+    <mat-form-field class="input-form">
+      <mat-label>Commentaire :</mat-label>
+      <textarea matInput [formControl]="descriptionFormControl"></textarea>
+    </mat-form-field>
+  </div>
+
+  <!-- Boutons pour le formulaire de création ou de modification -->
+  <div *ngIf="formMode == 'create' || formMode == 'update'" class="my-5" fxLayoutAlign="center">
+    <button [disabled]="rideForm.invalid" class="mx-5" color="primary" mat-fab (click)="onClickBtnRide(formMode)">
+      <mat-icon>done</mat-icon>
+    </button>
+    <button class="mx-5" color="accent" mat-fab routerLink="/protected/user/manage-ride/manage-ride">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Boutons pour le formulaire de visualisation -->
+  <div *ngIf="formMode == 'show'" class="my-5" fxLayoutAlign="center">
+    <button [disabled]="rideForm.invalid" class="mx-5" color="primary" mat-fab (click)="onClickBtnRide(formMode)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button class="mx-5" color="accent" mat-fab (click)="onClickDelete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</form>

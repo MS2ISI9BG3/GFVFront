@@ -1,306 +1,229 @@
-import {Component, OnInit} from '@angular/core';
-import {catchError} from "rxjs/operators";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {FormMode} from "../../../../shared/enums/formMode";
-import {ActivatedRoute, Router} from "@angular/router";
-import {of} from "rxjs";
-import {MessagesService} from "../../../../core/services/messages/messages.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
-import {isArray} from "util";
+import { Component, OnInit } from '@angular/core';
+import { catchError } from "rxjs/operators";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MessagesService } from "../../../../core/services/messages/messages.service";
+import { MatDialog } from "@angular/material/dialog";
+import { of } from "rxjs";
+import { FormMode } from "../../../../shared/enums/formMode";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ConfirmDialogComponent } from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
+import { isArray } from "util";
 
-import {Car} from "../../../../shared/models/entities/car";
-import {RestCarService} from "../../../../core/services/rest/rest-car.service";
-import {CarsService} from "../../../../core/services/datas/cars.service";
-
-import {Brand} from "../../../../shared/models/entities/brand";
-import {RestBrandService} from "../../../../core/services/rest/rest-brand.service";
-import {Model} from "../../../../shared/models/entities/model";
-import {RestModelService} from "../../../../core/services/rest/rest-model.service";
-import {Place} from "../../../../shared/models/entities/place";
-import {RestPlaceService} from "../../../../core/services/rest/rest-place.service";
+import { Car } from "../../../../shared/models/entities/car";
+import { RestCarService } from "../../../../core/services/rest/rest-car.service";
+import { Place } from "../../../../shared/models/entities/place";
+import { RestPlaceService } from "../../../../core/services/rest/rest-place.service";
+import { Ride } from '../../../../shared/models/entities/ride';
+import { RestRideService } from '../../../../core/services/rest/rest-ride.service';
+import { RidesService } from '../../../../core/services/datas/rides.service';
+import {AuthenticationService} from '../../../../core/services/authentication/authentication.service';
 
 @Component({
-  selector: 'app-one-car',
+  selector: 'app-one-ride',
   templateUrl: './one-ride.component.html',
   styleUrls: ['./one-ride.component.scss']
 })
 export class OneRideComponent implements OnInit {
 
-
   /**
    * Gère les valeurs des champs du formulaire ainsi que leur validité
    * @type {FormGroup}
-   * @memberof AddPlaceComponent
+   * @memberof OneRideComponent
    */
-  public carForm: FormGroup;
-  public car: Car;
-  public queryCarId: string = null; // Null: add place, id: show and update place
+  public rideForm: FormGroup;
+  public ride: Ride;
+  public queryRideId: string = null; // Null: add place, id: show and update place
   public isToUpdate: boolean = false;
-  public brands: Brand[];
-  public selectBrand: Brand;
-  public models: Model[];
-  public selectModel: Model;
+  public cars: Car[];
+  public selectCar: Car;
   public sites: Place[];
-  public selectSite: Place;
+  public selectDepartureSite: Place;
   public formMode: FormMode = FormMode.show;
+
   /**
    * Liste de tous les lieux
    * @type {Car[]}
-   * @memberof OneRideComponent
+   * @memberof OneCarComponent
    */
-  cars: Car[];
+  rides: Ride[];
 
   /**
-   * Creates an instance of OneRideComponent.
+   * Creates an instance of OneCarComponent.
    * @param formBuilder
    * @param router
    * @param activatedRoute
    * @param restCar
-   * @param carsService
+   * @param restRide
+   * @param ridesService
    * @param messagesService
    * @param dialog
-   * @param restBrand
-   * @param restModel
    * @param restSite
-   * @memberof OneRideComponent
+   * @param userService
+   * @memberof OneCarComponent
    */
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private restCar: RestCarService,
-    private carsService: CarsService,
+    private restRide: RestRideService,
+    private ridesService: RidesService,
     private messagesService: MessagesService,
     public dialog: MatDialog,
-    private restBrand: RestBrandService,
-    private restModel: RestModelService,
-    private restSite: RestPlaceService
+    private restCar: RestCarService,
+    private restSite: RestPlaceService,
+    private userService: AuthenticationService
   ) {
-    this.carForm = this.formBuilder.group({
-      matricule: ['', Validators.pattern('[A-Za-z]{2}-[0-9]{3}-[A-Za-z]{2}')],
-      power: ['', Validators.required],
-      vin: ['', Validators.pattern('[A-Za-z0-9]{17}')],
-      places: [''],
-      odometer: ['', Validators.required],
-      insuranceDate: [''],
-      serviceValidityDate: [''],
-      carBrand: ['', Validators.required],
-      carModel: ['', Validators.required],
-      carSite: ['', Validators.required],
-
+    this.rideForm = this.formBuilder.group({
+      departureDate: ['', Validators.required],
+      departureSite: ['', Validators.required],
+      arrivalDate: [''],
+      arrivalSite: [''],
+      car: ['', Validators.required],
+      description: ['']
     });
   }
 
-  // convenience getter for easy access to form fields
-  /**
-   * Renvoie les controles des champs du formulaire
-   * @readonly
-   * @memberof AddFamilyFormComponent
-   */
-  get f() {
-    return this.carForm.controls;
-  }
-
-  get matriculeFormControl() {
-    return this.carForm.get('matricule')
-  }
-
-  get powerFormControl() {
-    return this.carForm.get('power')
-  }
-
-  get odometerFormControl() {
-    return this.carForm.get('odometer')
-  }
-
-  //
-  // ngOnInit() {
-  //   this.carService.$carSelected
-  //     .subscribe( carSelected =>
-  //       this.car = carSelected
-  //     );
-  //   this.carService.$cars
-  //     .subscribe( cars =>
-  //       this.cars = cars
-  //     );
-  // }
-
-  get placesFormControl() {
-    return this.carForm.get('places')
-  }
-
-  get insuranceFormControl() {
-    return this.carForm.get('insuranceDate')
-  }
-
-  get serviceFormControl() {
-    return this.carForm.get('serviceValidityDate')
-  }
-
-  get brandFormControl() {
-    return this.carForm.get('carBrand')
-  }
-
-  get modelFormControl() {
-    return this.carForm.get('carModel')
-  }
-
-  get siteFormControl() {
-    return this.carForm.get('carSite')
-  }
-
-  get vinFormControl() {
-    return this.carForm.get('vin')
-  }
-
-  public compareWithFn = (currentBrand: Brand) => {
-    // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
-    if (!this.car) return false;
-    return currentBrand.brandId == this.car.carBrand.brandId;
-  };
-
-  public compareWithFnModel = (currentModel: Model) => {
-    // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
-    if (!this.car) return false;
-    return currentModel.modelId == this.car.carModel.modelId;
-  };
-
-  public compareWithFnSite = (currenSite: Place) => {
-    // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
-    if (!this.car) return false;
-    return currenSite.siteId == this.car.carSite.siteId;
-  };
-
   /**
    * Récupère les données des lieux au chargement du composant
-   * @memberof OneRideComponent
+   * @memberof OneCarComponent
    */
   ngOnInit() {
-    this.carForm.reset();
+    this.rideForm.reset();
     this.populateQueryParams();
-    //Récupération de toutes les marques de voiture
-    this.populateBrands();
     this.populateSites();
-    //Si un id a été passé en paramètre de la route,
-    //le composant est en mode affichage d'un site (ou modification si l'utilisateur clic sur le bouton edit)
-    //Si pas d'id, mode création d'un nouveau site
-    this.queryCarId ? this.showAndUpdateCar(this.queryCarId) : this.createCar();
-
-    // appeler les deux API getBrands
+    this.queryRideId ? this.showAndUpdateRide(this.queryRideId) : this.createRide();
   }
 
   /**
-   * Initialisation du mode affichage et mise à jour d'un site
+   * Initialisation du mode affichage et mise à jour d'un trajet
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
-  showAndUpdateCar(queryCarId: string) {
-    this.populateCar(queryCarId);
+  showAndUpdateRide(queryRideId: string) {
+    console.log(queryRideId);
+    this.populateRide(queryRideId);
   }
 
   /**
-   * Initialisation du mode création d'un nouveau site
+   * Initialisation du mode création d'un nouveau trajet
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
-  createCar() {
+  createRide() {
     this.formMode = FormMode.create;
     this.updateDefaultFormValue(this.formMode)
   };
 
   /**
-   * Récupération des données du site pour affichage
+   * Récupération des données du trajet pour affichage
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
-
-  populateCar(queryCarId: string) {
-    this.restCar.getCar(queryCarId)
-      .subscribe(car => {
-          this.car = car;
-          this.updateDefaultFormValue(FormMode.show, car);
+  populateRide(queryRideId: string) {
+    this.restRide.getRide(queryRideId)
+      .subscribe(ride => {
+          this.ride = ride;
+          this.updateDefaultFormValue(FormMode.show, ride);
         },
         (error => {
           throw new Error(error)
-        })), catchError((error: any) => {
-      this.messagesService.openSnackBar('Une erreur interne est survenue', 5000, 'danger', error);
-      return of([]);
-    });
+        })
+      ), catchError((error: any) => {
+        this.messagesService.openSnackBar('Une erreur interne est survenue', 5000, 'danger', error);
+        return of([]);
+      });
   }
 
+
   /**
-   * Mise à jour des valeurs du formulaire du site
-   * Mode création: champs vides et présence des champs zipCode et city
-   * Mode affichage et mise à jour: champs préremplis avec les valeurs du site et
-   * absence des champs zipCode et city (inclus dans le champ address)
+   * Mise à jour des valeurs du formulaire du trajet
+   * Mode création : champs vides
+   * Mode affichage et mise à jour : champs préremplis avec les valeurs du trajets
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
-  updateDefaultFormValue(formMode: FormMode, car?: Car) {
-    console.log('car: ' + JSON.stringify(car));
-    if ((formMode == FormMode.show || formMode == FormMode.update) && car) {
-      this.f.matricule.setValue(car.matricule);
-      this.f.power.setValue(car.power);
-      this.f.places.setValue(car.places);
-      this.f.odometer.setValue(car.odometer);
-      this.f.vin.setValue(car.vin);
-      if (car.carBrand) this.selectBrand = car.carBrand;
-      this.f.carBrand.setValue(car.carBrand.brandName);
-      if (car.carModel) this.selectModel = car.carModel;
-      this.f.carModel.setValue(car.carModel.modelName);
-      if (car.carSite) this.selectSite = car.carSite;
-      this.f.carSite.setValue(car.carSite.siteName);
-      this.f.insuranceDate.setValue(car.insuranceDate);
-      this.f.serviceValidityDate.setValue(car.serviceValidityDate);
-    } else {
-      this.f.matricule.setValue('');
-      this.f.power.setValue('');
-      this.f.places.setValue('');
-      this.f.odometer.setValue('');
-      this.f.vin.setValue('');
-      this.f.carBrand.setValue('');
-      this.f.carModel.setValue('');
-      this.f.carSite.setValue('');
-      this.f.insuranceDate.setValue('');
-      this.f.serviceValidityDate.setValue('');
+  updateDefaultFormValue(formMode: FormMode, ride?: Ride) {
+    console.log('Ride: ' + JSON.stringify(ride));
+    if ((formMode == FormMode.show || formMode == FormMode.update) && ride) {
+      this.f.departureDate.setValue(ride.departureDate);
+      this.f.departureSite.setValue(ride.departureSite);
+      if (ride.arrivalDate) this.f.arrivalDate.setValue(ride.arrivalDate);
+      if (ride.arrivalSite) this.f.arrivalSite.setValue(ride.arrivalSite);
+      this.f.car.setValue(ride.car);
+      if (ride.description) this.f.description.setValue(ride.description);
     }
-
+    else {
+      this.f.departureDate.setValue('');
+      this.f.departureSite.setValue('');
+      this.f.arrivalDate.setValue('');
+      this.f.arrivalSite.setValue('');
+      this.f.car.setValue('');
+      this.f.description.setValue('');
+    }
   }
 
+
   /**
-   * Récupération de l'id du site passé en paramètre de la route
+   * Récupération de l'id du trajet passé en paramètre de la route
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
   populateQueryParams() {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.queryCarId = params['carId'] ? params['carId'] : null;
-      console.log('queryCarId: ' + this.queryCarId);
+      this.queryRideId = params['rideId'] ? params['rideId'] : null;
     });
+  }
+
+  /**
+   * Renvoie les controles des champs du formulaire
+   * @readonly
+   * @memberof OneRideComponent
+   */
+  get f() {
+    return this.rideForm.controls;
+  }
+
+  get departureDateFormControl() {
+    return this.rideForm.get('departureDate')
+  }
+
+  get departureSiteFormControl() {
+    return this.rideForm.get('departureSite')
+  }
+
+  get arrivalDateFormControl() {
+    return this.rideForm.get('arrivalDate')
+  }
+
+  get arrivalSiteFormControl() {
+    return this.rideForm.get('arrivalSite')
+  }
+
+  get carFormControl() {
+    return this.rideForm.get('car')
+  }
+
+  get descriptionFormControl() {
+    return this.rideForm.get('description')
   }
 
   /**
    * Gestion du clic sur le bouton d'action
-   * Permet de valide la création d'un site,
-   * la mise à jour d'un site et son affichage static
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
-  onClickBtnCar(formMode: FormMode) {
+  onClickBtnRide(formMode: FormMode) {
     if (formMode == FormMode.create) {
-      this.addCar();
+      this.addRide();
       this.formMode = FormMode.show;
       return
     }
-
-    if (formMode == FormMode.show) {
+    else if (formMode == FormMode.show) {
       this.formMode = FormMode.update;
       return
     }
-
-    if (formMode == FormMode.update) {
-      this.updateCar();
+    else if (formMode == FormMode.update) {
+      this.updateRide();
       this.formMode = FormMode.show;
       return
     }
@@ -309,111 +232,98 @@ export class OneRideComponent implements OnInit {
   /**
    * Gestion du clic sur le bouton suppression
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
   onClickDelete() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "250px",
       data: {
         title: "Confirmer",
-        msg: "Le véhicule " + this.car.matricule + " va être supprimé"
+        msg: "Le trajet du " + this.ride.departureDate + " va être supprimé"
       }
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
       console.log('dialogResult: ' + dialogResult);
-      if (dialogResult) this.updateCar(true);
+      if (dialogResult) this.updateRide(true);
     });
   }
 
 
   /**
-   * Validation et enregistrement éventuel des valeurs du formulaire d'ajout d'un lieu
+   * Ajout d'un trajet
    * @returns
-   * @memberof AddPlaceComponent
+   * @memberof OneRideComponent
    */
-  addCar() {
-
-    // stop here if form is invalid
-    if (this.carForm.invalid) {
+  addRide() {
+    if (this.rideForm.invalid) {
       return;
     }
 
     try {
-      let car: Car = new Car(
+      let ride = new Ride(
         null,
-        this.carForm.value.matricule,
-        Number(this.carForm.value.power),
-        Number(this.carForm.value.places),
-        Number(this.carForm.value.odometer),
-        this.carForm.value.insuranceDate,
-        this.carForm.value.vin,
-        this.carForm.value.carBrand,
-        this.carForm.value.carModel,
-        this.carForm.value.carSite,
-        this.carForm.value.serviceValidityDate,
-        false
+        this.rideForm.value.departureDate,
+        this.rideForm.value.departureSite,
+        this.rideForm.value.arrivalDate,
+        this.rideForm.value.arrivalSite,
+        this.rideForm.value.car,
+        this.rideForm.value.description,
+        this.userService.currentUserValue,
       );
 
-      console.log("result du form : ", car)
+      console.log("Result du form : ", ride);
 
-      this.restCar.addCar(car).subscribe(car => {
+      this.restRide.addRide(ride).subscribe(ride => {
+        this.ride = ride;
+        this.ridesService.nextRideCreated(ride);
+        this.messagesService.openSnackBar(
+          'Création du trajet du ' + ride.departureDate + ' au départ de ' + ride.departureSite.siteName + ' enregistrée',
+          5000, 'success'
+        );
 
-        this.car = car;
-        this.carsService.nextCarCreated(car);
-
-        this.messagesService.openSnackBar('Création du véhicule ' + car.matricule + ' enregistrée', 5000, 'success');
-
-        this.showAndUpdateCar(car.carId.toString());
+        this.showAndUpdateRide(ride.rideId.toString());
 
       }, error => {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
       });
 
     } catch (error) {
-      this.messagesService.openSnackBar('Une erreur est survenue lors de la création du site', 5000, 'danger', error);
+      this.messagesService.openSnackBar('Une erreur est survenue lors de la création du trajet', 5000, 'danger', error);
     }
 
   }
 
 
   /**
-   * Validation et modification des valeurs du formulaire d'ajout d'un lieu
+   * Update d'un trajet
    * @returns
-   * @memberof AddPlaceComponent
+   * @memberof OneRideComponent
    */
-  updateCar(isDeleted: boolean = false) {
-
-    // stop here if form is invalid
-    if (this.carForm.invalid) {
+  updateRide(isDeleted: boolean = false) {
+    if (this.rideForm.invalid) {
       return;
     }
 
     try {
+      let ride: Ride = this.ride;
+      ride.departureDate = this.rideForm.value.departureDate;
+      ride.departureSite = this.rideForm.value.departureSite;
+      ride.arrivalDate = this.rideForm.value.arrivalDate;
+      ride.arrivalSite = this.rideForm.value.arrivalSite;
+      ride.car = this.rideForm.value.car;
+      ride.description = this.rideForm.value.description;
 
-      let car: Car = this.car;
-      car.matricule = this.carForm.value.matricule;
-      car.power = this.carForm.value.power;
-      car.places = this.carForm.value.places;
-      car.odometer = this.carForm.value.odometer;
+      if (isDeleted) this.restRide.deleteRide(ride);
 
-      car.insuranceDate = this.carForm.value.insuranceDate;
-      car.vin = this.carForm.value.vin;
-      car.carBrand = this.selectBrand;
-      car.carModel = this.selectModel;
-      car.carSite = this.selectSite;
-      car.serviceValidityDate = this.carForm.value.serviceValidityDate;
-      if (isDeleted) car.archived = true;
-
-      this.restCar.updateCar(car).subscribe(car => {
-
-        this.car = car;
-        this.f.carBrand.setValue(car.carBrand.brandName);
-        this.f.carModel.setValue(car.carModel.modelName);
-        this.f.carSite.setValue(car.carSite.siteName);
-        this.carsService.nextCarUpdated(car);
+      this.restRide.updateRide(ride).subscribe(ride => {
+        this.ride = ride;
+        this.f.departureSite.setValue(ride.departureSite);
+        if (ride.arrivalSite) this.f.arrivalSite.setValue(ride.arrivalSite);
+        this.f.car.setValue(ride.car);
+        this.ridesService.nextRideUpdated(ride);
 
         let msg: string = isDeleted ? 'Suppression' : 'Modification';
-        this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
+        this.messagesService.openSnackBar(msg + ' du trajet du ' + ride.departureDate, 5000, 'success');
 
         if (isDeleted) this.onClickClose();
 
@@ -422,89 +332,25 @@ export class OneRideComponent implements OnInit {
       });
 
     } catch (error) {
-      this.messagesService.openSnackBar('Une erreur est survenue lors de la création du véhicule', 5000, 'danger', error);
+      this.messagesService.openSnackBar('Une erreur est survenue lors de la modification du trajet', 5000, 'danger', error);
     }
 
   }
 
   /**
    * Gestion du clic sur le bouton fermer
-   * Renvoie l'utilisateur à la liste des sites
+   * Renvoie l'utilisateur à la liste des trajets
    * @readonly
-   * @memberof AddFamilyFormComponent
+   * @memberof OneRideComponent
    */
   onClickClose() {
-    this.router.navigate(['/protected/admin/manage-car/manage-car']);
+    this.router.navigate(['/protected/user/manage-ride/manage-ride']);
   }
 
   /**
-   * Récupération des données des marques
+   * Récupération des données des sites
    * @readonly
-   * @memberof oneModelFormComponent
-   */
-  populateBrands() {
-    this.restBrand.getBrands()
-      .subscribe((brands: Brand[]) => {
-          this.brands = this.removeDeletedBrands(brands);
-        },
-        (error => {
-          throw new Error(error)
-        })), catchError((error: any) => {
-      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des marques', 5000, 'danger', error);
-      return of([]);
-    });
-  }
-
-  /**
-   * Supprime les marques supprimés (état archivé) de la liste des marques à afficher
-   */
-  removeDeletedBrands(brands: Brand[]) {
-    if (brands && isArray(brands)) return brands.filter(b => !b.archived);
-    return brands;
-  }
-
-  onSelectionChangeBrand(brand: Brand) {
-    if (brand) this.selectBrand = brand;
-    //Récupération de toutes les marques de voiture
-    if (brand) this.populateModels(brand.brandId);
-  }
-
-  /**
-   * Récupération des données des marques
-   * @readonly
-   * @memberof oneModelFormComponent
-   */
-  populateModels(idBrand) {
-    this.restModel.getModelByBrand(idBrand.toString())
-      .subscribe((models: Model[]) => {
-          this.models = this.removeDeletedModels(models);
-        },
-        (error => {
-          throw new Error(error)
-        })), catchError((error: any) => {
-      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des models', 5000, 'danger', error);
-      return of([]);
-    });
-  }
-
-  /**
-   * Supprime les marques supprimés (état archivé) de la liste des marques à afficher
-   */
-  removeDeletedModels(models: Model[]) {
-    if (models && isArray(models)) return models.filter(b => !b.archived);
-    return models;
-  }
-
-  onSelectionChangeModel(model: Model) {
-    if (model) this.selectModel = model;
-
-  }
-
-
-  /**
-   * Récupération des données des marques
-   * @readonly
-   * @memberof oneModelFormComponent
+   * @memberof OneRideComponent
    */
   populateSites() {
     this.restSite.getPlaces()
@@ -514,13 +360,13 @@ export class OneRideComponent implements OnInit {
         (error => {
           throw new Error(error)
         })), catchError((error: any) => {
-      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des marques', 5000, 'danger', error);
+      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des sites', 5000, 'danger', error);
       return of([]);
     });
   }
 
   /**
-   * Supprime les marques supprimés (état archivé) de la liste des marques à afficher
+   * Supprime les sites supprimés (état archivé) de la liste des sites à afficher
    */
   removeDeletedSites(sites: Place[]) {
     if (sites && isArray(sites)) return sites.filter(b => !b.archived);
@@ -528,8 +374,39 @@ export class OneRideComponent implements OnInit {
   }
 
   onSelectionChangeSite(site: Place) {
-    if (site) this.selectSite = site;
+    if (site) {
+      this.selectDepartureSite = site;
+      this.populateCars(site.siteId);
+    }
   }
 
+  /**
+   * Récupération des données des voitures
+   * @readonly
+   * @memberof OneRideComponent
+   */
+  populateCars(idCar) {
+    this.restCar.getCarByPlace(idCar.toString())
+      .subscribe((cars: Car[]) => {
+          this.cars = this.removeDeletedCars(cars);
+        },
+        (error => {
+          throw new Error(error)
+        })), catchError((error: any) => {
+      this.messagesService.openSnackBar('Une erreur interne est survenue lors de la récupération des voitures', 5000, 'danger', error);
+      return of([]);
+    });
+  }
 
+  /**
+   * Supprime les voitures supprimés (état archivé) de la liste des voitures à afficher
+   */
+  removeDeletedCars(cars: Car[]) {
+    if (cars && isArray(cars)) return cars.filter(c => !c.archived);
+    return cars;
+  }
+
+  onSelectionChangeCar(car: Car) {
+    if (car) this.selectCar = car;
+  }
 }

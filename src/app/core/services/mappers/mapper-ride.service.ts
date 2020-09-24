@@ -38,7 +38,7 @@ export class MapperRideService {
    */
   public mapRide(ride: IRide): Ride {
     return new Ride(
-      Number(ride.rideId),
+      Number(ride.bookingId),
       ride.departureDate,
       this.mapperPlace.mapPlace(ride.departureSite),
       ride.arrivalDate,
@@ -57,7 +57,7 @@ export class MapperRideService {
    */
   mapIRide(ride: Ride): IRide {
     return {
-      rideId: String(ride.rideId),
+      bookingId: String(ride.rideId),
       departureDate: ride.departureDate,
       departureSite: this.mapperPlace.mapIPlace(ride.departureSite),
       arrivalDate: ride.arrivalDate,

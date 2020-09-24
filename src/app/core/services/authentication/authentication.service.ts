@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import * as jwt_decode from "jwt-decode";
@@ -49,6 +49,7 @@ export class AuthenticationService {
    * Creates an instance of AuthenticationService.
    * @param {HttpClient} http
    * @param {Router} router
+   * @param mapperUser
    * @memberof AuthenticationService
    */
   constructor(
@@ -192,7 +193,7 @@ export class AuthenticationService {
   }*/
 
   /**
-   * Retourne le token décodé
+   * Retourne le token décodcurrentUserValueé
    * @param {string} token JWT token
    * @returns {*} Token décodé
    * @memberof AuthenticationService
