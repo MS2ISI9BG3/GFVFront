@@ -3,7 +3,7 @@ import {ICar} from "./iCar";
 import {IUser} from "./iUser";
 
 export interface IRide {
-  rideId: string;
+  bookingId: string;
   departureDate: string;
   departureSite: IPlace;
   arrivalDate: string;
