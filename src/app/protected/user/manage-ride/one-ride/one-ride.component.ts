@@ -100,7 +100,7 @@ export class OneRideComponent implements OnInit {
    * @memberof OneRideComponent
    */
   showAndUpdateRide(queryRideId: string) {
-    console.log(queryRideId);
+    console.log("== DEBUG SHOW AND UPDATE RIDE ==" + queryRideId);
     this.populateRide(queryRideId);
   }
 
@@ -120,6 +120,7 @@ export class OneRideComponent implements OnInit {
    * @memberof OneRideComponent
    */
   populateRide(queryRideId: string) {
+    console.log("== DEBUG POPULATE RIDE == " + queryRideId);
     this.restRide.getRide(queryRideId)
       .subscribe(ride => {
           this.ride = ride;
@@ -171,6 +172,7 @@ export class OneRideComponent implements OnInit {
   populateQueryParams() {
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryRideId = params['rideId'] ? params['rideId'] : null;
+      console.log("== DEBUG POPULATE QUERY PARAMS RIDE ID == " + this.queryRideId);
     });
   }
 
@@ -287,6 +289,8 @@ export class OneRideComponent implements OnInit {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
       });
 
+      console.log("== DEBUG RIDE ID TO STRING == " + ride.rideId.toString());
+
     } catch (error) {
       this.messagesService.openSnackBar('Une erreur est survenue lors de la création du trajet', 5000, 'danger', error);
     }
@@ -304,6 +308,8 @@ export class OneRideComponent implements OnInit {
       return;
     }
 
+    console.log("== DEBUG UPDATE == " + this.ride);
+
     try {
       let ride: Ride = this.ride;
       ride.departureDate = this.rideForm.value.departureDate;
@@ -317,9 +323,9 @@ export class OneRideComponent implements OnInit {
 
       this.restRide.updateRide(ride).subscribe(ride => {
         this.ride = ride;
-        this.f.departureSite.setValue(ride.departureSite);
-        if (ride.arrivalSite) this.f.arrivalSite.setValue(ride.arrivalSite);
-        this.f.car.setValue(ride.car);
+        this.f.departureSite.setValue(ride.departureSite.siteName);
+        if (ride.arrivalSite) this.f.arrivalSite.setValue(ride.arrivalSite.siteName);
+        this.f.car.setValue(ride.car.carBrand + " " + ride.car.carModel);
         this.ridesService.nextRideUpdated(ride);
 
         let msg: string = isDeleted ? 'Suppression' : 'Modification';

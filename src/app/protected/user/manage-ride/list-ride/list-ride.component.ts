@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {Ride} from "../../../../shared/models/entities/ride";
 import {RestRideService} from "../../../../core/services/rest/rest-ride.service";
 import {ManagerRideService} from "../services/manager-ride.service";
-import {Place} from "../../../../shared/models/entities/place";
+import {AuthenticationService} from '../../../../core/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-list-ride',
@@ -20,23 +20,18 @@ export class ListRideComponent implements OnInit {
   rides: Ride[] = [];
 
   /**
-   * Tableau contenant tous les lieux après application des filtres pour affichage
-   * @type {Place[]}
-   * @memberof ListPlaceComponent
-   */
-  ridesFiltered: Ride[] = [];
-
-  /**
    * Creates an instance of ListRideComponent.
    * @param {RestRideService} restRide - Service appel à l'API Rest
    * @param {Router} router Angular Router
    * @param {ManagerRideService} rideService - Service gérant les trajets
+   * @param userService
    * @memberof ListRideComponent
    */
   constructor(
     private restRide: RestRideService,
     private router: Router,
-    private rideService: ManagerRideService
+    private rideService: ManagerRideService,
+    private userService: AuthenticationService
   ) {
   }
 
@@ -45,7 +40,7 @@ export class ListRideComponent implements OnInit {
    * @memberof ListRideComponent
    */
   ngOnInit() {
-    this.restRide.getRides()
+    this.restRide.getRidesByLogin(this.userService.currentUserValue.id)
       .subscribe(rides => {
         this.rides = rides;
         this.rideService.changeRides(rides);
@@ -68,5 +63,11 @@ export class ListRideComponent implements OnInit {
     });
   }
 
-
+  /**
+   * Ajout d'un trajet
+   * @memberOf ListRideComponent
+   */
+  onClickAddRide() {
+    this.router.navigate(['/protected/user/manage-ride/one-ride'])
+  }
 }

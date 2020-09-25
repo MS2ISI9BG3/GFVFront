@@ -99,4 +99,15 @@ export class RestRideService {
         catchError(error => of(error))
       );
   }
+
+  public getRides() {
+    return this.http.get<IRide[]>(this.baseUrl, this.httpOptions)
+      .pipe(
+        map(rides => {
+            return this.mapperRide.mapRides(rides);
+          },
+          error => Observable.throw(error)),
+        catchError(error => of(error))
+      );
+  }
 }

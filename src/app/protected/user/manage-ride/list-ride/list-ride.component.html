@@ -1,28 +1,18 @@
-<div class="d-flex flex-column justify-content-center w-100">
-  <!--  <mat-card *ngFor="let ride of rides;" class="d-flex w-75 mx-auto my-3 justify-content-around">
-      <mat-card-content>
-        <mat-card-title>{{ ride.departureDate }}</mat-card-title>
-        <mat-card-subtitle>{{ ride.departureStart }} &#8594; {{ ride.departureEnd }}</mat-card-subtitle>
+<mat-card class="card" *ngFor="let ride of rides;" (click)="onClickRide(ride)">
+  <mat-card-header>
+    <div mat-card-avatar fxLayoutAlign="center center">
+      <mat-icon mat-list-icon>insights</mat-icon>
+    </div>
+    <mat-card-title>{{ ride.departureSite.siteName}} - {{ ride.arrivalSite.siteName}}</mat-card-title>
+    <mat-card-subtitle>Du {{ ride.departureDate }} au {{ ride.arrivalDate }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    Status : En attente de validation
+  </mat-card-content>
+</mat-card>
 
-        &lt;!&ndash; If ride is started &ndash;&gt;
-        <div *ngIf="ride.state == 'Started'" class="d-flex justify-content-around">
-          <button color="primary" mat-button routerLink="/protected/user/report/add-report">INCIDENT</button>
-          <button (click)="OnChangeState(ride, 'Finished')" color="primary" mat-button>FIN</button>
-        </div>
 
-        &lt;!&ndash; If ride is not started &ndash;&gt;
-        <div *ngIf="ride.state == 'Not started'" class="d-flex">
-          <button (click)="OnChangeState(ride, 'Started')" color="primary" mat-button>DEBUT</button>
-          <button (click)="OnChangeState(ride, 'Canceled')" color="primary" mat-button>ANNULER</button>
-        </div>
-      </mat-card-content>
-
-      <div class="d-flex align-items-center justify-content-center">
-        <img alt="icon-trip" class="icon-trip" mat-card-image src="assets/img/icons/icon-trip.png">
-      </div>
-    </mat-card>-->
-
-  <button class="m-auto" color="primary" mat-raised-button routerLink="/protected/user/manage-ride/add-ride">&#9654;
-    Emprunter un véhicule
-  </button>
-</div>
+<!--Bouton plus pour ajouter un lieu-->
+<button mat-fab color="primary" class="btn-add" (click)="onClickAddRide()">
+  <mat-icon>add</mat-icon>
+</button>
