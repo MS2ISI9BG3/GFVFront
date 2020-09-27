@@ -91,7 +91,7 @@
         required
       >
         <mat-option *ngFor="let car of cars" [value]="car">
-          {{ car.carBrand.brandName + " " + car.carModel.modelName }}
+          {{ car.carBrand.brandName + " " + car.carModel.modelName }} {{ car?.matricule | uppercase }}
         </mat-option>
       </mat-select>
       <mat-error
