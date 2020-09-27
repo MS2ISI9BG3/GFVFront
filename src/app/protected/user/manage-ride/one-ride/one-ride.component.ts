@@ -273,7 +273,7 @@ export class OneRideComponent implements OnInit {
         this.userService.currentUserValue,
       );
 
-      console.log("Result du form : ", ride);
+      console.log("Result du form : ", JSON.stringify(ride));
 
       this.restRide.addRide(ride).subscribe(ride => {
         this.ride = ride;
@@ -289,7 +289,9 @@ export class OneRideComponent implements OnInit {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
       });
 
-      console.log("== DEBUG RIDE ID TO STRING == " + ride.rideId.toString());
+      //Résultat du log impossible, ride est dans le résultat d'une requête asynchrone
+      //Le log avec est donc appelé avant d'avoir le résultat (ride = undefined)
+      //console.log("== DEBUG RIDE ID TO STRING == " + ride.rideId.toString());
 
     } catch (error) {
       this.messagesService.openSnackBar('Une erreur est survenue lors de la création du trajet', 5000, 'danger', error);

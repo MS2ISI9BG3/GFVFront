@@ -83,28 +83,28 @@ export class User {
     constructor(
         id: number,
         login: string,
-        password: string,
-        firstName: string,
-        lastName: string,
-        email: string,
-        authorities: string[],
-        isActivated: boolean,
-        isArchived: boolean,
+        password?: string,
+        firstName?: string,
+        lastName?: string,
+        email?: string,
+        authorities?: string[],
+        isActivated?: boolean,
+        isArchived?: boolean,
         token?: string,
         phoneNumber?: string ) {
 
             this._id = id;
             this._login = login;
-            this._password = password;
-            this._firstName = firstName;
-            this._lastName = lastName;
-            this._email = email;
-            this._activated = isActivated;
-            this._archived = isArchived;
+            this._password = password || '';
+            this._firstName = firstName || '';
+            this._lastName = lastName || '';
+            this._email = email || '';
+            this._activated = isActivated || null;
+            this._archived = isArchived || null;
             console.log('authorities: '+JSON.stringify(authorities));
-            console.log('isArray(authorities): '+isArray(authorities));
-            console.log('authorities.find: '+authorities.find( a => a == 'ROLE_ADMIN' ));
-            if (authorities && isArray(authorities)) {
+            //console.log('isArray(authorities): '+isArray(authorities));
+            //console.log('authorities.find: '+authorities.find( a => a == 'ROLE_ADMIN' ));
+            if (authorities && authorities != undefined && isArray(authorities) && authorities != []) {
                 (authorities.find( a => a == 'ROLE_ADMIN' ) != undefined) ? this._isAdmin = true : this._isAdmin = false;
             } else this._isAdmin = false;
             this._token = token || '';
