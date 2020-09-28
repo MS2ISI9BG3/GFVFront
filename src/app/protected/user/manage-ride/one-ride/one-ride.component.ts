@@ -167,7 +167,7 @@ export class OneRideComponent implements OnInit {
       if (ride.arrivalSite) this.selectArrivalSite = ride.arrivalSite;
       if (ride.arrivalSite) this.f.arrivalSite.setValue(ride.arrivalSite.siteName);
       this.selectCar = ride.car;
-      this.f.car.setValue(ride.car.carBrand.brandName + '' + ride.car.carModel.modelName + ' ' + ride.car.matricule);
+      this.f.car.setValue(ride.car.carBrand.brandName + ' ' + ride.car.carModel.modelName + ' ' + ride.car.matricule);
       if (ride.description) this.f.description.setValue(ride.description);
     }
     else {
@@ -237,6 +237,7 @@ export class OneRideComponent implements OnInit {
       return
     }
     else if (formMode == FormMode.show) {
+      if ( this.ride ) this.populateCars(this.ride.departureSite.siteId);
       this.formMode = FormMode.update;
       return
     }
@@ -406,10 +407,11 @@ export class OneRideComponent implements OnInit {
    * @readonly
    * @memberof OneRideComponent
    */
-  populateCars(idCar) {
-    this.restCar.getCarByPlace(idCar.toString())
+  populateCars(idPlace) {
+    this.restCar.getCarByPlace(idPlace.toString())
       .subscribe((cars: Car[]) => {
           this.cars = this.removeDeletedCars(cars);
+          if ( this.formMode == FormMode.update && this.selectCar ) this.cars.push(this.selectCar);
         },
         (error => {
           throw new Error(error)
