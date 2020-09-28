@@ -9,6 +9,7 @@ import { JwtInterceptorService } from './services/helpers/jwt-interceptor.servic
 import { MenuHeaderComponent } from './menu-components/menu-header/menu-header.component';
 import { MenuContentComponent } from './menu-components/menu-content/menu-content.component';
 import { MaterialModule } from '../shared/dependencies/material-module';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 /**
  * Rôle: démarer l'application
@@ -35,7 +36,8 @@ import { MaterialModule } from '../shared/dependencies/material-module';
   ],
   exports: [],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    DeviceDetectorService
   ]
 })
 export class CoreModule {

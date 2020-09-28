@@ -1,7 +1,8 @@
 <mat-toolbar class="menu-toolbar toolbar-height" color="primary">
-    <button mat-icon-button (click)="onClickMenuIcon()" onclick="this.blur()" *ngIf="user"><!--(click)="sidenav.toggle()"-->
+    <button mat-icon-button (click)="onClickMenuIcon()" onclick="this.blur()" *ngIf="user && showIconMenu"><!--(click)="sidenav.toggle()"-->
         <mat-icon>menu</mat-icon>
     </button>
+    <div class="menu-space" *ngIf="!showIconMenu"></div>
     <span>{{ title | firstLetterCase }}</span>
     <span class="spacer"></span>
 </mat-toolbar>

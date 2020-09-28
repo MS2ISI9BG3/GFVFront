@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { Router, NavigationEnd } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -12,12 +13,16 @@ export class AppComponent implements OnInit {
 
   @ViewChild('sidenav', { static: false }) public sidenav: MatSidenav;
   public isToolbar: boolean = true;
+  public navMode: 'over' | 'push' | 'side' = 'over';
+  public navOpened: boolean = false;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private deviceService: DeviceDetectorService
   ) { }
 
   ngOnInit() {
+    this.initMenu();
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd)
@@ -29,12 +34,23 @@ export class AppComponent implements OnInit {
       });
   }
 
+  initMenu() {
+    if ( this.deviceService.isMobile() || this.deviceService.isTablet() ) {
+      this.navMode = 'over';
+      this.navOpened = false;
+    }
+    if ( this.deviceService.isDesktop() ) {
+      this.navMode = "side";
+      this.navOpened = true;
+    }
+  }
+
   onShowMenu() {
     this.sidenav.toggle();
   }
 
   onHideMenu() {
-    this.sidenav.close();
+    if ( this.deviceService.isMobile() || this.deviceService.isTablet() ) this.sidenav.close();
   }
 
 }

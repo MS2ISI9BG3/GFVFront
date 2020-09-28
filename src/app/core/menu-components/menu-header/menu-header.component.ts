@@ -5,6 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { pipe } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MatToolbar } from '@angular/material';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-menu-header',
@@ -17,15 +18,23 @@ export class MenuHeaderComponent implements OnInit {
   public user: User;
   public title: string = 'Parc véhivules';
   public isToolbar: boolean = true;
+  public showIconMenu: boolean = true;
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private deviceService: DeviceDetectorService
   ) { }
 
   ngOnInit() {
+    this.initIconMenu();
     this.user = this.authenticationService.currentUserValue;
     this.initTitle();
+  }
+
+  initIconMenu() {
+    if ( this.deviceService.isMobile() || this.deviceService.isTablet() ) this.showIconMenu = true;
+    if ( this.deviceService.isDesktop() ) this.showIconMenu = false;
   }
 
   /**
