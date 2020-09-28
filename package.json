@@ -32,6 +32,7 @@
     "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
+    "ngx-device-detector": "^2.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
