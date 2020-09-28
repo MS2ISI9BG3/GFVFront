@@ -1,0 +1,18 @@
+<mat-card class="card" *ngFor="let ride of rides;" (click)="onClickRide(ride)">
+  <mat-card-header>
+    <div mat-card-avatar fxLayoutAlign="center center">
+      <mat-icon mat-list-icon>insights</mat-icon>
+    </div>
+    <mat-card-title>{{ ride.departureSite.siteName}} - {{ ride.arrivalSite.siteName}}</mat-card-title>
+    <mat-card-subtitle>Du {{ ride.departureDate }} au {{ ride.arrivalDate }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    Status : En attente de validation
+  </mat-card-content>
+</mat-card>
+
+
+<!--Bouton plus pour ajouter un lieu-->
+<button mat-fab color="primary" class="btn-add" (click)="onClickAddRide()">
+  <mat-icon>add</mat-icon>
+</button>

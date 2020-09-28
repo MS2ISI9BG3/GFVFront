@@ -32,7 +32,7 @@ export class MenuContentComponent implements OnInit {
 
   onClickBorrow() {
     this.hideMenu.emit();
-    this.router.navigate(['protected/user/booking-ride/booking-ride']);
+    this.router.navigate(['protected/user/manage-ride/one-ride']);
   }
 
   onClickRide() {
