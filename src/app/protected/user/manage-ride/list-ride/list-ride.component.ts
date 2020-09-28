@@ -70,4 +70,13 @@ export class ListRideComponent implements OnInit {
   onClickAddRide() {
     this.router.navigate(['/protected/user/manage-ride/one-ride'])
   }
+
+  /**
+   * Gestion de l'événement clic sur la boutton fermer la fenêtre courante
+   * @memberof ListPlaceComponent
+   */
+  onClickClose() {
+    this.router.navigate(['/public']); //TODO navigate to home
+  }
+
 }
