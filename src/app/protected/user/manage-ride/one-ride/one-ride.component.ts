@@ -162,9 +162,12 @@ export class OneRideComponent implements OnInit {
     if ((formMode == FormMode.show || formMode == FormMode.update) && ride) {
       this.f.departureDate.setValue(ride.departureDate);
       this.selectDepartureSite = ride.departureSite;
+      this.f.departureSite.setValue(ride.departureSite.siteName);
       if (ride.arrivalDate) this.f.arrivalDate.setValue(ride.arrivalDate);
       if (ride.arrivalSite) this.selectArrivalSite = ride.arrivalSite;
+      if (ride.arrivalSite) this.f.arrivalSite.setValue(ride.arrivalSite.siteName);
       this.selectCar = ride.car;
+      this.f.car.setValue(ride.car.carBrand.brandName + '' + ride.car.carModel.modelName + ' ' + ride.car.matricule);
       if (ride.description) this.f.description.setValue(ride.description);
     }
     else {
