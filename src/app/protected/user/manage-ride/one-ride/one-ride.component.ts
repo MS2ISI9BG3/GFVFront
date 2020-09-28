@@ -38,6 +38,7 @@ export class OneRideComponent implements OnInit {
   public selectCar: Car;
   public sites: Place[];
   public selectDepartureSite: Place;
+  public selectArrivalSite: Place;
   public formMode: FormMode = FormMode.show;
 
   /**
@@ -94,13 +95,27 @@ export class OneRideComponent implements OnInit {
     this.queryRideId ? this.showAndUpdateRide(this.queryRideId) : this.createRide();
   }
 
+  public compareWithFnDepartureSite = (currentSite: Place) => {
+    if (!this.ride) return false;
+    return currentSite.siteId == this.ride.departureSite.siteId;
+  };
+
+  public compareWithFnArrivalSite = (currentSite: Place) => {
+    if (!this.ride) return false;
+    return currentSite.siteId == this.ride.arrivalSite.siteId;
+  };
+
+  public compareWithFnCar = (currentCar: Car) => {
+    if (!this.ride) return false;
+    return currentCar.carId == this.ride.car.carId;
+  };
+
   /**
    * Initialisation du mode affichage et mise à jour d'un trajet
    * @readonly
    * @memberof OneRideComponent
    */
   showAndUpdateRide(queryRideId: string) {
-    console.log("== DEBUG SHOW AND UPDATE RIDE ==" + queryRideId);
     this.populateRide(queryRideId);
   }
 
@@ -120,7 +135,6 @@ export class OneRideComponent implements OnInit {
    * @memberof OneRideComponent
    */
   populateRide(queryRideId: string) {
-    console.log("== DEBUG POPULATE RIDE == " + queryRideId);
     this.restRide.getRide(queryRideId)
       .subscribe(ride => {
           this.ride = ride;
@@ -147,10 +161,10 @@ export class OneRideComponent implements OnInit {
     console.log('Ride: ' + JSON.stringify(ride));
     if ((formMode == FormMode.show || formMode == FormMode.update) && ride) {
       this.f.departureDate.setValue(ride.departureDate);
-      this.f.departureSite.setValue(ride.departureSite);
+      this.selectDepartureSite = ride.departureSite;
       if (ride.arrivalDate) this.f.arrivalDate.setValue(ride.arrivalDate);
-      if (ride.arrivalSite) this.f.arrivalSite.setValue(ride.arrivalSite);
-      this.f.car.setValue(ride.car);
+      if (ride.arrivalSite) this.selectArrivalSite = ride.arrivalSite;
+      this.selectCar = ride.car;
       if (ride.description) this.f.description.setValue(ride.description);
     }
     else {
@@ -172,7 +186,6 @@ export class OneRideComponent implements OnInit {
   populateQueryParams() {
     this.activatedRoute.queryParams.subscribe(params => {
       this.queryRideId = params['rideId'] ? params['rideId'] : null;
-      console.log("== DEBUG POPULATE QUERY PARAMS RIDE ID == " + this.queryRideId);
     });
   }
 
@@ -266,8 +279,8 @@ export class OneRideComponent implements OnInit {
         null,
         this.rideForm.value.departureDate,
         this.rideForm.value.departureSite,
-        this.rideForm.value.arrivalDate,
-        this.rideForm.value.arrivalSite,
+        this.rideForm.value.arrivalDate || this.rideForm.value.departureDate,
+        this.rideForm.value.arrivalSite || this.rideForm.value.departureSite,
         this.rideForm.value.car,
         this.rideForm.value.description,
         this.userService.currentUserValue,
@@ -288,11 +301,6 @@ export class OneRideComponent implements OnInit {
       }, error => {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
       });
-
-      //Résultat du log impossible, ride est dans le résultat d'une requête asynchrone
-      //Le log avec est donc appelé avant d'avoir le résultat (ride = undefined)
-      //console.log("== DEBUG RIDE ID TO STRING == " + ride.rideId.toString());
-
     } catch (error) {
       this.messagesService.openSnackBar('Une erreur est survenue lors de la création du trajet', 5000, 'danger', error);
     }
@@ -310,15 +318,13 @@ export class OneRideComponent implements OnInit {
       return;
     }
 
-    console.log("== DEBUG UPDATE == " + this.ride);
-
     try {
       let ride: Ride = this.ride;
       ride.departureDate = this.rideForm.value.departureDate;
-      ride.departureSite = this.rideForm.value.departureSite;
+      ride.departureSite = this.selectDepartureSite;
       ride.arrivalDate = this.rideForm.value.arrivalDate;
-      ride.arrivalSite = this.rideForm.value.arrivalSite;
-      ride.car = this.rideForm.value.car;
+      ride.arrivalSite = this.selectArrivalSite;
+      ride.car = this.selectCar;
       ride.description = this.rideForm.value.description;
 
       if (isDeleted) this.restRide.deleteRide(ride);
@@ -381,11 +387,15 @@ export class OneRideComponent implements OnInit {
     return sites;
   }
 
-  onSelectionChangeSite(site: Place) {
+  onSelectionChangeDepartureSite(site: Place) {
     if (site) {
       this.selectDepartureSite = site;
       this.populateCars(site.siteId);
     }
+  }
+
+  onSelectionChangeArrivalSite(site: Place) {
+    if (site) this.selectArrivalSite = site;
   }
 
   /**
