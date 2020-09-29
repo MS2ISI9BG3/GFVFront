@@ -3,6 +3,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { LoginRoutingModule } from './login-routing.module';
 import { ActivateComponent } from './activate/activate.component';
+import { ErrorModule } from 'src/app/error/error.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { ActivateComponent } from './activate/activate.component';
   ],
   imports: [
     SharedModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    ErrorModule
   ]
 })
 export class LoginModule { }

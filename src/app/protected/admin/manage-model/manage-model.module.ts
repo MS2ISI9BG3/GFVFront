@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ManageModelComponent } from './manage-model/manage-model.component';
 import { ListModelComponent } from './list-model/list-model.component';
 import { OneModelComponent } from './one-model/one-model.component';
+import { ErrorModule } from 'src/app/error/error.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { OneModelComponent } from './one-model/one-model.component';
   ],
   imports: [
     SharedModule,
-    ManageModelRoutingModule
+    ManageModelRoutingModule,
+    ErrorModule
   ]
 })
 export class ManageModelModule { }

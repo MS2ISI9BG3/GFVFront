@@ -6,6 +6,7 @@ import {ListRideComponent} from "./list-ride/list-ride.component";
 import {OneRideComponent} from "./one-ride/one-ride.component";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { ErrorModule } from 'src/app/error/error.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
     SharedModule,
     ManageRideRoutingModule,
     MatDatepickerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ErrorModule
   ]
 })
 export class ManageRideModule { }

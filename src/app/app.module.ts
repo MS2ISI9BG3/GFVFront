@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { MenuHeaderComponent } from './core/menu-components/menu-header/menu-header.component';
 import { MenuContentComponent } from './core/menu-components/menu-content/menu-content.component';
+import { ErrorComponent } from './error/error-components/error/error.component';
+import { ErrorModule } from './error/error.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { MenuContentComponent } from './core/menu-components/menu-content/menu-c
     AppRoutingModule,
     CoreModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    ErrorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonRoutingModule } from './common-routing.module';
 import { DataCarModule } from './data-car/data-car.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ErrorModule } from 'src/app/error/error.module';
 
 
 @NgModule({
@@ -9,7 +10,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     SharedModule,
     CommonRoutingModule,
-    DataCarModule
+    DataCarModule,
+    ErrorModule
   ]
 })
 export class CommonModule { }

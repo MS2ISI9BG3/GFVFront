@@ -8,6 +8,7 @@ import { BookingHistoryModule } from './booking-history/booking-history.module';
 import { BookingConfirmModule } from './booking-confirm/booking-confirm.module';
 import { ShowReportModule } from './show-report/show-report.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { ErrorModule } from 'src/app/error/error.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { StatisticsModule } from './statistics/statistics.module';
     BookingHistoryModule,
     BookingConfirmModule,
     ShowReportModule,
-    StatisticsModule
+    StatisticsModule,
+    ErrorModule
   ]
 })
 export class AdminModule { }

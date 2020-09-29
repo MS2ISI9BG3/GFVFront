@@ -1,0 +1,14 @@
+<div class="error-container">
+
+    <h3>Une erreur est survenue</h3>
+
+    <div *ngIf="data?.error">
+        <h4>ERROR {{ data?.error}}</h4>
+        <h5 *ngIf="data?.error === 404">Page non trouvée</h5>
+        <!--<button mat-raised-button color="primary" [routerLink]="'/'">
+        Retourner à la page d'accueil
+        </button>-->
+        <div class="href"><a [routerLink]="'/'">Retourner à la page d'accueil</a></div>
+    </div>
+
+</div>

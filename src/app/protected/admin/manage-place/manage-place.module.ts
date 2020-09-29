@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ManagePlaceComponent } from './manage-place/manage-place.component';
 import { ListPlaceComponent } from './list-place/list-place.component';
 import { OnePlaceComponent } from './one-place/one-place.component';
+import { ErrorModule } from 'src/app/error/error.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { OnePlaceComponent } from './one-place/one-place.component';
   ],
   imports: [
     SharedModule,
-    ManagePlaceRoutingModule
+    ManagePlaceRoutingModule,
+    ErrorModule
   ]
 })
 export class ManagePlaceModule { }
