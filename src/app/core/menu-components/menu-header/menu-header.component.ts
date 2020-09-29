@@ -28,8 +28,17 @@ export class MenuHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.initIconMenu();
-    this.user = this.authenticationService.currentUserValue;
+    //this.user = this.authenticationService.currentUserValue;
+    this.initUser();
     this.initTitle();
+  }
+
+  initUser() {
+    this.authenticationService.currentUserPopulate$.subscribe( user => {
+      if (user) {
+        this.user = user;
+      } else this.user = null;
+    } );
   }
 
   initIconMenu() {

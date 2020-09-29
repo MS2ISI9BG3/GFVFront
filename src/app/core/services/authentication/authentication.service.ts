@@ -28,6 +28,7 @@ export class AuthenticationService {
    * @memberof AuthenticationService
    */
   private currentUserSubject: BehaviorSubject<IUser>;
+  private currentUserPopulateSubject: BehaviorSubject<User>;
   /**
    * Partie commune de l'URL à l'API pour tous les appels
    * @private
@@ -40,6 +41,7 @@ export class AuthenticationService {
    * @memberof AuthenticationService
    */
   public currentUser: Observable<IUser>;
+  public currentUserPopulate$: Observable<User>;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -62,6 +64,8 @@ export class AuthenticationService {
   initCurrentUser() {
     this.currentUserSubject = new BehaviorSubject<IUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUserPopulateSubject = new BehaviorSubject<User>(this.mapperUser.mapUser(JSON.parse(localStorage.getItem('currentUser'))));
+    this.currentUserPopulate$ = this.currentUserPopulateSubject.asObservable();
   }
 
   /**
@@ -129,6 +133,7 @@ export class AuthenticationService {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(iuser));
           this.currentUserSubject.next(iuser);
+          this.currentUserPopulateSubject.next(user);
         }
         console.log('return user firstName: '+user.firstName);
         console.log('return user isAdmin: '+user.isAdmin);
@@ -160,6 +165,7 @@ export class AuthenticationService {
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
       this.currentUserSubject.next(null);
+      this.currentUserPopulateSubject.next(null);
       this.router.navigate(['/public/login/login']);
   }
 
