@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   { path: 'public', loadChildren: () => import('./public/public.module').then(m => m.PublicModule) },
   { path: 'protected', loadChildren: () => import('./protected/protected.module').then(m => m.ProtectedModule) },
-  { path: '', redirectTo: 'public', pathMatch: 'full' }
+  { path: '', redirectTo: 'protected', pathMatch: 'full' }
 ];
 
 @NgModule({

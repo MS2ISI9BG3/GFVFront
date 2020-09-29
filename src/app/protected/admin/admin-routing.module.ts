@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'manage-place', loadChildren: () => import('./manage-place/manage-place.module').then(m => m.ManagePlaceModule) },
   { path: 'manage-user', loadChildren: () => import('./manage-user/manage-user.module').then(m => m.ManageUserModule) },
   { path: 'show-report', loadChildren: () => import('./show-report/show-report.module').then(m => m.ShowReportModule) },
-  { path: 'statistics', loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule) }
+  { path: 'statistics', loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule) },
+  { path: '', redirectTo: 'booking-confirm', pathMatch: 'full' }
 ];
 
 @NgModule({

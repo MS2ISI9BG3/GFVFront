@@ -4,7 +4,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
 
 
 const routes: Routes = [
-  { path: 'statistics', component: StatisticsComponent }
+  { path: 'statistics', component: StatisticsComponent },
+  { path: '', redirectTo: 'statistics', pathMatch: 'full' }
 ];
 
 @NgModule({

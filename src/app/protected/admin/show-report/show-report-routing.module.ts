@@ -4,7 +4,8 @@ import { ShowReportComponent } from './show-report/show-report.component';
 
 
 const routes: Routes = [
-  { path: 'show-report', component: ShowReportComponent }
+  { path: 'show-report', component: ShowReportComponent },
+  { path: '', redirectTo: 'show-report', pathMatch: 'full' }
 ];
 
 @NgModule({

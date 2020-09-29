@@ -6,7 +6,8 @@ import { OnePlaceComponent } from './one-place/one-place.component';
 
 const routes: Routes = [
   { path: 'manage-place', component: ManagePlaceComponent },
-  { path: 'one-place', component: OnePlaceComponent }
+  { path: 'one-place', component: OnePlaceComponent },
+  { path: '', redirectTo: 'manage-place', pathMatch: 'full' }
 ];
 
 @NgModule({

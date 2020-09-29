@@ -6,7 +6,8 @@ import {OneRideComponent} from './one-ride/one-ride.component';
 
 const routes: Routes = [
   {path: 'manage-ride', component: ManageRideComponent},
-  {path: 'one-ride', component: OneRideComponent}
+  {path: 'one-ride', component: OneRideComponent},
+  { path: '', redirectTo: 'manage-ride', pathMatch: 'full' }
 ];
 
 @NgModule({

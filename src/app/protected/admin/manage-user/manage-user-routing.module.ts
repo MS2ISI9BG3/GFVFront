@@ -5,7 +5,8 @@ import { OneUserComponent } from './one-user/one-user.component';
 
 const routes: Routes = [
   { path: 'manage-user', component: ManageUserComponent },
-  { path: 'one-user', component: OneUserComponent }
+  { path: 'one-user', component: OneUserComponent },
+  { path: '', redirectTo: 'manage-user', pathMatch: 'full' }
 ];
 
 @NgModule({

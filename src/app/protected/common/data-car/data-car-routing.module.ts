@@ -4,7 +4,8 @@ import { DataCarComponent } from './data-car/data-car.component';
 
 
 const routes: Routes = [
-  { path: 'data-car', component: DataCarComponent }
+  { path: 'data-car', component: DataCarComponent },
+  { path: '', redirectTo: 'data-car', pathMatch: 'full' }
 ];
 
 @NgModule({

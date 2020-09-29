@@ -5,7 +5,8 @@ import { OneBrandComponent } from './one-brand/one-brand.component';
 
 const routes: Routes = [
   { path: 'manage-brand', component: ManageBrandComponent },
-  { path: 'one-brand', component: OneBrandComponent }
+  { path: 'one-brand', component: OneBrandComponent },
+  { path: '', redirectTo: 'manage-brand', pathMatch: 'full' }
 ];
 
 @NgModule({

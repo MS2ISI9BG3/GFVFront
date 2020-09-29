@@ -4,7 +4,8 @@ import { BookingConfirmComponent } from './booking-confirm/booking-confirm.compo
 
 
 const routes: Routes = [
-  { path: 'booking-confirm', component: BookingConfirmComponent }
+  { path: 'booking-confirm', component: BookingConfirmComponent },
+  { path: '', redirectTo: 'booking-confirm', pathMatch: 'full' }
 ];
 
 @NgModule({

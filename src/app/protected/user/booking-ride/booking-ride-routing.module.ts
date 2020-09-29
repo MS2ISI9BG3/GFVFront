@@ -4,7 +4,8 @@ import { BookingRideComponent } from './booking-ride/booking-ride.component';
 
 
 const routes: Routes = [
-  { path: 'booking-ride', component: BookingRideComponent }
+  { path: 'booking-ride', component: BookingRideComponent },
+  { path: '', redirectTo: 'booking-ride', pathMatch: 'full' }
 ];
 
 @NgModule({

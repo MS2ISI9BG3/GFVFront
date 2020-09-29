@@ -4,7 +4,8 @@ import { ManageProfilComponent } from './manage-profil/manage-profil.component';
 
 
 const routes: Routes = [
-  { path: 'manage-profil', component: ManageProfilComponent }
+  { path: 'manage-profil', component: ManageProfilComponent },
+  { path: '', redirectTo: 'manage-profil', pathMatch: 'full' }
 ];
 
 @NgModule({

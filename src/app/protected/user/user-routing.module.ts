@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'report', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
   { path: 'search-ride', loadChildren: () => import('./search-ride/search-ride.module').then(m => m.SearchRideModule) },
   { path: 'show-ride', loadChildren: () => import('./show-ride/show-ride.module').then(m => m.ShowRideModule) },
-  { path: '', redirectTo: 'show-ride', pathMatch: 'full' }
+  { path: '', redirectTo: 'manage-ride', pathMatch: 'full' }
 ];
 
 @NgModule({

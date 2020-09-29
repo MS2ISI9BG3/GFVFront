@@ -5,7 +5,8 @@ import { OneModelComponent } from './one-model/one-model.component';
 
 const routes: Routes = [
   { path: 'manage-model', component: ManageModelComponent },
-  { path: 'one-model', component: OneModelComponent }
+  { path: 'one-model', component: OneModelComponent },
+  { path: '', redirectTo: 'manage-model', pathMatch: 'full' }
 ];
 
 @NgModule({

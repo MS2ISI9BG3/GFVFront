@@ -4,7 +4,8 @@ import { BookingHistoryComponent } from './booking-history/booking-history.compo
 
 
 const routes: Routes = [
-  { path: 'booking-history', component: BookingHistoryComponent }
+  { path: 'booking-history', component: BookingHistoryComponent },
+  { path: '', redirectTo: 'booking-history', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -8,7 +8,8 @@ import {OneCarComponent} from "./one-car/one-car.component";
 const routes: Routes = [
   {path: 'manage-car', component: ManageCarComponent},
   {path: 'add-car', component: AddCarComponent},
-  {path: 'one-car', component: OneCarComponent}
+  {path: 'one-car', component: OneCarComponent},
+  { path: '', redirectTo: 'manage-car', pathMatch: 'full' }
 ];
 
 @NgModule({

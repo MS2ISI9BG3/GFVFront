@@ -108,10 +108,11 @@ export class LoginComponent implements OnInit {
           .subscribe(
             (token: Token) => {
                 //Hydrate l'utilisateur dans le service authentification
-                this.authenticationService.getUser(token.idToken).subscribe( () => {
+                this.authenticationService.getUser(token.idToken).subscribe( user => {
                   let url: string = this.returnUrl;
                   if (url == '/') {
                     url = '/protected';
+                    if ( user.isAdmin ) url = '/protected/admin';
                   }
                   this.router.navigate([url]);
                 },
