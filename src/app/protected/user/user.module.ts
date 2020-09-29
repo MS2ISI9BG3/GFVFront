@@ -8,6 +8,7 @@ import { ManageProfilModule } from './manage-profil/manage-profil.module';
 import { ChatModule } from './chat/chat.module';
 import { ReportModule } from './report/report.module';
 import { ShowRideModule } from './show-ride/show-ride.module';
+import { ErrorModule } from 'src/app/error/error.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ShowRideModule } from './show-ride/show-ride.module';
     ManageProfilModule,
     ChatModule,
     ReportModule,
-    ShowRideModule
+    ShowRideModule,
+    ErrorModule
   ]
 })
 export class UserModule { }

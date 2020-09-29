@@ -8,6 +8,7 @@ import { OneCarComponent } from './one-car/one-car.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { ErrorModule } from 'src/app/error/error.module';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     ManageCarRoutingModule,
     MatChipsModule,
     MatSelectModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    ErrorModule
   ]
 })
 export class ManageCarModule { }

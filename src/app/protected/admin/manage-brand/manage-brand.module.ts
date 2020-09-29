@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ManageBrandComponent } from './manage-brand/manage-brand.component';
 import { ListBrandComponent } from './list-brand/list-brand.component';
 import { OneBrandComponent } from './one-brand/one-brand.component';
+import { ErrorModule } from 'src/app/error/error.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { OneBrandComponent } from './one-brand/one-brand.component';
   ],
   imports: [
     SharedModule,
-    ManageBrandRoutingModule
+    ManageBrandRoutingModule,
+    ErrorModule
   ]
 })
 export class ManageBrandModule { }

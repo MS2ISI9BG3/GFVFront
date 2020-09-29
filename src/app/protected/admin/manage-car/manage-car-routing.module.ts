@@ -3,13 +3,17 @@ import {Routes, RouterModule} from '@angular/router';
 import {ManageCarComponent} from './manage-car/manage-car.component';
 import {AddCarComponent} from "./add-car/add-car.component";
 import {OneCarComponent} from "./one-car/one-car.component";
+import { ErrorComponent } from 'src/app/error/error-components/error/error.component';
 
 
 const routes: Routes = [
-  {path: 'manage-car', component: ManageCarComponent},
-  {path: 'add-car', component: AddCarComponent},
-  {path: 'one-car', component: OneCarComponent},
-  { path: '', redirectTo: 'manage-car', pathMatch: 'full' }
+  { path: '', children: [
+    {path: 'manage-car', component: ManageCarComponent},
+    {path: 'add-car', component: AddCarComponent},
+    {path: 'one-car', component: OneCarComponent},
+    { path: '', redirectTo: 'manage-car', pathMatch: 'full' },
+    { path: '**', component: ErrorComponent, data: { error: 404 } }
+  ] }
 ];
 
 @NgModule({
