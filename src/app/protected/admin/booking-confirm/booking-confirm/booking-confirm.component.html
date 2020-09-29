@@ -57,6 +57,9 @@
       </ul>
       <p *ngIf="ride.description">Description : {{ ride.description }}</p>
     </mat-card-content>
+    <mat-card-actions fxLayoutAlign="center center">
+      <button mat-button (click)="onClickReturnedCar(ride)">RETOUR VOITURE CONFIRME</button>
+    </mat-card-actions>
   </mat-card>
 </div>
 

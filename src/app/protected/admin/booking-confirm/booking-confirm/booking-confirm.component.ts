@@ -20,6 +20,7 @@ export class BookingConfirmComponent implements OnInit {
   ridesToConfirmed: Ride[] = [];
   ridesConfirmed: Ride[] = [];
   ridesRefused: Ride[] = [];
+  ridesToReturnedCar: Ride[] = [];
 
   /**
    * Creates an instance of ListRideComponent.
@@ -34,6 +35,10 @@ export class BookingConfirmComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.populateRides();
+  }
+
+  populateRides() {
     this.restRide.getRides()
       .subscribe(rides => {
         this.rides = rides;
@@ -56,12 +61,7 @@ export class BookingConfirmComponent implements OnInit {
       });
   }
 
-  populateRides(ride: Ride = null) {
-
-  }
-
   onClickConfirmedRide(ride: Ride) {
-    console.log("== DEBUG CONFIRMED == " + ride);
     this.restRide.confirmedRide(ride)
       .subscribe(ride => {
         this.ridesConfirmed.push(ride);
@@ -70,11 +70,19 @@ export class BookingConfirmComponent implements OnInit {
   }
 
   onClickRefusedRide(ride: Ride) {
-    console.log("== DEBUG REFUSED == " + ride);
     this.restRide.refusedRide(ride)
       .subscribe(ride => {
         this.ridesRefused.push(ride);
         this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
       });
+  }
+
+  onClickReturnedCar(ride: Ride) {
+    this.restRide.returnedCar(ride)
+      .subscribe(ride => {
+        this.ridesToReturnedCar.push(ride);
+        this.ridesConfirmed.splice(this.ridesConfirmed.indexOf(ride), 1);
+      })
+
   }
 }

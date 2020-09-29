@@ -81,6 +81,14 @@ export class RestRideService {
       );
   }
 
+  public returnedCar(ride: (Ride | number)): Observable<Ride> {
+    let id = ride instanceof Ride ? ride.rideId : ride;
+    return this.http.put(this.baseUrl + "returned/" + id, this.httpOptions)
+      .pipe(
+        catchError(error => of(error))
+      );
+  }
+
   public deleteRide(ride: (Ride | number)): Observable<Ride> {
     let id = ride instanceof Ride ? ride.rideId : ride;
     return this.http.delete(this.baseUrl + id, this.httpOptions)

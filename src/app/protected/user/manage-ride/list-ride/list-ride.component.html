@@ -1,15 +1,22 @@
-<mat-card class="card" *ngFor="let ride of rides;" (click)="onClickRide(ride)">
-  <mat-card-header>
-    <div mat-card-avatar fxLayoutAlign="center center">
-      <mat-icon mat-list-icon>insights</mat-icon>
-    </div>
-    <mat-card-title>{{ ride.departureSite.siteName}} - {{ ride.arrivalSite.siteName}}</mat-card-title>
-    <mat-card-subtitle>Du {{ ride.departureDate }} au {{ ride.arrivalDate }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    Status : En attente de validation
-  </mat-card-content>
-</mat-card>
+<div *ngFor="let ride of rides;">
+  <mat-card class="card my-3" *ngIf="ride.status !== 'COMPLETED'" (click)="onClickRide(ride)">
+    <mat-card-header>
+      <div mat-card-avatar fxLayoutAlign="center center">
+        <mat-icon
+          [ngClass]="{
+          'status_ok': ride.status === 'CONFIRMED',
+          'status_waiting': ride.status === 'VALIDATION_PENDING',
+          'status_refused': ride.status === 'REJECTED'
+        }" mat-list-icon>lens</mat-icon>
+      </div>
+      <mat-card-title *ngIf="ride.arrivalSite.siteId != ride.departureSite.siteId">De {{ ride.departureSite.siteName }} à {{ ride.arrivalSite.siteName }}</mat-card-title>
+      <mat-card-title *ngIf="ride.arrivalSite.siteId == ride.departureSite.siteId">Départ et retour à {{ ride.departureSite.siteName }}</mat-card-title>
+      <mat-card-subtitle *ngIf="ride.arrivalDate != ride.departureDate">Départ le {{ ride.departureDate }} et retour le {{ ride.arrivalDate }}</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="ride.arrivalDate == ride.departureDate">Départ et retour le {{ ride.departureSite.siteName }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>
+
 
 
 <!--Bouton plus pour ajouter un lieu-->
