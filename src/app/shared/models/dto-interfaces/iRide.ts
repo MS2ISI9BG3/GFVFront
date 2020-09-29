@@ -11,4 +11,5 @@ export interface IRide {
   car: ICar;
   description: string;
   user: IUser;
+  bookingStatus: string;
 }

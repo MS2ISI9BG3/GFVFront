@@ -45,7 +45,8 @@ export class MapperRideService {
       this.mapperPlace.mapPlace(ride.arrivalSite),
       this.mapperCar.mapCar(ride.car),
       ride.description,
-      this.mapperUser.mapUser(ride.user)
+      this.mapperUser.mapUser(ride.user),
+      ride.bookingStatus
     );
   }
 
@@ -65,6 +66,7 @@ export class MapperRideService {
       car: this.mapperCar.mapICar(ride.car),
       description: ride.description,
       user: this.mapperUser.mapIUser(ride.user),
+      bookingStatus: ride.status
     }
   }
 }

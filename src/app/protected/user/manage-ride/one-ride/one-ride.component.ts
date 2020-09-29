@@ -288,6 +288,7 @@ export class OneRideComponent implements OnInit {
         this.rideForm.value.car,
         this.rideForm.value.description,
         this.userService.currentUserValue,
+        null
       );
 
       console.log("Result du form : ", JSON.stringify(ride));
