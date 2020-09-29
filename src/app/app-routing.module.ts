@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: 'public', loadChildren: () => import('./public/public.module').then(m => m.PublicModule) },
   { path: 'protected', loadChildren: () => import('./protected/protected.module').then(m => m.ProtectedModule) },
   { path: '', redirectTo: 'protected', pathMatch: 'full' },
-  { path: '**', redirectTo: 'protected' }
+  //{ path: '**', redirectTo: 'protected' }
 ];
 
 @NgModule({
