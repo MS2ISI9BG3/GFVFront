@@ -3,7 +3,6 @@ import {Car} from "./car";
 import {User} from "./user";
 
 export class Ride {
-
   /**
    * Constructeur du trajet
    * @param rideId
@@ -14,8 +13,9 @@ export class Ride {
    * @param car
    * @param description
    * @param user
+   * @param status
    */
-  constructor(rideId: number, departureDate: string, departureSite: Place, arrivalDate: string, arrivalSite: Place, car: Car, description: string, user: User) {
+  constructor(rideId: number, departureDate: string, departureSite: Place, arrivalDate: string, arrivalSite: Place, car: Car, description: string, user: User, status: string) {
     this._rideId = rideId;
     this._departureDate = departureDate;
     this._departureSite = departureSite;
@@ -24,6 +24,7 @@ export class Ride {
     this._car = car;
     this._description = description;
     this._user = user;
+    this._status = status;
   }
 
   /**
@@ -152,5 +153,21 @@ export class Ride {
 
   set user(value: User) {
     this._user = value;
+  }
+
+  /**
+   * Status du trajet
+   * @private
+   * @type {string}
+   * @memberof Ride
+   */
+  private _status: string;
+
+  get status(): string {
+    return this._status;
+  }
+
+  set status(value: string) {
+    this._status = value;
   }
 }
