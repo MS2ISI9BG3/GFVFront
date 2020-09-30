@@ -9,46 +9,46 @@
         <!--User-->
         <mat-list-item (click)="onClickBorrow()">
             <mat-icon>book_online</mat-icon>
-            <span class="label-menu">Emprunter</span>
+            <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'borrow'}">Emprunter</span>
         </mat-list-item>
         <mat-list-item (click)="onClickRide()">
             <mat-icon>explore</mat-icon>
-            <span class="label-menu">Trajets</span>
+            <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'ride'}">Trajets</span>
         </mat-list-item>
         <mat-list-item (click)="onClickHistory()">
             <mat-icon>history</mat-icon>
-            <span class="label-menu">Historiques</span>
+            <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'history'}">Historiques</span>
         </mat-list-item>
         <!--Admin-->
         <div *ngIf="user?.isAdmin">
             <mat-divider></mat-divider>
             <mat-list-item (click)="onClickEmployee()">
                 <mat-icon>person</mat-icon>
-                <span class="label-menu">Employés</span>
+                <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'employee'}">Employés</span>
             </mat-list-item>
             <mat-list-item (click)="onClickCar()">
                 <mat-icon>directions_car</mat-icon>
-                <span class="label-menu">Véhicules</span>
+                <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'car'}">Véhicules</span>
             </mat-list-item>
             <mat-list-item (click)="onClickBrand()">
                 <mat-icon>label_important</mat-icon>
-                <span class="label-menu">Marques</span>
+                <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'brand'}">Marques</span>
             </mat-list-item>
             <mat-list-item (click)="onClickModel()">
                 <mat-icon>label</mat-icon>
-                <span class="label-menu">Modèles</span>
+                <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'model'}">Modèles</span>
             </mat-list-item>
             <mat-list-item (click)="onClickPlace()">
                 <mat-icon>place</mat-icon>
-                <span class="label-menu">Sites</span>
+                <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'place'}">Sites</span>
             </mat-list-item>
             <mat-list-item (click)="onClickLoan()">
                 <mat-icon>schedule</mat-icon>
-                <span class="label-menu">Prêts</span>
+                <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'loan'}">Prêts</span>
             </mat-list-item>
             <mat-list-item (click)="onClickIncident()">
                 <mat-icon>report</mat-icon>
-                <span class="label-menu">Incidents</span>
+                <span class="label-menu" [ngClass]="{'menu-focus': libCurrentRoute == 'incident'}">Incidents</span>
             </mat-list-item>
         </div>
         <!--Logout-->

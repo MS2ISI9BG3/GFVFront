@@ -1,9 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild, EventEmitter, Output } from '@angular/core';
 import { User } from 'src/app/shared/models/entities/user';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { MapperUserService } from '../../services/mappers/mapper-user.service';
 import { IUser } from 'src/app/shared/models/dto-interfaces/iUser';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu-content',
@@ -15,6 +16,7 @@ export class MenuContentComponent implements OnInit {
   @Output() hideMenu = new EventEmitter();
   public user: User;
   public userRole: string;
+  public libCurrentRoute: 'borrow' | 'ride' | 'history' | 'employee' | 'car' | 'brand' | 'model' | 'place' | 'loan' | 'incident';
 
   constructor(
     private router: Router,
@@ -23,11 +25,33 @@ export class MenuContentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd)
+      )
+      .subscribe( ( event: NavigationEnd ) => {
+        this.libCurrentRoute = this.updateLibCurrentRoute(event.url);
+        console.log('NEW ROUTE: '+this.libCurrentRoute+' - URL: '+event.url);
+      });
     this.authenticationService.currentUser.subscribe(
       ( iuser: IUser ) => {
         this.user = this.mapperUser.mapUser(iuser);
         if ( this.user ) this.userRole = this.user.isAdmin ? 'Administrateur' : 'Utilisateur';
     });
+  }
+
+  updateLibCurrentRoute(url: string): 'borrow' | 'ride' | 'history' | 'employee' | 'car' | 'brand' | 'model' | 'place' | 'loan' | 'incident' {
+    if (url == '/protected/user/manage-ride/one-ride') return 'borrow' 
+    if (url == '/protected/user/manage-ride/manage-ride/current') return 'ride';
+    if (url == '/protected/user/manage-ride/manage-ride/history') return 'history';
+    if (url.includes('/protected/admin/manage-user')) return 'employee';
+    if (url.includes('/protected/admin/manage-car')) return 'car';
+    if (url.includes('/protected/admin/manage-brand')) return 'brand';
+    if (url.includes('/protected/admin/manage-model')) return 'model';
+    if (url.includes('/protected/admin/manage-place')) return 'place';
+    if (url.includes('/protected/admin/booking-confirm/booking-confirm')) return 'loan';
+    if (url == '/protected/admin/show-report/show-report') return 'incident';
+    return null;
   }
 
   onClickBorrow() {

@@ -363,7 +363,7 @@ export class OneRideComponent implements OnInit {
    * @memberof OneRideComponent
    */
   onClickClose() {
-    this.router.navigate(['/protected/user/manage-ride/manage-ride']);
+    this.router.navigate(['/protected/user/manage-ride/manage-ride/current']);
   }
 
   /**
