@@ -6,9 +6,9 @@ import {OneRideComponent} from './one-ride/one-ride.component';
 
 const routes: Routes = [
   { path: '', children: [
-    { path: 'manage-ride', component: ManageRideComponent },
+    { path: 'manage-ride/:rideType', component: ManageRideComponent },
     { path: 'one-ride', component: OneRideComponent },
-    { path: '', redirectTo: 'manage-ride', pathMatch: 'full' },
+    { path: '', redirectTo: 'manage-ride/current', pathMatch: 'full' },
     { path: '**', component: ErrorComponent, data: { error: 404 } }
   ] }
 ];

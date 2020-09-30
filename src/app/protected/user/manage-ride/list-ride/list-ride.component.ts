@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Ride} from "../../../../shared/models/entities/ride";
 import {RestRideService} from "../../../../core/services/rest/rest-ride.service";
 import {ManagerRideService} from "../services/manager-ride.service";
 import {AuthenticationService} from '../../../../core/services/authentication/authentication.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-list-ride',
@@ -28,6 +29,7 @@ export class ListRideComponent implements OnInit {
    * @memberof ListRideComponent
    */
   constructor(
+    private route: ActivatedRoute,
     private restRide: RestRideService,
     private router: Router,
     private rideService: ManagerRideService,
@@ -40,15 +42,39 @@ export class ListRideComponent implements OnInit {
    * @memberof ListRideComponent
    */
   ngOnInit() {
+    this.route.params.subscribe( params => {
+      if ( !params['rideType'] ) this.router.navigate(['/error']);
+      if ( params['rideType'] != 'current' && params['rideType'] != 'history' ) this.router.navigate(['/error']);
+      const type: 'current' | 'history' = params['rideType'];
+
+      this.getRides(type);
+
+    });
+  }
+
+  getRides(routeType: 'current' | 'history') {
     this.restRide.getRidesByLogin(this.userService.currentUserValue.id)
-      .subscribe(rides => {
-        this.rides = rides;
-        this.rideService.changeRides(rides);
+      .subscribe( (rides: Ride[]) => {
+        //this.rides = rides;
+        if (rides) this.populateRides(rides, routeType);
+        if (this.rides) this.rideService.changeRides(this.rides);
       });
     this.rideService.$rides
-      .subscribe(rides =>
-        this.rides = rides
-      );
+      .subscribe( (rides: Ride[]) => {
+        //this.rides = rides
+        if (rides) this.populateRides(rides, routeType)
+      });
+  }
+
+  populateRides(rides: Ride[], routeType: 'current' | 'history') {
+    //if (rides) console.log('DATE RIDE: '+rides[0].arrivalDate);
+    //if (rides) console.log('DATE RIDE MOMENT: '+moment(rides[0].arrivalDate).format('DD MM YYYY'));
+    if ( routeType == 'current' ) {
+      this.rides = rides.filter( r => r.status != 'REJECTED' ) .filter( r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day') );
+    } else
+    if ( routeType == 'history' ) {
+      this.rides = rides.filter( r => r.status == 'REJECTED' || (r.status != 'REJECTED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')) );
+    } else this.rides = [];
   }
 
   /**

@@ -37,12 +37,12 @@ export class MenuContentComponent implements OnInit {
 
   onClickRide() {
     this.hideMenu.emit();
-    this.router.navigate(['protected/user/manage-ride/manage-ride']);
+    this.router.navigate(['protected/user/manage-ride/manage-ride/current']);
   }
 
   onClickHistory() {
     this.hideMenu.emit();
-    this.router.navigate(['protected/user/manage-ride/manage-ride']);//protected/user/report/report
+    this.router.navigate(['protected/user/manage-ride/manage-ride/history']);//protected/user/report/report
   }
 
   onClickEmployee() {
