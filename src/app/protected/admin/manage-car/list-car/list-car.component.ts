@@ -70,7 +70,7 @@ export class ListCarComponent implements OnInit {
       .subscribe(cars => {
 
         this.cars = cars;
-        this.carsFiltered = this.removeDeletedCars(cars);
+        // this.carsFiltered = this.removeDeletedCars(cars);
         this.carService.nextCars(cars);
         this.populateCarsFromService();
 
@@ -86,7 +86,7 @@ export class ListCarComponent implements OnInit {
   populateCarsFromService() {
     this.carService.$cars.subscribe(cars => {
       this.cars = cars;
-      this.carsFiltered = this.removeDeletedCars(cars);
+      this.carsFiltered = cars;
     });
   }
 
@@ -118,10 +118,10 @@ export class ListCarComponent implements OnInit {
    * @param {Place} place Un lieu
    * @memberof ListPlaceComponent
    */
-  removeDeletedCars(cars: Car[]) {
-    if (cars && isArray(cars)) return cars.filter(p => !p.archived);
-    return cars;
-  }
+  // removeDeletedCars(cars: Car[]) {
+  //   if (cars && isArray(cars)) return cars.filter(p => !p.archived);
+  //   return cars;
+  // }
 
 
   /**
@@ -139,7 +139,7 @@ export class ListCarComponent implements OnInit {
       const inputValue: string = event.trim().toLocaleLowerCase();
 
       if (inputValue.length >= 3) {
-        this.carsFiltered = this.removeDeletedCars(this.cars).filter(
+        this.carsFiltered = this.cars.filter(
           car => (car.matricule.toLocaleLowerCase().search(inputValue) > -1)
         );
       } else {
@@ -147,7 +147,6 @@ export class ListCarComponent implements OnInit {
       }
 
     } catch {
-      this.carsFiltered = this.removeDeletedCars(this.cars);
     }
 
   }

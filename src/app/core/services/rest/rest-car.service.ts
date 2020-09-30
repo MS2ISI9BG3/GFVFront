@@ -26,7 +26,7 @@ export class RestCarService {
   }
 
   public getCars() {
-    return this.http.get<ICar[]>(this.baseUrl, this.httpOptions)
+    return this.http.get<ICar[]>(this.baseUrl + 'available', this.httpOptions)
       .pipe(
         map(cars => {
             return this.mapperCar.mapCars(cars);
@@ -66,6 +66,10 @@ export class RestCarService {
     let iCar: ICar = this.mapperCar.mapICar(car);
     return this.http.put<ICar>(this.baseUrl, iCar, this.httpOptions)
       .pipe(
+        map(iCar => {
+            return this.mapperCar.mapCar(iCar)
+          },
+          error => Observable.throw(error)),
         catchError(error => of(error))
       );
   }
@@ -80,13 +84,15 @@ export class RestCarService {
   }
 
   public getCarByPlace(id: string): Observable<Car[]> {
-    return this.http.get<ICar[]>(this.baseUrl + 'available/sites/' +id, this.httpOptions)
+    return this.http.get<ICar[]>(this.baseUrl + 'available/sites/' + id, this.httpOptions)
       .pipe(
         map(cars => {
             return this.mapperCar.mapCars(cars);
           },
           error => Observable.throw(error)),
-        catchError(error => { return throwError(error) })
+        catchError(error => {
+          return throwError(error)
+        })
       );
   }
 }

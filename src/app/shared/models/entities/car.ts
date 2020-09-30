@@ -69,7 +69,7 @@ export class Car {
   private _carModel: Model;
   private _carSite: Place;
   private _serviceValidityDate: string;
-  private _archived: boolean;
+  private _carStatus: string;
 
 
   /**
@@ -86,12 +86,12 @@ export class Car {
    * @param carModel
    * @param carSite
    * @param serviceValidityDate
-   * @param archived
+   * @param carStatus
    * @memberof Car
    */
 
 
-  constructor(carId: number, matricule: string, power: number, places: number, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string, archived : boolean) {
+  constructor(carId: number, matricule: string, power: number, places: number, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string, carStatus : string) {
     this._carId = carId;
     this._matricule = matricule;
     this._power = power;
@@ -103,7 +103,7 @@ export class Car {
     this._carModel = carModel
     this._carSite = carSite
     this._serviceValidityDate = serviceValidityDate
-    this._archived = archived
+    this._carStatus = carStatus
 
   }
 
@@ -153,7 +153,7 @@ export class Car {
     return this._serviceValidityDate;
   }
 
-  get archived(): boolean { return this._archived }
+  get carStatus(): string { return this._carStatus }
 
 
 
@@ -190,7 +190,7 @@ export class Car {
     this._carSite = carSite;
   }
 
-  set archived( archived: boolean ) { this._archived = archived }
+  set carStatus( carStatus: string ) { this._carStatus = carStatus }
 
 
 

@@ -8,6 +8,10 @@
       *ngIf="matriculeFormControl.hasError('required') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
       <span>Le matricule doit être saisie</span>
     </mat-error>
+    <mat-error
+      *ngIf="matriculeFormControl.hasError('pattern') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
+      <span>Pattern type : AA-111-AA </span>
+    </mat-error>
   </mat-form-field>
 
   <!--Power && Kilometrage  -->
@@ -38,6 +42,10 @@
     <mat-error
       *ngIf="vinFormControl.hasError('required') && (vinFormControl.dirty || vinFormControl.touched)">
       <span>Le Vin doit être saisie</span>
+    </mat-error>
+    <mat-error
+      *ngIf="vinFormControl.hasError('pattern') && (matriculeFormControl.dirty || matriculeFormControl.touched)">
+      <span>17 caractères (sans caractères spéciaux) </span>
     </mat-error>
   </mat-form-field>
 

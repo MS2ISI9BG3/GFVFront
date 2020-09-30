@@ -190,9 +190,9 @@ export class OneCarComponent implements OnInit {
   updateDefaultFormValue(formMode: FormMode, car?: Car) {
     console.log('car: ' + JSON.stringify(car));
     if ((formMode == FormMode.show || formMode == FormMode.update) && car) {
-      this.f.matricule.setValue(car.matricule);
+      this.f.matricule.setValue(car.matricule.toUpperCase());
       this.f.power.setValue(car.power);
-      this.f.places.setValue(car.places);
+      this.f.places.setValue(car.places !== 0 ? car.places : '');
       this.f.odometer.setValue(car.odometer);
       this.f.vin.setValue(car.vin);
       if (car.carBrand) this.selectBrand = car.carBrand;
@@ -314,12 +314,13 @@ export class OneCarComponent implements OnInit {
    * @readonly
    * @memberof AddFamilyFormComponent
    */
+
   onClickDelete() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "250px",
       data: {
         title: "Confirmer",
-        msg: "Le véhicule " + this.car.matricule + " va être supprimé"
+        msg: "Le véhicule " + this.car.matricule.toUpperCase() + " va être supprimé"
       }
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
@@ -344,7 +345,7 @@ export class OneCarComponent implements OnInit {
     try {
       let car: Car = new Car(
         null,
-        this.carForm.value.matricule,
+        this.carForm.value.matricule.toUpperCase(),
         Number(this.carForm.value.power),
         Number(this.carForm.value.places),
         Number(this.carForm.value.odometer),
@@ -354,7 +355,7 @@ export class OneCarComponent implements OnInit {
         this.carForm.value.carModel,
         this.carForm.value.carSite,
         this.carForm.value.serviceValidityDate,
-        false
+        null
       );
 
       console.log("result du form : ", car)
@@ -364,9 +365,10 @@ export class OneCarComponent implements OnInit {
         this.car = car;
         this.carsService.nextCarCreated(car);
 
-        this.messagesService.openSnackBar('Création du véhicule ' + car.matricule + ' enregistrée', 5000, 'success');
+        this.messagesService.openSnackBar('Création du véhicule ' + car.matricule.toUpperCase() + ' enregistrée', 5000, 'success');
+        this.router.navigate(['/protected/admin/manage-car/manage-car']);
 
-        this.showAndUpdateCar(car.carId.toString());
+        // this.showAndUpdateCar(car.carId.toString());
 
       }, error => {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
@@ -390,31 +392,32 @@ export class OneCarComponent implements OnInit {
     if (this.carForm.invalid) {
       return;
     }
-    if ( isDeleted ){
-      try {
-        let car: Car = this.car;
-        this.restCar.deleteCar(car).subscribe(car => {
-
-          this.car = car;
-          this.carsService.nextCarUpdated(car);
-
-          let msg: string = 'Suppression'
-          this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
-          this.onClickClose();
-
-        }, error => {
-          this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
-        });
-
-      } catch (error) {
-        this.messagesService.openSnackBar('Une erreur est survenue lors de la supression du véhicule', 5000, 'danger', error);
-      }
-      return
-    }
+    // if (isDeleted) {
+    //   try {
+    //     let car: Car = this.car;
+    //     if ( isDeleted ) car.archived = true;
+    //     this.restCar.deleteCar(car).subscribe(car => {
+    //
+    //       this.car = car;
+    //       this.carsService.nextCarUpdated(car);
+    //
+    //       let msg: string = 'Suppression'
+    //       this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
+    //       this.onClickClose();
+    //
+    //     }, error => {
+    //       this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
+    //     });
+    //
+    //   } catch (error) {
+    //     this.messagesService.openSnackBar('Une erreur est survenue lors de la supression du véhicule', 5000, 'danger', error);
+    //   }
+    //   return
+    // }
 
     try {
       let car: Car = this.car;
-      car.matricule = this.carForm.value.matricule;
+      car.matricule = this.carForm.value.matricule.toUpperCase();
       car.power = this.carForm.value.power;
       car.places = this.carForm.value.places;
       car.odometer = this.carForm.value.odometer;
@@ -425,6 +428,7 @@ export class OneCarComponent implements OnInit {
       car.carModel = this.selectModel;
       car.carSite = this.selectSite;
       car.serviceValidityDate = this.carForm.value.serviceValidityDate;
+      if (isDeleted) car.carStatus = "ARCHIVED";
 
       this.restCar.updateCar(car).subscribe(car => {
 
@@ -434,8 +438,9 @@ export class OneCarComponent implements OnInit {
         this.f.carSite.setValue(car.carSite.siteName);
         this.carsService.nextCarUpdated(car);
 
-        let msg: string = 'Modification';
-        this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
+        let msg: string = isDeleted ? 'Suppression' : 'Modification';
+        this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule.toUpperCase() + ' avec succes', 5000, 'success');
+        if (isDeleted) this.router.navigate(['/protected/admin/manage-car/manage-car']);
 
 
       }, error => {
