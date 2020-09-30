@@ -7,16 +7,20 @@
     <div fxLayout="row" fxLayoutAlign="space-around">
       <div fxFlex="45" fxLayout="column">
         <!-- Site de départ -->
-        <mat-form-field>
+        <!--Read mode-->
+        <mat-form-field *ngIf="formMode == 'show'">
           <mat-label>Site de départ</mat-label>
           <input matInput
-                 *ngIf="formMode == 'show'"
-                 [placeholder]="ride?.departureSite?.siteName"
-                 [formControl]="departureSiteFormControl"
-                 readonly
+                
+                [placeholder]="ride?.departureSite?.siteName"
+                [formControl]="departureSiteFormControl"
+                readonly
           >
+        </mat-form-field>
+        <!--Update mode-->
+        <mat-form-field *ngIf="formMode != 'show'">
+          <mat-label>Site de départ</mat-label>
           <mat-select
-            *ngIf="formMode != 'show'"
             (selectionChange)="onSelectionChangeDepartureSite($event.value)"
             [formControl]="departureSiteFormControl"
             [compareWith]="compareWithFnDepartureSite"
@@ -45,16 +49,17 @@
 
       <div fxFlex="45" fxLayout="column">
         <!-- Site d'arivée -->
-        <mat-form-field>
+        <mat-form-field *ngIf="formMode == 'show'">
           <mat-label>Site d'arrivée</mat-label>
           <input matInput
-                 *ngIf="formMode == 'show'"
                  [placeholder]="ride?.arrivalSite?.siteName"
                  [formControl]="arrivalSiteFormControl"
                  readonly
           >
+        </mat-form-field>
+        <mat-form-field *ngIf="formMode != 'show'">
+          <mat-label>Site d'arrivée</mat-label>
           <mat-select
-            *ngIf="formMode != 'show'"
             [formControl]="arrivalSiteFormControl"
             (selectionChange)="onSelectionChangeArrivalSite($event.value)"
             [compareWith]="compareWithFnArrivalSite"
@@ -78,17 +83,18 @@
     </div>
 
     <!-- Véhicule choisi -->
-    <mat-form-field class="input-form">
+    <mat-form-field *ngIf="formMode == 'show'" class="input-form">
       <mat-label>Véhicule choisi</mat-label>
       <input
         matInput
-        *ngIf="formMode == 'show'"
         [placeholder]="ride?.car?.carBrand?.brandName"
         [formControl]="carFormControl"
         readonly
       >
+    </mat-form-field>
+    <mat-form-field *ngIf="formMode != 'show'">
+      <mat-label>Véhicule choisi</mat-label>
       <mat-select
-        *ngIf="formMode != 'show'"
         (selectionChange)="onSelectionChangeCar($event.value)"
         [formControl]="carFormControl"
         [compareWith]="compareWithFnCar"
@@ -101,7 +107,7 @@
       </mat-select>
       <mat-error
         *ngIf="carFormControl.hasError('required') && (carFormControl.dirty || carFormControl.touched)">
-        <span>Le site doit être saisie</span>
+        <span>Un véhicule doit être saisie</span>
       </mat-error>
     </mat-form-field>
 
