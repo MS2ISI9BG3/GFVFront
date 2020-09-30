@@ -11,8 +11,8 @@
       </div>
       <mat-card-title *ngIf="ride.arrivalSite.siteId != ride.departureSite.siteId">De {{ ride.departureSite.siteName }} à {{ ride.arrivalSite.siteName }}</mat-card-title>
       <mat-card-title *ngIf="ride.arrivalSite.siteId == ride.departureSite.siteId">Départ et retour à {{ ride.departureSite.siteName }}</mat-card-title>
-      <mat-card-subtitle *ngIf="ride.arrivalDate != ride.departureDate">Départ le {{ ride.departureDate }} et retour le {{ ride.arrivalDate }}</mat-card-subtitle>
-      <mat-card-subtitle *ngIf="ride.arrivalDate == ride.departureDate">Départ et retour le {{ ride.departureSite.siteName }}</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="ride.arrivalDate != ride.departureDate">Départ le {{ ride.departureDate | formatDateFr: "YYYY-MM-DD" }} et retour le {{ ride.arrivalDate | formatDateFr: "YYYY-MM-DD"  }}</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="ride.arrivalDate == ride.departureDate">Départ et retour le {{ ride.departureDate | formatDateFr: "YYYY-MM-DD" }}</mat-card-subtitle>
     </mat-card-header>
   </mat-card>
 </div>

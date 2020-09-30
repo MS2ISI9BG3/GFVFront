@@ -7,6 +7,7 @@ import { FormatAddressPipe } from './pipes/format-address.pipe';
 import { BtnCloseDirective } from './directives/btn-close.directive';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { FirstLetterCasePipe } from './pipes/first-letter-case.pipe';
+import { FormatDateFrPipe } from './pipes/format-date-fr.pipe';
 
 /**
  * Centralise l'importation des composants, des directives et des pipes partagés par différents modules de l'application
@@ -20,7 +21,8 @@ import { FirstLetterCasePipe } from './pipes/first-letter-case.pipe';
     FormatAddressPipe,
     FirstLetterCasePipe,
     BtnCloseDirective,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    FormatDateFrPipe
   ],
   imports: [ //? TODO Check import is useless here
     CommonModule,
@@ -35,7 +37,8 @@ import { FirstLetterCasePipe } from './pipes/first-letter-case.pipe';
     ReactiveFormsModule,
     //HttpClientModule //TODO à supprimer, httpClient ne doit être utiliser que dans les services rest qui se trouve dans le core-module
     FormatAddressPipe,
-    FirstLetterCasePipe
+    FirstLetterCasePipe,
+    FormatDateFrPipe
   ],
   entryComponents: [
     ConfirmDialogComponent
