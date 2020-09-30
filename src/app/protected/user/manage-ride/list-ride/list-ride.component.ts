@@ -71,10 +71,19 @@ export class ListRideComponent implements OnInit {
     //if (rides) console.log('DATE RIDE MOMENT: '+moment(rides[0].arrivalDate).format('DD MM YYYY'));
     if ( routeType == 'current' ) {
       this.rides = rides.filter( r => r.status != 'REJECTED' ) .filter( r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day') );
+      this.rideSort(true);
     } else
     if ( routeType == 'history' ) {
       this.rides = rides.filter( r => r.status == 'REJECTED' || (r.status != 'REJECTED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')) );
+      this.rideSort(false);
     } else this.rides = [];
+  }
+
+  rideSort(chronoSort: boolean){
+    this.rides = this.rides.sort( (r1, r2) => 
+        moment(r1.departureDate, 'YYYY-MM-DD') > moment(r2.departureDate, 'YYYY-MM-DD') ? (chronoSort ? 1 : -1) :
+        moment(r1.departureDate, 'YYYY-MM-DD') < moment(r2.departureDate, 'YYYY-MM-DD') ? (chronoSort ? -1 : 1) : 0
+      );
   }
 
   /**
