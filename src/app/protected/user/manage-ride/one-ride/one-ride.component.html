@@ -11,10 +11,10 @@
         <mat-form-field *ngIf="formMode == 'show'">
           <mat-label>Site de départ</mat-label>
           <input matInput
-                
-                [placeholder]="ride?.departureSite?.siteName"
-                [formControl]="departureSiteFormControl"
-                readonly
+
+                 [placeholder]="ride?.departureSite?.siteName"
+                 [formControl]="departureSiteFormControl"
+                 readonly
           >
         </mat-form-field>
         <!--Update mode-->
@@ -40,7 +40,7 @@
         <mat-form-field>
           <mat-label>Date de départ</mat-label>
           <input [matDatepicker]="departureDate" matInput required
-                 [readonly]="formMode == 'show'" [formControl]="departureDateFormControl"
+                 [readonly]="formMode == 'show'" [formControl]="departureDateFormControl" [min]="todayDate"
           >
           <mat-datepicker-toggle [for]="departureDate" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #departureDate></mat-datepicker>
@@ -75,6 +75,7 @@
           <mat-label>Date d'arrivée</mat-label>
           <input [matDatepicker]="arrivalDate" matInput
                  [readonly]="formMode == 'show'" [formControl]="arrivalDateFormControl"
+                 [min]="rideForm.value.departureDate || todayDate"
           >
           <mat-datepicker-toggle [for]="arrivalDate" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #arrivalDate></mat-datepicker>
@@ -98,6 +99,7 @@
         (selectionChange)="onSelectionChangeCar($event.value)"
         [formControl]="carFormControl"
         [compareWith]="compareWithFnCar"
+        [disabled]="!cars || cars.length === 0"
         class="input-form"
         required
       >
@@ -106,8 +108,12 @@
         </mat-option>
       </mat-select>
       <mat-error
-        *ngIf="carFormControl.hasError('required') && (carFormControl.dirty || carFormControl.touched)">
+        *ngIf="carFormControl.hasError('required') && (carFormControl.dirty || carFormControl.touched) &&  ( cars && cars.length !== 0 )">
         <span>Un véhicule doit être saisie</span>
+      </mat-error>
+      <mat-error
+        *ngIf="(!cars || cars.length === 0 )">
+        <span>Aucun véhicule disponible pour ces dates et site de départ</span>
       </mat-error>
     </mat-form-field>
 
