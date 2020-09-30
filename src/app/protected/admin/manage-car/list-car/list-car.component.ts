@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Car} from "../../../../shared/models/entities/car";
 import {RestCarService} from "../../../../core/services/rest/rest-car.service";
 import {Router} from "@angular/router";
 import {ManagerCarService} from "../../manage-car/services/manager-car.service";
 import {isArray, isString} from "util";
 import {Place} from "../../../../shared/models/entities/place";
+import {MessagesService} from "../../../../core/services/messages/messages.service";
+import {catchError} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
   selector: 'app-list-car',
@@ -38,14 +41,19 @@ export class ListCarComponent implements OnInit {
   constructor(
     private restCar: RestCarService,
     private router: Router,
-    private carService: ManagerCarService
-  ) { }
+    private carService: ManagerCarService,
+    private messageService: MessagesService
+  ) {
+  }
 
   /**
    * Initialisation de la liste des lieux
    * @memberof ListCarComponent
    */
   ngOnInit() {
+
+    this.populateCarsFromApi();
+
     this.restCar.getCars()
       .subscribe(cars => {
         this.cars = cars;
@@ -57,6 +65,31 @@ export class ListCarComponent implements OnInit {
       );
   }
 
+  populateCarsFromApi() {
+    this.restCar.getCars()
+      .subscribe(cars => {
+
+        this.cars = cars;
+        this.carsFiltered = this.removeDeletedCars(cars);
+        this.carService.nextCars(cars);
+        this.populateCarsFromService();
+
+      }, error => {
+        throw new Error(error)
+      }), catchError(error => {
+      this.messageService.openSnackBar('Erreur serveur', 5000, 'danger', error);
+      console.error(error);
+      return of([]);
+    });
+  }
+
+  populateCarsFromService() {
+    this.carService.$cars.subscribe(cars => {
+      this.cars = cars;
+      this.carsFiltered = this.removeDeletedCars(cars);
+    });
+  }
+
   /**
    * Gestion de l'événèment clic sur un lieu de la liste des lieux
    * @param {Car} car Un lieu
@@ -65,7 +98,7 @@ export class ListCarComponent implements OnInit {
   onClickCar(car: Car) {
     this.carService.changeCarSelected(car);
     this.router.navigate(['/protected/admin/manage-car/one-car'], {
-      queryParams: { carId: car.carId }
+      queryParams: {carId: car.carId}
     });
   }
 
@@ -75,7 +108,7 @@ export class ListCarComponent implements OnInit {
    * @memberof ListCarComponent
    */
   onClickDelete(car: Car) {
-    this.restCar.deleteCar(car).subscribe( p =>
+    this.restCar.deleteCar(car).subscribe(p =>
       this.carService.changeCars(this.cars.splice(this.cars.findIndex(p => p.carId == car.carId), 1))
     );
   }
@@ -86,7 +119,7 @@ export class ListCarComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   removeDeletedCars(cars: Car[]) {
-    if ( cars && isArray(cars) ) return cars.filter( p => p.carId );
+    if (cars && isArray(cars)) return cars.filter(p => !p.archived);
     return cars;
   }
 
@@ -105,9 +138,9 @@ export class ListCarComponent implements OnInit {
 
       const inputValue: string = event.trim().toLocaleLowerCase();
 
-      if ( inputValue.length >= 3 ) {
+      if (inputValue.length >= 3) {
         this.carsFiltered = this.removeDeletedCars(this.cars).filter(
-          car => ( car.carBrand.brandName.toLocaleLowerCase().search(inputValue) > -1 || car.matricule.toLocaleLowerCase().search(inputValue) > -1 )
+          car => (car.matricule.toLocaleLowerCase().search(inputValue) > -1)
         );
       } else {
         throw new Error();

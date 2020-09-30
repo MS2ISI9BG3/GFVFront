@@ -1,11 +1,10 @@
-<mat-card class="mat-card" *ngFor="let car of cars;" fxLayout="row" fxFlex.gt-sm="30"
-          class="card" (click)="onClickCar(car)">
-  <!--  {{ car|json}}-->
-  <mat-card-header>
+<mat-card class="card" *ngFor="let car of carsFiltered;" fxLayout="row wrap"
+          (click)="onClickCar(car)">
+  <mat-card-header  >
     <div mat-card-avatar>
       <mat-icon mat-list-icon color="accent">directions_car</mat-icon>
     </div>
-    <mat-card-title>{{ car.matricule }}</mat-card-title>
+    <mat-card-title>{{ car.matricule.toUpperCase() }}</mat-card-title>
     <mat-card-subtitle class="card-subtitle">{{ car.carBrand.brandName }}
       - {{ car.carModel.modelName }}</mat-card-subtitle>
   </mat-card-header>

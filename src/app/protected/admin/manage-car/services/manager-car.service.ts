@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Car } from 'src/app/shared/models/entities/car';
 import { RestCarService } from 'src/app/core/services/rest/rest-car.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {Place} from "../../../../shared/models/entities/place";
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,11 @@ export class ManagerCarService {
    * @memberof ManagerCarService
    */
   changeCars(cars: Car[]): void {
+    this._cars = cars;
+    this._carsSource.next(this._cars);
+  }
+
+  nextCars(cars: Car[]) {
     this._cars = cars;
     this._carsSource.next(this._cars);
   }

@@ -1,4 +1,4 @@
-<form [formGroup]="carForm">
+<form [formGroup]="carForm" fxLayout="row wrap" >
 
   <!--matricule-->
   <mat-form-field class="input-form" appearance="fill" color="primary">
@@ -11,7 +11,7 @@
   </mat-form-field>
 
   <!--Power && Kilometrage  -->
-  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+  <div fxLayout="row" fxFlex="100%" fxLayoutAlign="space-between">
     <!--Power-->
     <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary">
       <mat-label>Puissance</mat-label>
@@ -45,7 +45,7 @@
 
 
   <!--places && site  -->
-  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+  <div fxLayout="row" fxFlex="100%" fxLayoutAlign="space-between">
 
     <!--places-->
     <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary" >
@@ -86,7 +86,7 @@
   </div>
 
   <!--Marque et model  -->
-  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
+  <div fxLayout="row" fxFlex="100%"  fxLayoutAlign="space-between">
     <!--Marque rattachée au modèle de voiture-->
     <mat-form-field class="input-form" fxFlex="45" appearance="fill" color="primary">
       <mat-label>Marque</mat-label>
@@ -147,8 +147,7 @@
   </div>
 
   <!--2 date -->
-  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
-
+  <div fxLayout="row" fxFlex="100%" fxLayoutAlign="space-between">
 
     <mat-form-field fxFlex="45">
       <mat-label>Assurance</mat-label>
@@ -164,34 +163,6 @@
              [readonly]="formMode == 'show' ? true : false" required>
       <mat-datepicker-toggle matSuffix [for]="picker2"  *ngIf="formMode != 'show'" ></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
-  </div>
-
-  <!--2 key -->
-  <div fxLayout="row" fxFlex.gt-sm="30" fxLayoutAlign="space-between">
-    <mat-form-field fxFlex="45" appearance="outline">
-      <mat-label>
-        <mat-icon>vpn_key</mat-icon>
-        <b> Clé 1</b></mat-label>
-      <mat-select>
-        <mat-option>None</mat-option>
-        <mat-option value="option1">Option 1</mat-option>
-        <mat-option value="option2">Option 2</mat-option>
-        <mat-option value="option3">Option 3</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-
-    <mat-form-field fxFlex="45" appearance="outline">
-      <mat-label>
-        <mat-icon>vpn_key</mat-icon>
-        <b> Clé 2</b></mat-label>
-      <mat-select>
-        <mat-option>None</mat-option>
-        <mat-option value="option1">Option 1</mat-option>
-        <mat-option value="option2">Option 2</mat-option>
-        <mat-option value="option3">Option 3</mat-option>
-      </mat-select>
     </mat-form-field>
   </div>
 
