@@ -74,8 +74,13 @@ export class MenuHeaderComponent implements OnInit {
   getTitle(url: string): string {
     if ( url ) {
       if ( url.search('booking-ride') > -1 ) return 'Emprunts';
+      if ( url.search('manage-ride/history') > -1 ) return 'Historique des trajets';
+      if ( url.search('manage-ride/current') > -1 ) return 'Trajets planifiés';
+      if ( url.search('manage-ride/one-ride') > -1 ) return 'Gestion des emprunts';
       if ( url.search('manage-ride') > -1 ) return 'Trajets';
       if ( url.search('manage-user') > -1 ) return 'Gestion des employés';
+      if ( url.search('manage-brand') > -1 ) return 'Gestion des marques';
+      if ( url.search('manage-model') > -1 ) return 'Gestion des modèles';
       if ( url.search('manage-car') > -1 ) return 'Gestion des véhicules';
       if ( url.search('manage-place') > -1 ) return 'Gestion des sites';
       if ( url.search('booking-confirm') > -1 ) return 'Gestion des prêts';
