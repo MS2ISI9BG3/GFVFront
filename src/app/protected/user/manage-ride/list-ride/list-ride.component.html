@@ -1,4 +1,4 @@
-<div *ngFor="let ride of rides;">
+<div *ngFor="let ride of ridessFiltered;">
   <mat-card class="card my-3" *ngIf="ride.status !== 'COMPLETED'" (click)="onClickRide(ride)">
     <mat-card-header>
       <div mat-card-avatar fxLayoutAlign="center center">
@@ -16,6 +16,13 @@
     </mat-card-header>
   </mat-card>
 </div>
+
+
+<!--Recherche-->
+<mat-form-field appearance="fill" class="search-form" color="primary">
+  <mat-label>Rechercher</mat-label>
+  <input matInput placeholder="3 caractères minimum" type="search" (input)="onInputSearch($event.target.value)">
+</mat-form-field>
 
 
 
