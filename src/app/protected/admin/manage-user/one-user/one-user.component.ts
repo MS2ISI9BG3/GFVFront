@@ -10,7 +10,6 @@ import {ConfirmDialogComponent} from '../../../../shared/components/confirm-dial
 import {UsersService} from '../../../../core/services/datas/users.service';
 import {RestUserService} from '../../../../core/services/rest/rest-user.service';
 import {User} from '../../../../shared/models/entities/user';
-import {Place} from '../../../../shared/models/entities/place';
 
 @Component({
   selector: 'app-one-user',
@@ -31,6 +30,7 @@ export class OneUserComponent implements OnInit {
   public formMode: FormMode = FormMode.show;
   public ShowActiver: boolean = false;
   public ShowDelete: boolean = true;
+  private roles: string[];
 
   /**
    * Creates an instance of AddPlaceComponent.
@@ -52,8 +52,9 @@ export class OneUserComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       login: ['', Validators.required],
-      email: ['', Validators.required],
-      phoneNumber: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('[0-9 ]{10}')]],
+      admin: ['', Validators.required]
     });
   }
 
@@ -124,6 +125,7 @@ export class OneUserComponent implements OnInit {
       this.f.login.setValue(user.login);
       this.f.email.setValue(user.email);
       this.f.phoneNumber.setValue(user.phoneNumber);
+      this.f.admin.setValue(user.isAdmin);
       this.ShowActiver = !user.activated;
       this.ShowDelete = !(user.login == 'admin');
       console.log('delete: ' + this.ShowDelete);
@@ -133,6 +135,7 @@ export class OneUserComponent implements OnInit {
       this.f.login.setValue('');
       this.f.email.setValue('');
       this.f.phoneNumber.setValue('');
+      this.f.admin.setValue(false);
     }
 
   }
@@ -162,6 +165,7 @@ export class OneUserComponent implements OnInit {
   get loginFormControl() { return this.userForm.get('login') }
   get emailFormControl() { return this.userForm.get('email') }
   get phoneNumberFormControl() { return this.userForm.get('phoneNumber') }
+  get adminFormControl() { return this.userForm.get('admin') }
 
   /**
    * Gestion du clic sur le bouton d'action
@@ -171,7 +175,7 @@ export class OneUserComponent implements OnInit {
    * @memberof AddFamilyFormComponent
    */
   onClickBtnUser(formMode: FormMode) {
-    if (formMode == FormMode.create) { this.addUser(); this.formMode = FormMode.create; return };
+    if (formMode == FormMode.create) {this.addUser();this.formMode = FormMode.show; return}
     if (formMode == FormMode.show) { this.formMode = FormMode.update; return };
     if (formMode == FormMode.update) { this.updateUser(); this.formMode = FormMode.show; return };
   }
@@ -223,6 +227,16 @@ export class OneUserComponent implements OnInit {
       return;
     }
 
+    if (this.userForm.value.admin)
+    {
+      this.roles = ["ROLE_USER", "ROLE_ADMIN"];
+    }
+    else
+    {
+      this.roles = ["ROLE_USER"];
+    }
+
+
     try {
 
       let user: User = new User(
@@ -232,7 +246,7 @@ export class OneUserComponent implements OnInit {
         this.userForm.value.firstName,
         this.userForm.value.lastName,
         this.userForm.value.email,
-        ["ROLE_USER"],
+        this.roles,
         false,
         false,
         null,
@@ -248,12 +262,13 @@ export class OneUserComponent implements OnInit {
         this.showAndUpdateUser(user.id.toString());
 
       }, error => {
-        console.log('erreur retourné: '  + error.message);
+        this.formMode = FormMode.create;
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
       });
 
     } catch (error) {
       this.messagesService.openSnackBar('Une erreur est survenue lors de la création de l\'utilisateur', 5000, 'danger', error);
+      this.formMode = FormMode.create;
     }
   }
 
@@ -269,6 +284,15 @@ export class OneUserComponent implements OnInit {
       return;
     }
 
+    if (this.userForm.value.admin)
+    {
+      this.roles = ["ROLE_USER", "ROLE_ADMIN"];
+    }
+    else
+    {
+      this.roles = ["ROLE_USER"];
+    }
+
     try {
 
       let user = this.user;
@@ -277,6 +301,7 @@ export class OneUserComponent implements OnInit {
       user.login = this.userForm.value.login;
       user.email = this.userForm.value.email;
       user.phoneNumber = this.userForm.value.phoneNumber;
+      user.authorities = this.roles;
 
       if ( isDeleted ) user.archived = true;
 
@@ -294,10 +319,12 @@ export class OneUserComponent implements OnInit {
 
       }, error => {
         this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
+        this.formMode = FormMode.update;
       });
 
     } catch (error) {
       this.messagesService.openSnackBar('Une erreur est survenue lors de la création du site', 5000, 'danger', error);
+      this.formMode = FormMode.update;
     }
 
   }

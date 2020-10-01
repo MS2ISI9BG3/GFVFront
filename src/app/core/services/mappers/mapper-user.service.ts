@@ -61,7 +61,7 @@ export class MapperUserService {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      authorities: ["ROLE_USER", "ROLE_ADMIN"],
+      authorities: user.authorities,
       activated : user.activated,
       archived : user.archived,
       phoneNumber: user.phoneNumber

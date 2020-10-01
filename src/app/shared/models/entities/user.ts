@@ -80,6 +80,13 @@ export class User {
      */
     private _archived?: boolean;
 
+  /**
+   * Liste des rôles de l'utilisateur
+   * @type {string[]}
+   * @memberof User
+   */
+    private _authorities?: string[];
+
     constructor(
         id: number,
         login: string,
@@ -101,20 +108,19 @@ export class User {
             this._email = email || '';
             this._activated = isActivated || null;
             this._archived = isArchived || null;
+            this._authorities = authorities;
             console.log('authorities: '+JSON.stringify(authorities));
-            //console.log('isArray(authorities): '+isArray(authorities));
-            //console.log('authorities.find: '+authorities.find( a => a == 'ROLE_ADMIN' ));
+
             if (authorities && authorities != undefined && isArray(authorities) && authorities != []) {
                 (authorities.find( a => a == 'ROLE_ADMIN' ) != undefined) ? this._isAdmin = true : this._isAdmin = false;
             } else this._isAdmin = false;
             this._token = token || '';
             this._phoneNumber = phoneNumber || '';
-            //this._isAdmin = true; //TODO remove for test
+
     }
 
     get id(): number { return this._id; }
     get login(): string { return this._login; }
-    //get password(): string { return this._password; }
     get firstName(): string { return this._firstName; }
     get lastName(): string { return this._lastName; }
     get email(): string { return this._email; }
@@ -123,6 +129,7 @@ export class User {
     get activated(): boolean { return this._activated }
     get archived(): boolean { return this._archived }
     get phoneNumber(): string { return this._phoneNumber }
+    get authorities(): string[] { return this._authorities }
 
 
   set id(value: number) {
@@ -168,4 +175,9 @@ export class User {
   set email(value: string) {
     this._email = value;
   }
+
+  set authorities(value: string[]) {
+    this._authorities = value;
+  }
+
 }
