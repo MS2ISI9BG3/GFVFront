@@ -70,6 +70,7 @@ export class Car {
   private _carSite: Place;
   private _serviceValidityDate: string;
   private _carStatus: string;
+  private _archived: boolean;
 
 
   /**
@@ -78,7 +79,6 @@ export class Car {
    * @param matricule
    * @param power
    * @param places
-   * @param {boolean} [isArchive=false] Est archivé ou non
    * @param odometer
    * @param insuranceDate
    * @param vin
@@ -87,11 +87,12 @@ export class Car {
    * @param carSite
    * @param serviceValidityDate
    * @param carStatus
+   * @param archived
    * @memberof Car
    */
 
 
-  constructor(carId: number, matricule: string, power: number, places: number, odometer: number, insuranceDate: string, vin: string, carBrand: Brand,carModel: Model, carSite: Place, serviceValidityDate: string, carStatus : string) {
+  constructor(carId: number, matricule: string, power: number, places: number, odometer: number, insuranceDate: string, vin: string, carBrand: Brand, carModel: Model, carSite: Place, serviceValidityDate: string, carStatus: string, archived: boolean) {
     this._carId = carId;
     this._matricule = matricule;
     this._power = power;
@@ -104,6 +105,7 @@ export class Car {
     this._carSite = carSite
     this._serviceValidityDate = serviceValidityDate
     this._carStatus = carStatus
+    this._archived = archived
 
   }
 
@@ -149,13 +151,18 @@ export class Car {
   get carSite(): Place {
     return this._carSite;
   }
+
   get serviceValidityDate(): string {
     return this._serviceValidityDate;
   }
 
-  get carStatus(): string { return this._carStatus }
+  get carStatus(): string {
+    return this._carStatus
+  }
 
-
+  get archived(): boolean {
+    return this._archived
+  }
 
 
   set matricule(value: string) {
@@ -190,10 +197,13 @@ export class Car {
     this._carSite = carSite;
   }
 
-  set carStatus( carStatus: string ) { this._carStatus = carStatus }
+  set carStatus(carStatus: string) {
+    this._carStatus = carStatus
+  }
 
-
-
+  set archived(archived: boolean) {
+    this._archived = archived
+  }
 
 
   set vin(value: string) {
@@ -201,7 +211,7 @@ export class Car {
   }
 
   set serviceValidityDate(value: string) {
-    this._serviceValidityDate = value ;
+    this._serviceValidityDate = value;
   }
 
 }

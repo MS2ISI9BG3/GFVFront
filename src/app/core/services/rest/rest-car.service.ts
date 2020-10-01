@@ -26,7 +26,7 @@ export class RestCarService {
   }
 
   public getCars() {
-    return this.http.get<ICar[]>(this.baseUrl + 'available', this.httpOptions)
+    return this.http.get<ICar[]>(this.baseUrl, this.httpOptions)
       .pipe(
         map(cars => {
             return this.mapperCar.mapCars(cars);

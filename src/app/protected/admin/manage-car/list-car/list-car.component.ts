@@ -60,7 +60,7 @@ export class ListCarComponent implements OnInit {
       .subscribe(cars => {
 
         this.cars = cars;
-        this.carsFiltered = cars;
+        this.carsFiltered = this.removeDeletedCars(cars);;
         this.carService.nextCars(cars);
         this.populateCarsFromService();
 
@@ -108,10 +108,10 @@ export class ListCarComponent implements OnInit {
    * @param {Place} place Un lieu
    * @memberof ListPlaceComponent
    */
-  // removeDeletedCars(cars: Car[]) {
-  //   if (cars && isArray(cars)) return cars.filter(p => !p.archived);
-  //   return cars;
-  // }
+  removeDeletedCars(cars: Car[]) {
+    if (cars && isArray(cars)) return cars.filter(p => !p.archived);
+    return cars;
+  }
 
 
   /**

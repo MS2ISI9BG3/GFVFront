@@ -46,6 +46,7 @@ export class MapperCarService {
       this.mapperSite.mapPlace(car.carSite),
       car.serviceValidityDate,
       String(car.carStatus),
+      Boolean(car.archived),
     );
   }
 
@@ -69,7 +70,7 @@ export class MapperCarService {
       carModel: this.mapperModel.mapIModel(car.carModel),
       carSite: this.mapperSite.mapIPlace(car.carSite),
       serviceValidityDate: car.serviceValidityDate,
-
+      archived: Boolean(car.archived),
     }
   }
 }
