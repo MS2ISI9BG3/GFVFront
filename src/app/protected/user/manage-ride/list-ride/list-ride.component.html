@@ -32,6 +32,6 @@
 </button>
 
 <!--Bouton de retour-->
-<button mat-fab color="accent" class="btn-close" (click)="onClickClose()">
+<button *ngIf="typeRide == 'history'" mat-fab color="accent" class="btn-close" (click)="onClickClose()">
   <mat-icon>close</mat-icon>
 </button>

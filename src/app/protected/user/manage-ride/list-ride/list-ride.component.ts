@@ -23,6 +23,8 @@ export class ListRideComponent implements OnInit {
 
   ridessFiltered: Ride[] = [];
 
+  typeRide: 'current' | 'history' = 'current';
+
   /**
    * Creates an instance of ListRideComponent.
    * @param route
@@ -50,7 +52,7 @@ export class ListRideComponent implements OnInit {
       if (!params['rideType']) this.router.navigate(['/error']);
       if (params['rideType'] != 'current' && params['rideType'] != 'history') this.router.navigate(['/error']);
       const type: 'current' | 'history' = params['rideType'];
-
+      this.typeRide = type;
       this.getRides(type);
 
     });
@@ -121,7 +123,7 @@ export class ListRideComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   onClickClose() {
-    this.router.navigate(['/public']); //TODO navigate to home
+    this.router.navigate(['/protected/user/manage-ride/manage-ride/current']);
   }
 
   /**
