@@ -4,6 +4,8 @@ import {RestRideService} from '../../../../core/services/rest/rest-ride.service'
 import {Router} from '@angular/router';
 import {isString} from "util";
 import { MessagesService } from 'src/app/core/services/messages/messages.service';
+import { MatDialog } from '@angular/material';
+import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-booking-confirm',
@@ -35,8 +37,8 @@ export class BookingConfirmComponent implements OnInit {
    */
   constructor(
     private restRide: RestRideService,
-    private router: Router,
-    private messagesService: MessagesService
+    private messagesService: MessagesService,
+    public dialog: MatDialog
   ) {
   }
 
@@ -109,6 +111,20 @@ export class BookingConfirmComponent implements OnInit {
   }
 
   onClickReturnedCar(ride: Ride) {
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "250px",
+      data: {
+          title: "Confirmer",
+          msg: "Confirmez-vous le retour des clés et la vérification de l'état du véhicule "+ride.car.matricule.toUpperCase()+" ?"}
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      console.log('dialogResult: '+dialogResult);
+      if ( dialogResult ) this.updateRetournedCar(ride);
+   });
+  }
+
+  updateRetournedCar(ride: Ride) {
     this.restRide.returnedCar(ride)
       .subscribe( (msgRide: {message: string}) => {
 
@@ -124,7 +140,6 @@ export class BookingConfirmComponent implements OnInit {
 
         } else this.messagesService.openSnackBar('Une erreur est survenue lors de l\'enregistrement du retour du véhicule', 5000, 'danger');
       });
-
   }
 
   /**
