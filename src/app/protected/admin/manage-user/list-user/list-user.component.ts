@@ -74,6 +74,13 @@ export class ListUserComponent implements OnInit {
       this.users = users;
       this.usersFiltered = this.removeDeletedUsers(users);
     });
+
+    this.usersFiltered.sort( (u1, u2) =>
+      (u1.firstName+u1.lastName).toLocaleLowerCase() > (u2.firstName+u2.lastName).toLocaleLowerCase() ? 1 :
+        (u1.firstName+u1.lastName).toLocaleLowerCase() < (u2.firstName+u2.lastName).toLocaleLowerCase() ? -1 :
+          0
+    );
+
   }
 
   /**
