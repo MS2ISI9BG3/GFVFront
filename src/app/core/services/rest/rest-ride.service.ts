@@ -65,25 +65,25 @@ export class RestRideService {
       );
   }
 
-  public confirmedRide(ride: Ride): Observable<Ride> {
+  public confirmedRide(ride: Ride): Observable<{message: string}> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<IRide>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<{message: string}>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
   }
 
-  public refusedRide(ride: Ride): Observable<Ride> {
+  public refusedRide(ride: Ride): Observable<{message: string}> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<IRide>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<{message: string}>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
   }
 
-  public returnedCar(ride: (Ride | number)): Observable<Ride> {
+  public returnedCar(ride: (Ride | number)): Observable<{message: string}> {
     let id = ride instanceof Ride ? ride.rideId : ride;
-    return this.http.put(this.baseUrl + "returned/" + id, this.httpOptions)
+    return this.http.put<{message: string}>(this.baseUrl + "returned/" + id, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
