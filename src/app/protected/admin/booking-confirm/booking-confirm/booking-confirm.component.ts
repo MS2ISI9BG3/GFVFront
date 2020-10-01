@@ -38,11 +38,10 @@ export class BookingConfirmComponent implements OnInit {
   ) {
   }
 
+  /**
+   * Initialisation de la liste des trajets.
+   */
   ngOnInit() {
-    this.populateRides();
-  }
-
-  populateRides() {
     this.restRide.getRides()
       .subscribe(rides => {
         this.rides = rides;
@@ -68,6 +67,10 @@ export class BookingConfirmComponent implements OnInit {
       });
   }
 
+  /**
+   * Clic sur le bouton permettant de confirmer un trajet par l'admin.
+   * @param ride - trajet à confirmer
+   */
   onClickConfirmedRide(ride: Ride) {
     this.restRide.confirmedRide(ride)
       .subscribe(ride => {
@@ -78,6 +81,10 @@ export class BookingConfirmComponent implements OnInit {
       });
   }
 
+  /**
+   * Clic sur le bouton permettant de refuser un trajet par l'admin.
+   * @param ride - trajet à refuser
+   */
   onClickRefusedRide(ride: Ride) {
     this.restRide.refusedRide(ride)
       .subscribe(ride => {
@@ -88,6 +95,10 @@ export class BookingConfirmComponent implements OnInit {
       });
   }
 
+  /**
+   * Clic sur le bouton permettant de valider le retour de la voiture.
+   * @param ride - trajet dont on valide le retour de la voiture
+   */
   onClickReturnedCar(ride: Ride) {
     this.restRide.returnedCar(ride)
       .subscribe(ride => {
@@ -96,14 +107,12 @@ export class BookingConfirmComponent implements OnInit {
         this.ridesConfirmedFiltered.splice(this.ridesConfirmed.indexOf(ride), 1);
 
       })
-
   }
 
   /**
-   * Gestion de l'évenement ajout d'une entrée dans la zone de recherche
-   * Filtre la liste des sites (minium 3 caractères à saisir dans le champ)
-   * @param {Place} place Un lieu
-   * @memberof ListPlaceComponent
+   * Gestion de l'évenement ajout d'une entrée dans la zone de recherche.
+   * Filtre la liste des trajets (minium 3 caractères à saisir dans le champ).
+   * @param event - evenement
    */
   onInputSearch(event: any) {
 

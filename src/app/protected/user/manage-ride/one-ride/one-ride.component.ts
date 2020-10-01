@@ -25,11 +25,6 @@ import {AuthenticationService} from '../../../../core/services/authentication/au
 })
 export class OneRideComponent implements OnInit {
 
-  /**
-   * Gère les valeurs des champs du formulaire ainsi que leur validité
-   * @type {FormGroup}
-   * @memberof OneRideComponent
-   */
   public rideForm: FormGroup;
   public ride: Ride;
   public queryRideId: string = null; // Null: add place, id: show and update place
@@ -41,16 +36,10 @@ export class OneRideComponent implements OnInit {
   public selectArrivalSite: Place;
   public formMode: FormMode = FormMode.show;
   public todayDate:Date = new Date();
+  public rides: Ride[];
 
   /**
-   * Liste de tous les lieux
-   * @type {Car[]}
-   * @memberof OneCarComponent
-   */
-  rides: Ride[];
-
-  /**
-   * Creates an instance of OneCarComponent.
+   * Creates an instance of OneRideComponent.
    * @param formBuilder
    * @param router
    * @param activatedRoute
@@ -61,7 +50,6 @@ export class OneRideComponent implements OnInit {
    * @param dialog
    * @param restSite
    * @param userService
-   * @memberof OneCarComponent
    */
   constructor(
     private formBuilder: FormBuilder,
@@ -86,8 +74,7 @@ export class OneRideComponent implements OnInit {
   }
 
   /**
-   * Récupère les données des lieux au chargement du composant
-   * @memberof OneCarComponent
+   * Récupère les données des lieux au chargement du composant.
    */
   ngOnInit() {
     this.rideForm.reset();
@@ -96,25 +83,36 @@ export class OneRideComponent implements OnInit {
     this.queryRideId ? this.showAndUpdateRide(this.queryRideId) : this.createRide();
   }
 
+  /**
+   * Mise à jour du site de départ dans la liste déroulante des sites de départs.
+   * @param currentSite - site actuel de départ
+   */
   public compareWithFnDepartureSite = (currentSite: Place) => {
     if (!this.ride) return false;
     return currentSite.siteId == this.ride.departureSite.siteId;
   };
 
+  /**
+   * Mise à jour du site d'arrivée dans la liste déroulante des sites d'arrivée.
+   * @param currentSite - site actuel d'arrivée
+   */
   public compareWithFnArrivalSite = (currentSite: Place) => {
     if (!this.ride) return false;
     return currentSite.siteId == this.ride.arrivalSite.siteId;
   };
 
+  /**
+   * Mise à jour de la voiture dans la liste déroulante des voitures.
+   * @param currentCar
+   */
   public compareWithFnCar = (currentCar: Car) => {
     if (!this.ride) return false;
     return currentCar.carId == this.ride.car.carId;
   };
 
   /**
-   * Initialisation du mode affichage et mise à jour d'un trajet
-   * @readonly
-   * @memberof OneRideComponent
+   * Initialisation du mode affichage et mise à jour d'un trajet.
+   * @param queryRideId - identifiant du trajet à modifier ou afficher
    */
   showAndUpdateRide(queryRideId: string) {
     this.populateRide(queryRideId);
@@ -122,8 +120,6 @@ export class OneRideComponent implements OnInit {
 
   /**
    * Initialisation du mode création d'un nouveau trajet
-   * @readonly
-   * @memberof OneRideComponent
    */
   createRide() {
     this.formMode = FormMode.create;
@@ -131,9 +127,8 @@ export class OneRideComponent implements OnInit {
   };
 
   /**
-   * Récupération des données du trajet pour affichage
-   * @readonly
-   * @memberof OneRideComponent
+   * Récupération des données du trajet pour l'affichage.
+   * @param queryRideId - identifiant du trajet
    */
   populateRide(queryRideId: string) {
     this.restRide.getRide(queryRideId)
@@ -152,11 +147,11 @@ export class OneRideComponent implements OnInit {
 
 
   /**
-   * Mise à jour des valeurs du formulaire du trajet
-   * Mode création : champs vides
-   * Mode affichage et mise à jour : champs préremplis avec les valeurs du trajets
-   * @readonly
-   * @memberof OneRideComponent
+   * Mise à jour des valeurs du formulaire du trajet.
+   * Mode création : champs vides.
+   * Mode affichage et mise à jour : champs préremplis avec les valeurs du trajets.
+   * @param formMode - mode du formulaire
+   * @param ride - trajet à afficher (si présent)
    */
   updateDefaultFormValue(formMode: FormMode, ride?: Ride) {
     console.log('Ride: ' + JSON.stringify(ride));
@@ -183,9 +178,7 @@ export class OneRideComponent implements OnInit {
 
 
   /**
-   * Récupération de l'id du trajet passé en paramètre de la route
-   * @readonly
-   * @memberof OneRideComponent
+   * Récupération de l'id du trajet passé en paramètre de la route.
    */
   populateQueryParams() {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -194,9 +187,7 @@ export class OneRideComponent implements OnInit {
   }
 
   /**
-   * Renvoie les controles des champs du formulaire
-   * @readonly
-   * @memberof OneRideComponent
+   * Renvoie les controles des champs du formulaire.
    */
   get f() {
     return this.rideForm.controls;
@@ -227,9 +218,8 @@ export class OneRideComponent implements OnInit {
   }
 
   /**
-   * Gestion du clic sur le bouton d'action
-   * @readonly
-   * @memberof OneRideComponent
+   * Gestion du clic sur le bouton d'action.
+   * @param formMode - mode du formulaire
    */
   onClickBtnRide(formMode: FormMode) {
     if (formMode == FormMode.create) {
@@ -250,9 +240,7 @@ export class OneRideComponent implements OnInit {
   }
 
   /**
-   * Gestion du clic sur le bouton suppression
-   * @readonly
-   * @memberof OneRideComponent
+   * Gestion du clic sur le bouton suppression.
    */
   onClickDelete() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -268,11 +256,8 @@ export class OneRideComponent implements OnInit {
     });
   }
 
-
   /**
-   * Ajout d'un trajet
-   * @returns
-   * @memberof OneRideComponent
+   * Ajout d'un trajet.
    */
   addRide() {
     if (this.rideForm.invalid) {
@@ -310,14 +295,12 @@ export class OneRideComponent implements OnInit {
     } catch (error) {
       this.messagesService.openSnackBar('Une erreur est survenue lors de la création du trajet', 5000, 'danger', error);
     }
-
   }
 
 
   /**
-   * Update d'un trajet
-   * @returns
-   * @memberof OneRideComponent
+   * Mise à jour ou suppression d'un trajet.
+   * @param isDeleted - true si on doit supprimer le trajet, false si on le modifie
    */
   updateRide(isDeleted: boolean = false) {
     if (this.rideForm.invalid) {
@@ -354,23 +337,18 @@ export class OneRideComponent implements OnInit {
     } catch (error) {
       this.messagesService.openSnackBar('Une erreur est survenue lors de la modification du trajet', 5000, 'danger', error);
     }
-
   }
 
   /**
-   * Gestion du clic sur le bouton fermer
-   * Renvoie l'utilisateur à la liste des trajets
-   * @readonly
-   * @memberof OneRideComponent
+   * Gestion du clic sur le bouton fermer.
+   * Renvoie l'utilisateur à la liste des trajets.
    */
   onClickClose() {
     this.router.navigate(['/protected/user/manage-ride/manage-ride/current']);
   }
 
   /**
-   * Récupération des données des sites
-   * @readonly
-   * @memberof OneRideComponent
+   * Récupération des données des sites.
    */
   populateSites() {
     this.restSite.getPlaces()
@@ -386,13 +364,18 @@ export class OneRideComponent implements OnInit {
   }
 
   /**
-   * Supprime les sites supprimés (état archivé) de la liste des sites à afficher
+   * Supprime les sites supprimés (état archivé) de la liste des sites à afficher.
+   * @param sites - listes de tous les sites existants
    */
   removeDeletedSites(sites: Place[]) {
     if (sites && isArray(sites)) return sites.filter(b => !b.archived);
     return sites;
   }
 
+  /**
+   * Evenement de changement du site de départ
+   * @param site - site de départ sélectionné dans la liste
+   */
   onSelectionChangeDepartureSite(site: Place) {
     if (site) {
       this.selectDepartureSite = site;
@@ -400,14 +383,17 @@ export class OneRideComponent implements OnInit {
     }
   }
 
+  /**
+   * Evenement de changement du site d'arrivée
+   * @param site - site d'arrivée sélectionné dans la liste
+   */
   onSelectionChangeArrivalSite(site: Place) {
     if (site) this.selectArrivalSite = site;
   }
 
   /**
-   * Récupération des données des voitures
-   * @readonly
-   * @memberof OneRideComponent
+   * Récupération des données des voitures via le site de départ.
+   * @param idPlace - identifiant du site de départ
    */
   populateCars(idPlace) {
     this.restCar.getCarByPlace(idPlace.toString())
@@ -424,13 +410,18 @@ export class OneRideComponent implements OnInit {
   }
 
   /**
-   * Supprime les voitures supprimés (état archivé) de la liste des voitures à afficher
+   * Supprime les voitures supprimés (état archivé) de la liste des voitures à afficher.
+   * @param cars - liste de toutes les voitures
    */
   removeDeletedCars(cars: Car[]) {
     if (cars && isArray(cars)) return cars.filter(c => c.carStatus === 'AVAILABLE');
     return cars;
   }
 
+  /**
+   * Evenement de changement du site d'arrivée
+   * @param car - voiture sélectionné dans la liste
+   */
   onSelectionChangeCar(car: Car) {
     if (car) this.selectCar = car;
   }
