@@ -99,10 +99,10 @@ export class MenuContentComponent implements OnInit {
     this.router.navigate(['protected/admin/booking-confirm/booking-confirm']);
   }
 
-  onClickIncident() {
+  /*onClickIncident() {
     this.hideMenu.emit();
     this.router.navigate(['protected/admin/show-report/show-report']);
-  }
+  }*/
 
   onClickLogout() {
     this.hideMenu.emit();
