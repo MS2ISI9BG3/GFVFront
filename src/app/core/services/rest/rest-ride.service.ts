@@ -24,6 +24,10 @@ export class RestRideService {
   ) {
   }
 
+  /**
+   * Ajout d'un trajet dans la base de données.
+   * @param ride - trajet à ajouter
+   */
   public addRide(ride: Ride): Observable<Ride> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
     return this.http.post<IRide>(this.baseUrl, iRide, this.httpOptions)
@@ -36,6 +40,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Modification d'un trajet dans la base de données.
+   * @param ride - trajet à modifier
+   */
   public updateRide(ride: Ride): Observable<Ride> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
     return this.http.put<IRide>(this.baseUrl, iRide, this.httpOptions)
@@ -44,6 +52,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Recherche d'un trajet via son id.
+   * @param id - id du trajet recherché
+   */
   public getRide(id: string): Observable<Ride> {
     return this.http.get<IRide>(this.baseUrl + id, this.httpOptions)
       .pipe(
@@ -57,6 +69,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Annulation d'un trajet.
+   * @param ride - trajet à annuler
+   */
   public canceledRide(ride: Ride): Observable<Ride> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
     return this.http.put<IRide>(this.baseUrl + "canceled/" + ride.rideId, iRide, this.httpOptions)
@@ -65,6 +81,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Confirmation du trajet par l'admin.
+   * @param ride - trajet à confirmer
+   */
   public confirmedRide(ride: Ride): Observable<{message: string}> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
     return this.http.put<{message: string}>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
@@ -73,6 +93,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Refus du trajet par l'admin.
+   * @param ride - trajet refusé
+   */
   public refusedRide(ride: Ride): Observable<{message: string}> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
     return this.http.put<{message: string}>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
@@ -81,6 +105,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Trajet terminé, permettant de remettre la voiture disponible.
+   * @param ride - trajet à terminer pour remettre la voiture disponible
+   */
   public returnedCar(ride: (Ride | number)): Observable<{message: string}> {
     let id = ride instanceof Ride ? ride.rideId : ride;
     return this.http.put<{message: string}>(this.baseUrl + "returned/" + id, this.httpOptions)
@@ -89,6 +117,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Suppression du trajet de la base de données.
+   * @param ride - trajet à supprimer
+   */
   public deleteRide(ride: (Ride | number)): Observable<Ride> {
     let id = ride instanceof Ride ? ride.rideId : ride;
     return this.http.delete(this.baseUrl + id, this.httpOptions)
@@ -97,6 +129,10 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Récupération des trajets d'un utilisateur.
+   * @param userId - id de l'user dont on récupère les trajets
+   */
   public getRidesByLogin(userId) {
     return this.http.get<IRide[]>(this.baseUrl + "user/" + userId , this.httpOptions)
       .pipe(
@@ -108,6 +144,9 @@ export class RestRideService {
       );
   }
 
+  /**
+   * Récupération de tous les trajets.
+   */
   public getRides() {
     return this.http.get<IRide[]>(this.baseUrl, this.httpOptions)
       .pipe(

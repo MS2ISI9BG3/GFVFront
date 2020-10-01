@@ -6,7 +6,6 @@ import {ManagerRideService} from "../services/manager-ride.service";
 import {AuthenticationService} from '../../../../core/services/authentication/authentication.service';
 import * as moment from 'moment';
 import {isString} from "util";
-import {Car} from "../../../../shared/models/entities/car";
 
 @Component({
   selector: 'app-list-ride',
@@ -26,6 +25,7 @@ export class ListRideComponent implements OnInit {
 
   /**
    * Creates an instance of ListRideComponent.
+   * @param route
    * @param {RestRideService} restRide - Service appel à l'API Rest
    * @param {Router} router Angular Router
    * @param {ManagerRideService} rideService - Service gérant les trajets
@@ -42,7 +42,7 @@ export class ListRideComponent implements OnInit {
   }
 
   /**
-   * Initialisation de la liste des trajets
+   * Initialisation de la liste des trajets.
    * @memberof ListRideComponent
    */
   ngOnInit() {
@@ -117,7 +117,7 @@ export class ListRideComponent implements OnInit {
   }
 
   /**
-   * Gestion de l'événement clic sur la boutton fermer la fenêtre courante
+   * Gestion de l'événement clic sur la bouton fermer la fenêtre courante
    * @memberof ListPlaceComponent
    */
   onClickClose() {
@@ -127,8 +127,8 @@ export class ListRideComponent implements OnInit {
   /**
    * Gestion de l'évenement ajout d'une entrée dans la zone de recherche
    * Filtre la liste des sites (minium 3 caractères à saisir dans le champ)
-   * @param {Place} place Un lieu
    * @memberof ListPlaceComponent
+   * @param event
    */
   onInputSearch(event: any) {
 
