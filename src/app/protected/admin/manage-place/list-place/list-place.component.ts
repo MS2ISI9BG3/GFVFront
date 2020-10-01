@@ -151,7 +151,7 @@ export class ListPlaceComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   onClickClose() {
-    this.router.navigate(['/protected']); //TODO navigate to home
+    this.router.navigate(['/protected/admin']);
   }
 
 }

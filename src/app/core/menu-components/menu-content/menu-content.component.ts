@@ -30,8 +30,7 @@ export class MenuContentComponent implements OnInit {
         filter(event => event instanceof NavigationEnd)
       )
       .subscribe( ( event: NavigationEnd ) => {
-        this.libCurrentRoute = this.updateLibCurrentRoute(event.url);
-        console.log('NEW ROUTE: '+this.libCurrentRoute+' - URL: '+event.url);
+        this.libCurrentRoute = this.updateLibCurrentRoute(event.urlAfterRedirects);
       });
     this.authenticationService.currentUser.subscribe(
       ( iuser: IUser ) => {

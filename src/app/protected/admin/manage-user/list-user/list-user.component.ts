@@ -132,7 +132,7 @@ export class ListUserComponent implements OnInit {
    * @memberof ListUserComponent
    */
   onClickClose() {
-    this.router.navigate(['/protected']); //TODO navigate to home
+    this.router.navigate(['/protected/admin']);
   }
 
   /**

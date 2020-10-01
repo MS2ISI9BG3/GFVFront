@@ -126,7 +126,7 @@ export class ListModelComponent implements OnInit {
    * Gestion de l'événement clic sur la boutton fermer la fenêtre courante
    */
   onClickClose() {
-    this.router.navigate(['/protected']); //TODO navigate to home
+    this.router.navigate(['/protected/admin']);
   }
 
 }
