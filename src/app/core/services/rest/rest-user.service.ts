@@ -67,6 +67,18 @@ export class RestUserService {
       );
   }
 
+  public addUser(user: User): Observable<User> {
+    let iUser: IUser = this.mapperUser.mapIUser(user);
+    return this.http.post<IUser>(this.baseUrl, iUser, this.httpOptions)
+      .pipe(
+        map(iUser => {
+            return this.mapperUser.mapUser(iUser)
+          },
+          error => Observable.throw(error)),
+        catchError(error => { return throwError(error) })
+      );
+  }
+
   // Utilisation d'authenticationService
   /*public login(login: string, password: string): Observable<User> {
     return this.http.post<iUser>(this.baseUrl+'authenticate', { login, password }, this.httpOptions)

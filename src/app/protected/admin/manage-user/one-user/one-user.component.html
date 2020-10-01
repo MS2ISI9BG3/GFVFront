@@ -62,7 +62,7 @@
 </button>
 
 <!--Bouton de suppression-->
-<button mat-fab *ngIf="formMode == 'show'" color="primary" class="btn-delete" (click)="onClickDelete()">
+<button mat-fab *ngIf="formMode == 'show' && ShowDelete" color="primary" class="btn-delete" (click)="onClickDelete()" >
   <mat-icon>delete</mat-icon>
 </button>
 

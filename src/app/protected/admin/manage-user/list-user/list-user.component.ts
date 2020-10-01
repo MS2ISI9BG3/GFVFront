@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {MessagesService} from '../../../../core/services/messages/messages.service';
 import {RestUserService} from '../../../../core/services/rest/rest-user.service';
 import {catchError} from 'rxjs/operators';
+import { isArray, isString } from 'util';
 import {of} from 'rxjs';
 import {UsersService} from '../../../../core/services/datas/users.service';
 import {Place} from '../../../../shared/models/entities/place';
@@ -81,8 +82,36 @@ export class ListUserComponent implements OnInit {
    * @memberof ListUserComponent
    */
   removeDeletedUsers(users: User[]) {
-   // if ( users && isArray(users) ) return users.filter( p => !p.archived );
+    if ( users && isArray(users) ) return users.filter( p => !p.archived );
     return users;
+  }
+
+  /**
+   * Gestion de l'évenement ajout d'une entrée dans la zone de recherche
+   * Filtre la liste des utilisateurs (minium 3 caractères à saisir dans le champ)
+   * @param {User} place Un utilisateur
+   * @memberof ListUserComponent
+   */
+  onInputSearch(event: any) {
+
+    try {
+
+      if (!isString(event.toString())) throw new Error();
+
+      const inputValue: string = event.trim().toLocaleLowerCase();
+
+      if ( inputValue.length >= 3 ) {
+        this.usersFiltered = this.removeDeletedUsers(this.users).filter(
+          user => (user.firstName.toLocaleLowerCase().search(inputValue) > -1 || user.lastName.toLocaleLowerCase().search(inputValue) > -1 )
+        );
+      } else {
+        throw new Error();
+      }
+
+    } catch {
+      this.usersFiltered = this.removeDeletedUsers(this.users);
+    }
+
   }
 
   /**
@@ -104,6 +133,16 @@ export class ListUserComponent implements OnInit {
    */
   onClickClose() {
     this.router.navigate(['/protected']); //TODO navigate to home
+  }
+
+  /**
+   * Gestion de l'événement clic sur la boutton d'ajout d'un lieu
+   * @memberof ListUserComponent
+   */
+  onClickAddUser() {
+    //L'id du user n'est pas passé en paramètre,
+    //la page affichée sera donc en mode création d'un nouveau user
+    this.router.navigate(['/protected/admin/manage-user/one-user']);
   }
 
 }

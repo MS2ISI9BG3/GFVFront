@@ -26,14 +26,14 @@ export class UsersService {
     }
   }
 
-  nextPlaceCreated(user: User) {
+  nextUserCreated(user: User) {
     if (user) {
       this._users.push(user);
       this._usersSubject.next(this._users);
     }
   }
 
-  nextPlaceDeleted(user: User) {
+  nextUserDeleted(user: User) {
     if (user) {
       let index: number = this._users.findIndex( s => s.id == user.id );
       this._users.slice(index);

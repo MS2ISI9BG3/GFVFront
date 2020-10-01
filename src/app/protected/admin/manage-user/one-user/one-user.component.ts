@@ -10,6 +10,7 @@ import {ConfirmDialogComponent} from '../../../../shared/components/confirm-dial
 import {UsersService} from '../../../../core/services/datas/users.service';
 import {RestUserService} from '../../../../core/services/rest/rest-user.service';
 import {User} from '../../../../shared/models/entities/user';
+import {Place} from '../../../../shared/models/entities/place';
 
 @Component({
   selector: 'app-one-user',
@@ -29,6 +30,7 @@ export class OneUserComponent implements OnInit {
   public isToUpdate: boolean = false;
   public formMode: FormMode = FormMode.show;
   public ShowActiver: boolean = false;
+  public ShowDelete: boolean = true;
 
   /**
    * Creates an instance of AddPlaceComponent.
@@ -123,6 +125,8 @@ export class OneUserComponent implements OnInit {
       this.f.email.setValue(user.email);
       this.f.phoneNumber.setValue(user.phoneNumber);
       this.ShowActiver = !user.activated;
+      this.ShowDelete = !(user.login == 'admin');
+      console.log('delete: ' + this.ShowDelete);
     } else {
       this.f.firstName.setValue('');
       this.f.lastName.setValue('');
@@ -167,7 +171,7 @@ export class OneUserComponent implements OnInit {
    * @memberof AddFamilyFormComponent
    */
   onClickBtnUser(formMode: FormMode) {
-    if (formMode == FormMode.create) { this.addUser(); this.formMode = FormMode.show; return };
+    if (formMode == FormMode.create) { this.addUser(); this.formMode = FormMode.create; return };
     if (formMode == FormMode.show) { this.formMode = FormMode.update; return };
     if (formMode == FormMode.update) { this.updateUser(); this.formMode = FormMode.show; return };
   }
@@ -209,12 +213,48 @@ export class OneUserComponent implements OnInit {
   }
 
   /**
-   * Validation et enregistrement éventuel des valeurs du formulaire d'ajout d'un lieu
+   * Validation et enregistrement éventuel des valeurs du formulaire d'ajout d'un utilisateur
    * @returns
-   * @memberof AddPlaceComponent
+   * @memberof AddUserComponent
    */
   addUser() {
+    // stop here if form is invalid
+    if (this.userForm.invalid) {
+      return;
+    }
 
+    try {
+
+      let user: User = new User(
+        null,
+        this.userForm.value.login,
+        null,
+        this.userForm.value.firstName,
+        this.userForm.value.lastName,
+        this.userForm.value.email,
+        ["ROLE_USER"],
+        false,
+        false,
+        null,
+        this.userForm.value.phoneNumber,
+      );
+
+      this.restUser.addUser(user).subscribe(user => {
+
+        this.user = user;
+        this.usersService.nextUserUpdated(user);
+
+        this.messagesService.openSnackBar('Création de l\'utilisateur  ' + user.firstName + ' ' + user.lastName + ' réussi.', 5000, 'success');
+        this.showAndUpdateUser(user.id.toString());
+
+      }, error => {
+        console.log('erreur retourné: '  + error.message);
+        this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
+      });
+
+    } catch (error) {
+      this.messagesService.openSnackBar('Une erreur est survenue lors de la création de l\'utilisateur', 5000, 'danger', error);
+    }
   }
 
   /**
