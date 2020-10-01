@@ -7,6 +7,7 @@ import { MessagesService } from 'src/app/core/services/messages/messages.service
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { isArray, isString } from 'util';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-list-brand',
@@ -28,6 +29,8 @@ export class ListBrandComponent implements OnInit {
    */
   brandsFiltered: Brand[] = [];
 
+  public isMobile: boolean = true;
+
   /**
    * Creates an instance of ListBrandComponent.
    * @param {RestBrandService} restBrand
@@ -40,7 +43,8 @@ export class ListBrandComponent implements OnInit {
     private restBrand: RestBrandService,
     private router: Router,
     private brandsService: BrandsService,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+    private deviceDetector: DeviceDetectorService
   ) { }
 
   /**
@@ -48,6 +52,7 @@ export class ListBrandComponent implements OnInit {
    * @memberof ListBrandComponent
    */
   ngOnInit() {
+    this.isMobile = !this.deviceDetector.isDesktop();
     this.populateBrandsFromApi();
   }
 

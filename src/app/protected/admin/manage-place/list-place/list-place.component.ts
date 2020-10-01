@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { isArray, isString } from 'util';
 import { MessagesService } from 'src/app/core/services/messages/messages.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-list-place',
@@ -27,6 +28,7 @@ export class ListPlaceComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   placesFiltered: Place[] = [];
+  public isMobile: boolean = true;
 
   /**
    * Creates an instance of ListPlaceComponent.
@@ -39,7 +41,8 @@ export class ListPlaceComponent implements OnInit {
     private restPlace: RestPlaceService,
     private router: Router,
     private placesService: PlacesService,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+    private deviceDetector: DeviceDetectorService
   ) { }
 
   /**
@@ -47,6 +50,7 @@ export class ListPlaceComponent implements OnInit {
    * @memberof ListPlaceComponent
    */
   ngOnInit() {
+    this.isMobile = !this.deviceDetector.isDesktop();
     this.populatePlacesFromApi();
   }
 

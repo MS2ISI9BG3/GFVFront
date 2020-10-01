@@ -7,6 +7,7 @@ import { MessagesService } from 'src/app/core/services/messages/messages.service
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { isArray, isString } from 'util';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-list-model',
@@ -24,17 +25,21 @@ export class ListModelComponent implements OnInit {
    */
   modelsFiltered: Model[] = [];
 
+  public isMobile: boolean = true;
+
   constructor(
     private restModel: RestModelService,
     private router: Router,
     private modelsService: ModelsService,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+		private deviceDetector: DeviceDetectorService
   ) { }
 
   /**
    * Initialisation de la liste des lieux
    */
   ngOnInit() {
+    this.isMobile = !this.deviceDetector.isDesktop();
     this.populateModelsFromApi();
   }
 

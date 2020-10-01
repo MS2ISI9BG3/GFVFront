@@ -8,6 +8,7 @@ import {Place} from "../../../../shared/models/entities/place";
 import {MessagesService} from "../../../../core/services/messages/messages.service";
 import {catchError} from "rxjs/operators";
 import {of} from "rxjs";
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-list-car',
@@ -23,13 +24,14 @@ export class ListCarComponent implements OnInit {
    */
   cars: Car[] = [];
 
-
   /**
    * Tableau contenant tous les lieux après application des filtres pour affichage
    * @type {Place[]}
    * @memberof ListPlaceComponent
    */
   carsFiltered: Car[] = [];
+
+  public isMobile: boolean = true;
 
   /**
    * Creates an instance of ListCarComponent.
@@ -42,7 +44,8 @@ export class ListCarComponent implements OnInit {
     private restCar: RestCarService,
     private router: Router,
     private carService: ManagerCarService,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+		private deviceDetector: DeviceDetectorService
   ) {
   }
 
@@ -51,7 +54,7 @@ export class ListCarComponent implements OnInit {
    * @memberof ListCarComponent
    */
   ngOnInit() {
-
+    this.isMobile = !this.deviceDetector.isDesktop();
     this.populateCarsFromApi();
   }
 

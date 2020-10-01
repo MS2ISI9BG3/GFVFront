@@ -6,6 +6,7 @@ import {ManagerRideService} from "../services/manager-ride.service";
 import {AuthenticationService} from '../../../../core/services/authentication/authentication.service';
 import * as moment from 'moment';
 import {isString} from "util";
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-list-ride',
@@ -22,8 +23,8 @@ export class ListRideComponent implements OnInit {
   rides: Ride[] = [];
 
   ridessFiltered: Ride[] = [];
-
   typeRide: 'current' | 'history' = 'current';
+  public isMobile: boolean = true;
 
   /**
    * Creates an instance of ListRideComponent.
@@ -39,7 +40,8 @@ export class ListRideComponent implements OnInit {
     private restRide: RestRideService,
     private router: Router,
     private rideService: ManagerRideService,
-    private userService: AuthenticationService
+    private userService: AuthenticationService,
+		private deviceDetector: DeviceDetectorService
   ) {
   }
 
@@ -48,6 +50,7 @@ export class ListRideComponent implements OnInit {
    * @memberof ListRideComponent
    */
   ngOnInit() {
+    this.isMobile = !this.deviceDetector.isDesktop();
     this.route.params.subscribe(params => {
       if (!params['rideType']) this.router.navigate(['/error']);
       if (params['rideType'] != 'current' && params['rideType'] != 'history') this.router.navigate(['/error']);

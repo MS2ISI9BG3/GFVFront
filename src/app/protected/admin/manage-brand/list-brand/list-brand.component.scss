@@ -1,10 +1,19 @@
 .search-form {
-    width: 100%;
+    //width: 100%;
     position: fixed;
     bottom: 0px;
-    left: 0px;
+    right: 0px;
     background-color: grey;
     margin-bottom: -1.25em; //Supprime la marge par défaut (/!\ empêche l'utilisation des messages d'erreurs)
+}
+
+.search-form-big {
+    width: 100%;
+}
+
+.search-form-small {
+    width: 30%;
+    border-radius: 10px 0px 0px 0px;
 }
 
 .form-field-hidden {

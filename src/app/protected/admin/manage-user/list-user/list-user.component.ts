@@ -8,6 +8,7 @@ import { isArray, isString } from 'util';
 import {of} from 'rxjs';
 import {UsersService} from '../../../../core/services/datas/users.service';
 import {Place} from '../../../../shared/models/entities/place';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-list-user',
@@ -17,6 +18,7 @@ import {Place} from '../../../../shared/models/entities/place';
 export class ListUserComponent implements OnInit {
 
   ngOnInit() {
+    this.isMobile = !this.deviceDetector.isDesktop();
     this.populateUsersFromApi();
   }
 
@@ -34,11 +36,14 @@ export class ListUserComponent implements OnInit {
    */
   usersFiltered: User[] = [];
 
+  public isMobile: boolean = true;
+
   constructor(
     private restUser: RestUserService,
     private router: Router,
     private usersService: UsersService,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+		private deviceDetector: DeviceDetectorService
   ) {}
 
   /**

@@ -93,7 +93,7 @@
 </div>
 
 <!--Recherche-->
-<mat-form-field appearance="fill" class="search-form" color="primary">
+<mat-form-field appearance="fill" class="search-form" color="primary" [ngClass]="isMobile ? 'search-form-big' : 'search-form-small'">
   <mat-label>Rechercher</mat-label>
   <input matInput placeholder="3 caractères minimum" type="search" (input)="onInputSearch($event.target.value)">
 </mat-form-field>

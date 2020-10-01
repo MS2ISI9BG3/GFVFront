@@ -6,6 +6,7 @@ import {isString} from "util";
 import { MessagesService } from 'src/app/core/services/messages/messages.service';
 import { MatDialog } from '@angular/material';
 import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-booking-confirm',
@@ -28,6 +29,7 @@ export class BookingConfirmComponent implements OnInit {
   ridesRefused: Ride[] = [];
   ridesRefusedFiltered: Ride[] = [];
   ridesToReturnedCar: Ride[] = [];
+  public isMobile: boolean = true;
 
   /**
    * Creates an instance of ListRideComponent.
@@ -38,7 +40,8 @@ export class BookingConfirmComponent implements OnInit {
   constructor(
     private restRide: RestRideService,
     private messagesService: MessagesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+		private deviceDetector: DeviceDetectorService
   ) {
   }
 
@@ -46,6 +49,7 @@ export class BookingConfirmComponent implements OnInit {
    * Initialisation de la liste des trajets.
    */
   ngOnInit() {
+    this.isMobile = !this.deviceDetector.isDesktop();
     this.populateRides();
   }
 

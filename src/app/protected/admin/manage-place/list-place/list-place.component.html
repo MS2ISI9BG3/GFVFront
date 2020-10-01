@@ -1,4 +1,4 @@
-<mat-card *ngFor="let place of placesFiltered;" (click)="onClickPlace(place)" class="card">
+<mat-card *ngFor="let place of placesFiltered;" (click)="onClickPlace(place)" class="card" #container>
   <mat-card-header>
     <div mat-card-avatar><mat-icon mat-list-icon color="accent">place</mat-icon></div>
     <mat-card-title>{{ place?.siteName }}</mat-card-title>
@@ -18,7 +18,7 @@
 </mat-form-field>
 
 <!--Recherche-->
-<mat-form-field appearance="fill" class="search-form" color="primary">
+<mat-form-field appearance="fill" class="search-form" color="primary" [ngClass]="isMobile ? 'search-form-big' : 'search-form-small'">
   <mat-label>Rechercher</mat-label>
   <input matInput placeholder="3 caractères minimum" type="search" (input)="onInputSearch($event.target.value)">
 </mat-form-field>
