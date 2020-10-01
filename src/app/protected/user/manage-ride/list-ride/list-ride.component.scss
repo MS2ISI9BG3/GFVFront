@@ -26,3 +26,12 @@
   right: 10px;
   z-index: 20;
 }
+.search-form {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  background-color: grey;
+  margin-bottom: -1.25em; //Supprime la marge par défaut (/!\ empêche l'utilisation des messages d'erreurs)
+}
+

@@ -1,6 +1,6 @@
 <div *ngIf="ridesToConfirmed.length > 0">
   <h2>Trajets à confirmer : </h2>
-  <mat-card class="card my-3" *ngFor="let ride of ridesToConfirmed;">
+  <mat-card class="card my-3" *ngFor="let ride of ridesToConfirmedFiltered;">
     <mat-card-header>
       <div mat-card-avatar fxLayoutAlign="center center">
         <mat-icon
@@ -33,7 +33,7 @@
 
 <div *ngIf="ridesConfirmed.length > 0">
   <h2>Trajets validés : </h2>
-  <mat-card class="card my-3" *ngFor="let ride of ridesConfirmed;">
+  <mat-card class="card my-3" *ngFor="let ride of ridesConfirmedFiltered;">
     <mat-card-header>
       <div mat-card-avatar fxLayoutAlign="center center">
         <mat-icon
@@ -65,7 +65,7 @@
 
 <div *ngIf="ridesRefused.length > 0">
   <h2>Trajets refusés : </h2>
-  <mat-card class="card my-3" *ngFor="let ride of ridesRefused;">
+  <mat-card class="card my-3" *ngFor="let ride of ridesRefusedFiltered;">
     <mat-card-header>
       <div mat-card-avatar fxLayoutAlign="center center">
         <mat-icon
@@ -91,4 +91,11 @@
     </mat-card-content>
   </mat-card>
 </div>
+
+<!--Recherche-->
+<mat-form-field appearance="fill" class="search-form" color="primary">
+  <mat-label>Rechercher</mat-label>
+  <input matInput placeholder="3 caractères minimum" type="search" (input)="onInputSearch($event.target.value)">
+</mat-form-field>
+
 

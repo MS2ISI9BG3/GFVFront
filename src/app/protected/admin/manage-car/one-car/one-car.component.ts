@@ -355,7 +355,7 @@ export class OneCarComponent implements OnInit {
         this.carForm.value.carModel,
         this.carForm.value.carSite,
         this.carForm.value.serviceValidityDate,
-        null
+        "AVAILABLE"
       );
 
       console.log("result du form : ", car)

@@ -53,16 +53,6 @@ export class ListCarComponent implements OnInit {
   ngOnInit() {
 
     this.populateCarsFromApi();
-
-    this.restCar.getCars()
-      .subscribe(cars => {
-        this.cars = cars;
-        this.carService.changeCars(cars);
-      });
-    this.carService.$cars
-      .subscribe(cars =>
-        this.cars = cars
-      );
   }
 
   populateCarsFromApi() {
@@ -70,7 +60,7 @@ export class ListCarComponent implements OnInit {
       .subscribe(cars => {
 
         this.cars = cars;
-        // this.carsFiltered = this.removeDeletedCars(cars);
+        this.carsFiltered = cars;
         this.carService.nextCars(cars);
         this.populateCarsFromService();
 

@@ -40,6 +40,7 @@ export class OneRideComponent implements OnInit {
   public selectDepartureSite: Place;
   public selectArrivalSite: Place;
   public formMode: FormMode = FormMode.show;
+  public todayDate:Date = new Date();
 
   /**
    * Liste de tous les lieux
@@ -411,7 +412,7 @@ export class OneRideComponent implements OnInit {
   populateCars(idPlace) {
     this.restCar.getCarByPlace(idPlace.toString())
       .subscribe((cars: Car[]) => {
-          // this.cars = this.removeDeletedCars(cars);
+          this.cars = this.removeDeletedCars(cars);
           if ( this.formMode == FormMode.update && this.selectCar ) this.cars.push(this.selectCar);
         },
         (error => {
@@ -425,10 +426,10 @@ export class OneRideComponent implements OnInit {
   /**
    * Supprime les voitures supprimés (état archivé) de la liste des voitures à afficher
    */
-  // removeDeletedCars(cars: Car[]) {
-  //   if (cars && isArray(cars)) return cars.filter(c => !c.archived);
-  //   return cars;
-  // }
+  removeDeletedCars(cars: Car[]) {
+    if (cars && isArray(cars)) return cars.filter(c => c.carStatus === 'AVAILABLE');
+    return cars;
+  }
 
   onSelectionChangeCar(car: Car) {
     if (car) this.selectCar = car;
