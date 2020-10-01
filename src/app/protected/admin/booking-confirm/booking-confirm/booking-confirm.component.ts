@@ -3,6 +3,7 @@ import {Ride} from '../../../../shared/models/entities/ride';
 import {RestRideService} from '../../../../core/services/rest/rest-ride.service';
 import {Router} from '@angular/router';
 import {isString} from "util";
+import { MessagesService } from 'src/app/core/services/messages/messages.service';
 
 @Component({
   selector: 'app-booking-confirm',
@@ -35,6 +36,7 @@ export class BookingConfirmComponent implements OnInit {
   constructor(
     private restRide: RestRideService,
     private router: Router,
+    private messagesService: MessagesService
   ) {
   }
 
@@ -42,6 +44,10 @@ export class BookingConfirmComponent implements OnInit {
    * Initialisation de la liste des trajets.
    */
   ngOnInit() {
+    this.populateRides();
+  }
+
+  populateRides() {
     this.restRide.getRides()
       .subscribe(rides => {
         this.rides = rides;
@@ -73,11 +79,20 @@ export class BookingConfirmComponent implements OnInit {
    */
   onClickConfirmedRide(ride: Ride) {
     this.restRide.confirmedRide(ride)
-      .subscribe(ride => {
-        this.ridesConfirmed.push(ride);
-        this.ridesConfirmedFiltered.push(ride);
-        this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
-        this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
+      .subscribe( (msgRide: {message: string})   => {
+
+        if ( msgRide && msgRide.message ) {
+
+          this.restRide.getRide(ride.rideId.toString()).subscribe( (oneRide: Ride) => {
+            this.ridesConfirmed.push(oneRide);
+            this.ridesConfirmedFiltered.push(oneRide);
+            this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
+            this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
+
+            this.messagesService.openSnackBar(msgRide.message, 3000, 'success');
+          });
+
+        } else this.messagesService.openSnackBar('Une erreur est survenue lors de la confirmation du trajet', 5000, 'danger');
       });
   }
 
@@ -87,11 +102,20 @@ export class BookingConfirmComponent implements OnInit {
    */
   onClickRefusedRide(ride: Ride) {
     this.restRide.refusedRide(ride)
-      .subscribe(ride => {
-        this.ridesRefused.push(ride);
-        this.ridesRefusedFiltered.push(ride);
-        this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
-        this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
+      .subscribe( (msgRide: {message: string}) => {
+
+        if ( msgRide && msgRide.message ) {
+
+          this.restRide.getRide(ride.rideId.toString()).subscribe( (oneRide: Ride) => {
+            this.ridesRefused.push(oneRide);
+            this.ridesRefusedFiltered.push(oneRide);
+            this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
+            this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
+
+            this.messagesService.openSnackBar(msgRide.message, 3000, 'success');
+          });
+
+        } else this.messagesService.openSnackBar('Une erreur est survenue lors du refus du trajet', 5000, 'danger');
       });
   }
 
@@ -101,12 +125,21 @@ export class BookingConfirmComponent implements OnInit {
    */
   onClickReturnedCar(ride: Ride) {
     this.restRide.returnedCar(ride)
-      .subscribe(ride => {
-        this.ridesToReturnedCar.push(ride);
-        this.ridesConfirmed.splice(this.ridesConfirmed.indexOf(ride), 1);
-        this.ridesConfirmedFiltered.splice(this.ridesConfirmed.indexOf(ride), 1);
+      .subscribe( (msgRide: {message: string}) => {
 
-      })
+        if ( msgRide && msgRide.message ) {
+
+          this.restRide.getRide(ride.rideId.toString()).subscribe( (oneRide: Ride) => {
+            this.ridesToReturnedCar.push(oneRide);
+            this.ridesConfirmed.splice(this.ridesConfirmed.indexOf(ride), 1);
+            this.ridesConfirmedFiltered.splice(this.ridesConfirmed.indexOf(ride), 1);
+
+            this.messagesService.openSnackBar(msgRide.message, 3000, 'success');
+          });
+
+        } else this.messagesService.openSnackBar('Une erreur est survenue lors de l\'enregistrement du retour du véhicule', 5000, 'danger');
+      });
+
   }
 
   /**

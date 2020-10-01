@@ -85,9 +85,9 @@ export class RestRideService {
    * Confirmation du trajet par l'admin.
    * @param ride - trajet à confirmer
    */
-  public confirmedRide(ride: Ride): Observable<Ride> {
+  public confirmedRide(ride: Ride): Observable<{message: string}> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<IRide>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<{message: string}>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
@@ -97,9 +97,9 @@ export class RestRideService {
    * Refus du trajet par l'admin.
    * @param ride - trajet refusé
    */
-  public refusedRide(ride: Ride): Observable<Ride> {
+  public refusedRide(ride: Ride): Observable<{message: string}> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<IRide>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<{message: string}>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
@@ -109,9 +109,9 @@ export class RestRideService {
    * Trajet terminé, permettant de remettre la voiture disponible.
    * @param ride - trajet à terminer pour remettre la voiture disponible
    */
-  public returnedCar(ride: (Ride | number)): Observable<Ride> {
+  public returnedCar(ride: (Ride | number)): Observable<{message: string}> {
     let id = ride instanceof Ride ? ride.rideId : ride;
-    return this.http.put(this.baseUrl + "returned/" + id, this.httpOptions)
+    return this.http.put<{message: string}>(this.baseUrl + "returned/" + id, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
