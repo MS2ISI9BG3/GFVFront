@@ -34,6 +34,9 @@
     <mat-error *ngIf="emailFormControl.hasError('required') && (emailFormControl.dirty || emailFormControl.touched)">
       <span>L'e-mail doit être saisie</span>
     </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('email') && (emailFormControl.dirty || emailFormControl.touched)">
+      <span>Merci de saisir une adresse e-mail valide.</span>
+    </mat-error>
   </mat-form-field>
 
   <!--Phone-->
@@ -43,7 +46,15 @@
     <mat-error *ngIf="phoneNumberFormControl.hasError('required') && (phoneNumberFormControl.dirty || phoneNumberFormControl.touched)">
       <span>Le téléphone doit être saisie</span>
     </mat-error>
+    <mat-error *ngIf="phoneNumberFormControl.hasError('pattern') && (phoneNumberFormControl.dirty || phoneNumberFormControl.touched)">
+      <span>Merci de saisir un numéro de téléphone valide sans espaces.</span>
+    </mat-error>
   </mat-form-field>
+
+  <!--Admin-->
+  <div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center">
+    <mat-checkbox [formControl]="adminFormControl" [disabled]="formMode == 'show' ? true : false" >Administrateur</mat-checkbox>
+  </div>
 
 </form>
 

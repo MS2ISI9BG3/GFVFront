@@ -4,6 +4,7 @@ import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS, MatButtonModule, MatCar
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { FormsModule } from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
     exports: [
@@ -21,6 +22,7 @@ import { FormsModule } from '@angular/forms';
       MatSnackBarModule,
       MatDialogModule,
       MatSelectModule,
+      MatCheckboxModule,
       FormsModule
     ],
     providers: [
