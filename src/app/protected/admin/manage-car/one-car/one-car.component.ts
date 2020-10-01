@@ -355,7 +355,8 @@ export class OneCarComponent implements OnInit {
         this.carForm.value.carModel,
         this.carForm.value.carSite,
         this.carForm.value.serviceValidityDate,
-        "AVAILABLE"
+        "AVAILABLE",
+        false
       );
 
       console.log("result du form : ", car)
@@ -428,7 +429,7 @@ export class OneCarComponent implements OnInit {
       car.carModel = this.selectModel;
       car.carSite = this.selectSite;
       car.serviceValidityDate = this.carForm.value.serviceValidityDate;
-      if (isDeleted) car.carStatus = "ARCHIVED";
+      if (isDeleted) car.archived = true;
 
       this.restCar.updateCar(car).subscribe(car => {
 
