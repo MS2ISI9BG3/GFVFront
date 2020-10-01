@@ -17,6 +17,7 @@ import { Ride } from '../../../../shared/models/entities/ride';
 import { RestRideService } from '../../../../core/services/rest/rest-ride.service';
 import { RidesService } from '../../../../core/services/datas/rides.service';
 import {AuthenticationService} from '../../../../core/services/authentication/authentication.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-one-ride',
@@ -37,6 +38,7 @@ export class OneRideComponent implements OnInit {
   public formMode: FormMode = FormMode.show;
   public todayDate:Date = new Date();
   public rides: Ride[];
+  public isCurrentRideHistory: boolean = true;
 
   /**
    * Creates an instance of OneRideComponent.
@@ -134,6 +136,7 @@ export class OneRideComponent implements OnInit {
     this.restRide.getRide(queryRideId)
       .subscribe(ride => {
           this.ride = ride;
+          this.updateIsCurrentRideHistory(ride);
           this.updateDefaultFormValue(FormMode.show, ride);
         },
         (error => {
@@ -143,6 +146,12 @@ export class OneRideComponent implements OnInit {
         this.messagesService.openSnackBar('Une erreur interne est survenue', 5000, 'danger', error);
         return of([]);
       });
+  }
+
+  updateIsCurrentRideHistory(ride: Ride) {
+    if ( ride && ( moment(ride.arrivalDate, 'YYYY-MM-DD') < moment() || ride.status == 'REJECTED' ) ) {
+      this.isCurrentRideHistory = true;
+    } else this.isCurrentRideHistory = false;
   }
 
 

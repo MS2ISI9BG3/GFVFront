@@ -131,12 +131,15 @@
 </button>
 
 <!--Bouton de suppression-->
-<button mat-fab *ngIf="formMode == 'show'" color="primary" class="btn-delete" (click)="onClickDelete()">
+<button mat-fab *ngIf="formMode == 'show'" color="primary"
+[ngClass]="((formMode == 'show' && !isCurrentRideHistory) || (formMode == 'create' || formMode == 'update')) ? 'btn-delete' : 'btn-done'"
+(click)="onClickDelete()">
   <mat-icon>delete</mat-icon>
 </button>
 
 <!--Bouton de validation du formulaire-->
-<button mat-fab color="primary" class="btn-done" [disabled]="rideForm.invalid" (click)="onClickBtnRide(formMode)">
+<button *ngIf="(formMode == 'show' && !isCurrentRideHistory) || (formMode == 'create' || formMode == 'update')"
+mat-fab color="primary" class="btn-done" [disabled]="rideForm.invalid" (click)="onClickBtnRide(formMode)">
   <mat-icon *ngIf="formMode == 'create' || formMode == 'update'">done</mat-icon>
   <mat-icon *ngIf="formMode == 'show'">edit</mat-icon>
 </button>
