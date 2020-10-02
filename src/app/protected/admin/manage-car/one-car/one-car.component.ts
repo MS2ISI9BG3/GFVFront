@@ -95,10 +95,10 @@ export class OneCarComponent implements OnInit {
   ) {
     this.carForm = this.formBuilder.group({
       matricule: ['', Validators.pattern('[A-Za-z]{2}-[0-9]{3}-[A-Za-z]{2}')],
-      power: ['', Validators.required],
+      power: ['', Validators.pattern('^[0-9]+$')],
       vin: ['', Validators.pattern('[A-Za-z0-9]{17}')],
       places: [''],
-      odometer: ['', Validators.required],
+      odometer: ['', Validators.pattern('^[0-9]+$')],
       insuranceDate: [''],
       serviceValidityDate: [''],
       carBrand: ['', Validators.required],
@@ -356,7 +356,6 @@ export class OneCarComponent implements OnInit {
         this.carForm.value.carModel,
         this.carForm.value.carSite,
         this.carForm.value.serviceValidityDate,
-        "AVAILABLE",
         false
       );
 
@@ -394,28 +393,27 @@ export class OneCarComponent implements OnInit {
     if (this.carForm.invalid) {
       return;
     }
-    // if (isDeleted) {
-    //   try {
-    //     let car: Car = this.car;
-    //     if ( isDeleted ) car.archived = true;
-    //     this.restCar.deleteCar(car).subscribe(car => {
-    //
-    //       this.car = car;
-    //       this.carsService.nextCarUpdated(car);
-    //
-    //       let msg: string = 'Suppression'
-    //       this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
-    //       this.onClickClose();
-    //
-    //     }, error => {
-    //       this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
-    //     });
-    //
-    //   } catch (error) {
-    //     this.messagesService.openSnackBar('Une erreur est survenue lors de la supression du véhicule', 5000, 'danger', error);
-    //   }
-    //   return
-    // }
+    if (isDeleted) {
+      try {
+        let car: Car = this.car;
+        this.restCar.deleteCar(car).subscribe(car => {
+
+          this.car = car;
+          this.carsService.nextCarUpdated(car);
+
+          let msg: string = 'Suppression'
+          this.messagesService.openSnackBar(msg + ' du vehicule ' + car.matricule + ' enregistrée', 5000, 'success');
+          this.onClickClose();
+
+        }, error => {
+          this.messagesService.openSnackBar('Erreur serveur', 5000, 'danger', error);
+        });
+
+      } catch (error) {
+        this.messagesService.openSnackBar('Impossible de supprimer le véhicule. Il est lié à un trajet.', 5000, 'danger', error);
+      }
+      return
+    }
 
     try {
       let car: Car = this.car;
@@ -430,7 +428,6 @@ export class OneCarComponent implements OnInit {
       car.carModel = this.selectModel;
       car.carSite = this.selectSite;
       car.serviceValidityDate = this.carForm.value.serviceValidityDate;
-      if (isDeleted) car.archived = true;
 
       this.restCar.updateCar(car).subscribe(car => {
 

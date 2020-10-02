@@ -15,6 +15,5 @@ export interface ICar {
   carModel: IModel;
   carSite: IPlace;
   serviceValidityDate: string;
-  carStatus: string;
   archived: boolean;
 }

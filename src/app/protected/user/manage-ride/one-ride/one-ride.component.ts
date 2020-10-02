@@ -423,7 +423,7 @@ export class OneRideComponent implements OnInit {
    * @param cars - liste de toutes les voitures
    */
   removeDeletedCars(cars: Car[]) {
-    if (cars && isArray(cars)) return cars.filter(c => c.carStatus === 'AVAILABLE');
+    if (cars && isArray(cars)) return cars.filter(c => !c.archived);
     return cars;
   }
 

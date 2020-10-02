@@ -45,7 +45,6 @@ export class MapperCarService {
       this.mapperModel.mapModel(car.carModel),
       this.mapperSite.mapPlace(car.carSite),
       car.serviceValidityDate,
-      String(car.carStatus),
       Boolean(car.archived),
     );
   }
@@ -62,7 +61,6 @@ export class MapperCarService {
       registrationNumber: car.matricule,
       power: String(car.power),
       numberOfSeats: String(car.places),
-      carStatus: String(car.carStatus),
       odometer: String(car.odometer),
       insuranceValidityDate: car.insuranceDate,
       vin: car.vin,

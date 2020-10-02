@@ -189,6 +189,9 @@ export class BookingConfirmComponent implements OnInit {
       }
 
     } catch {
+      this.ridesToConfirmedFiltered = this.ridesToConfirmed;
+      this.ridesRefusedFiltered = this.ridesRefused;
+      this.ridesConfirmedFiltered = this.ridesConfirmed;
     }
 
   }
