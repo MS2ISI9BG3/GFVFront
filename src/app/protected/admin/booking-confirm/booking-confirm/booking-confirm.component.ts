@@ -85,18 +85,16 @@ export class BookingConfirmComponent implements OnInit {
    */
   onClickConfirmedRide(ride: Ride) {
     this.restRide.confirmedRide(ride)
-      .subscribe( (msgRide: {message: string})   => {
+      .subscribe( (resRide: Ride)   => {
 
-        if ( msgRide && msgRide.message ) {
+        if ( resRide ) {
 
-          this.restRide.getRide(ride.rideId.toString()).subscribe( (oneRide: Ride) => {
-            this.ridesConfirmed.push(oneRide);
-            this.ridesConfirmedFiltered.push(oneRide);
-            this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
-            this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
+          this.ridesConfirmed.push(resRide);
+          this.ridesConfirmedFiltered.push(resRide);
+          this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
+          this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
 
-            this.messagesService.openSnackBar(msgRide.message, 3000, 'success');
-          });
+          this.messagesService.openSnackBar('Trajet confirmé', 3000, 'success');
 
         } else this.messagesService.openSnackBar('Une erreur est survenue lors de la confirmation du trajet', 5000, 'danger');
       });
@@ -108,18 +106,16 @@ export class BookingConfirmComponent implements OnInit {
    */
   onClickRefusedRide(ride: Ride) {
     this.restRide.refusedRide(ride)
-      .subscribe( (msgRide: {message: string}) => {
+      .subscribe( (resRide: Ride) => {
 
-        if ( msgRide && msgRide.message ) {
+        if ( resRide ) {
 
-          this.restRide.getRide(ride.rideId.toString()).subscribe( (oneRide: Ride) => {
-            this.ridesRefused.push(oneRide);
-            this.ridesRefusedFiltered.push(oneRide);
-            this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
-            this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
+          this.ridesRefused.push(resRide);
+          this.ridesRefusedFiltered.push(resRide);
+          this.ridesToConfirmed.splice(this.ridesToConfirmed.indexOf(ride), 1);
+          this.ridesToConfirmedFiltered.splice(this.ridesToConfirmed.indexOf(ride), 1);
 
-            this.messagesService.openSnackBar(msgRide.message, 3000, 'success');
-          });
+          this.messagesService.openSnackBar('Trajet refusé', 3000, 'success');
 
         } else this.messagesService.openSnackBar('Une erreur est survenue lors du refus du trajet', 5000, 'danger');
       });

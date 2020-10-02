@@ -85,9 +85,9 @@ export class RestRideService {
    * Confirmation du trajet par l'admin.
    * @param ride - trajet à confirmer
    */
-  public confirmedRide(ride: Ride): Observable<{message: string}> {
+  public confirmedRide(ride: Ride): Observable<Ride> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<{message: string}>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<Ride>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
@@ -97,9 +97,9 @@ export class RestRideService {
    * Refus du trajet par l'admin.
    * @param ride - trajet refusé
    */
-  public refusedRide(ride: Ride): Observable<{message: string}> {
+  public refusedRide(ride: Ride): Observable<Ride> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<{message: string}>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<Ride>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
