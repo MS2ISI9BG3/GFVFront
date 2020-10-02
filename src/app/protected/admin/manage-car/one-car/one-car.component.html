@@ -160,7 +160,8 @@
     <mat-form-field fxFlex="45">
       <mat-label>Assurance</mat-label>
       <input matInput [matDatepicker]="picker1" [formControl]="insuranceFormControl"
-             [readonly]="formMode == 'show' ? true : false" required>
+             [readonly]="formMode == 'show' ? true : false" required
+             [max]="todayDate">
       <mat-datepicker-toggle matSuffix [for]="picker1"  *ngIf="formMode != 'show'"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
@@ -168,7 +169,8 @@
     <mat-form-field fxFlex="45">
       <mat-label>Révision</mat-label>
       <input matInput [matDatepicker]="picker2" [formControl]="serviceFormControl"
-             [readonly]="formMode == 'show' ? true : false" required>
+             [readonly]="formMode == 'show' ? true : false" required
+             [min]="todayDate">
       <mat-datepicker-toggle matSuffix [for]="picker2"  *ngIf="formMode != 'show'" ></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>

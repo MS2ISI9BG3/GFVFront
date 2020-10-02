@@ -42,6 +42,7 @@ export class OneCarComponent implements OnInit {
   public sites: Place[];
   public selectSite: Place;
   public formMode: FormMode = FormMode.show;
+  public todayDate:Date = new Date();
   public compareWithFn = (currentBrand: Brand) => {
     // Mise à jour de la marque associé au modèle dans la liste déroulante des modèles
     if (!this.car) return false;
