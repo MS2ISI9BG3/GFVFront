@@ -52,7 +52,7 @@ export class OneUserComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       login: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       phoneNumber: ['', [Validators.required, Validators.pattern('[0-9 ]{10}')]],
       admin: ['', Validators.required]
     });

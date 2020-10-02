@@ -34,7 +34,7 @@
     <mat-error *ngIf="emailFormControl.hasError('required') && (emailFormControl.dirty || emailFormControl.touched)">
       <span>L'e-mail doit être saisie</span>
     </mat-error>
-    <mat-error *ngIf="emailFormControl.hasError('email') && (emailFormControl.dirty || emailFormControl.touched)">
+    <mat-error *ngIf="emailFormControl.hasError('pattern') && (emailFormControl.dirty || emailFormControl.touched)">
       <span>Merci de saisir une adresse e-mail valide.</span>
     </mat-error>
   </mat-form-field>
