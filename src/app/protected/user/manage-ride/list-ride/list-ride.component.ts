@@ -152,6 +152,7 @@ export class ListRideComponent implements OnInit {
       }
 
     } catch {
+      this.ridessFiltered = this.rides;
     }
 
   }

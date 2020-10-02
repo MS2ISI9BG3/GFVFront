@@ -75,9 +75,9 @@ export class RestCarService {
   }
 
 
-  public deleteCar(car: (Car | number)): Observable<Car> {
-    let id = car instanceof Car ? car.carId : car;
-    return this.http.put<ICar>(`${this.baseUrl}archive/${id}`, this.httpOptions)
+  public deleteCar(car: Car): Observable<Car> {
+    let iCar: ICar = this.mapperCar.mapICar(car);
+    return this.http.put<ICar>(`${this.baseUrl}archive`, iCar, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );

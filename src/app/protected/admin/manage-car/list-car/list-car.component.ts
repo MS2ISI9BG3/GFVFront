@@ -65,7 +65,7 @@ export class ListCarComponent implements OnInit {
         this.cars = cars;
         this.carsFiltered = this.removeDeletedCars(cars);;
         this.carService.nextCars(cars);
-        this.populateCarsFromService();
+        // this.populateCarsFromService();
 
       }, error => {
         throw new Error(error)
@@ -95,16 +95,6 @@ export class ListCarComponent implements OnInit {
     });
   }
 
-  /**
-   * Gestion de l'événement clic sur la corbeille d'un lieu
-   * @param {Car} car Un lieu
-   * @memberof ListCarComponent
-   */
-  onClickDelete(car: Car) {
-    this.restCar.deleteCar(car).subscribe(p =>
-      this.carService.changeCars(this.cars.splice(this.cars.findIndex(p => p.carId == car.carId), 1))
-    );
-  }
 
   /**
    * Supprime les sites supprimés (état archivé) de la liste des lieux à afficher
@@ -140,6 +130,7 @@ export class ListCarComponent implements OnInit {
       }
 
     } catch {
+      this.carsFiltered = this.removeDeletedCars(this.cars);
     }
 
   }
