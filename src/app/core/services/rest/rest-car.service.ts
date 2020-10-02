@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {MapperCarService} from "../mappers/mapper-car.service";
 import {ICar} from "../../../shared/models/dto-interfaces/iCar";
 import {catchError, map} from "rxjs/operators";
@@ -83,8 +83,13 @@ export class RestCarService {
       );
   }
 
-  public getCarByPlace(id: string): Observable<Car[]> {
-    return this.http.get<ICar[]>(this.baseUrl + 'available/sites/' + id, this.httpOptions)
+  public getCarByPlace(departureSiteId: string, arrivalSiteId: string, departureDate: string, arrivalDate: string): Observable<Car[]> {
+    let params = new HttpParams()
+      .set("departureSiteId",departureSiteId)
+      .set("arrivalSiteId",arrivalSiteId)
+      .set("departureDate",departureDate)
+      .set("arrivalDate",arrivalDate);
+    return this.http.get<ICar[]>(this.baseUrl + 'available/sites/', { headers: this.httpOptions.headers, params: params })
       .pipe(
         map(cars => {
             return this.mapperCar.mapCars(cars);

@@ -237,7 +237,7 @@ export class OneRideComponent implements OnInit {
       return
     }
     else if (formMode == FormMode.show) {
-      if ( this.ride ) this.populateCars(this.ride.departureSite.siteId);
+      if ( this.ride ) this.populateCars(this.ride.departureSite, this.ride.arrivalSite, moment(this.ride.departureDate, 'YYYY-MM-DD'), moment(this.ride.arrivalDate, 'YYYY-MM-DD')); //this.populateCars(this.ride.departureSite.siteId);
       this.formMode = FormMode.update;
       return
     }
@@ -388,8 +388,13 @@ export class OneRideComponent implements OnInit {
   onSelectionChangeDepartureSite(site: Place) {
     if (site) {
       this.selectDepartureSite = site;
-      this.populateCars(site.siteId);
+      //this.populateCars(site.siteId);
+      this.executePopulateCars();
     }
+  }
+  
+  onSelectionChangeDepartureDate() {
+    this.executePopulateCars();
   }
 
   /**
@@ -398,14 +403,30 @@ export class OneRideComponent implements OnInit {
    */
   onSelectionChangeArrivalSite(site: Place) {
     if (site) this.selectArrivalSite = site;
+    this.executePopulateCars();
   }
+
+  onSelectionChangeArrivalDate() {
+    this.executePopulateCars();
+  }
+
+  executePopulateCars() {
+    if (this.rideForm.value.departureDate && this.rideForm.value.departureSite && this.rideForm.value.arrivalDate && this.rideForm.value.arrivalSite) {
+      this.populateCars(
+        this.rideForm.value.departureSite, 
+        this.rideForm.value.arrivalSite, 
+        this.rideForm.value.departureDate, 
+        this.rideForm.value.arrivalDate);
+      }
+    }
 
   /**
    * Récupération des données des voitures via le site de départ.
    * @param idPlace - identifiant du site de départ
    */
-  populateCars(idPlace) {
-    this.restCar.getCarByPlace(idPlace.toString())
+  populateCars(departureSite: Place, arrivalSite: Place, departureDate: moment.Moment, arrivalDate: moment.Moment) {
+    console.log('test');
+    this.restCar.getCarByPlace(departureSite.siteId.toString(), arrivalSite.siteId.toString(), departureDate.format('YYYY-MM-DD'), arrivalDate.format('YYYY-MM-DD'))
       .subscribe((cars: Car[]) => {
           this.cars = this.removeDeletedCars(cars);
           if ( this.formMode == FormMode.update && this.selectCar ) this.cars.push(this.selectCar);
@@ -423,7 +444,7 @@ export class OneRideComponent implements OnInit {
    * @param cars - liste de toutes les voitures
    */
   removeDeletedCars(cars: Car[]) {
-    if (cars && isArray(cars)) return cars.filter(c => c.carStatus === 'AVAILABLE');
+    if (cars && isArray(cars)) return cars.filter(c => c.archived == false/*c.carStatus === 'AVAILABLE'*/);
     return cars;
   }
 

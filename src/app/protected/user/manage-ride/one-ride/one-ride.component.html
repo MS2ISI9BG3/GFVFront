@@ -17,7 +17,7 @@
                  readonly
           >
         </mat-form-field>
-        <!--Update mode-->
+        <!--Create and Update mode-->
         <mat-form-field *ngIf="formMode != 'show'">
           <mat-label>Site de départ</mat-label>
           <mat-select
@@ -41,6 +41,7 @@
           <mat-label>Date de départ</mat-label>
           <input [matDatepicker]="departureDate" matInput required
                  [readonly]="formMode == 'show'" [formControl]="departureDateFormControl" [min]="todayDate"
+                 (dateChange)="onSelectionChangeDepartureDate()"
           >
           <mat-datepicker-toggle [for]="departureDate" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #departureDate></mat-datepicker>
@@ -76,6 +77,7 @@
           <input [matDatepicker]="arrivalDate" matInput
                  [readonly]="formMode == 'show'" [formControl]="arrivalDateFormControl"
                  [min]="rideForm.value.departureDate || todayDate"
+                 (dateChange)="onSelectionChangeArrivalDate()"
           >
           <mat-datepicker-toggle [for]="arrivalDate" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #arrivalDate></mat-datepicker>
