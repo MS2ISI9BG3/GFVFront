@@ -1,4 +1,4 @@
-<form [formGroup]="userForm">
+<form [formGroup]="userForm" fxLayout="row wrap">
 
   <!--Nom -->
   <mat-form-field class="input-form" appearance="fill" color="primary">
@@ -56,16 +56,16 @@
     <mat-checkbox [formControl]="adminFormControl" [disabled]="formMode == 'show' ? true : false" >Administrateur</mat-checkbox>
   </div>
 
+  <div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center">
+    <!--Bouton activer-->
+    <button mat-raised-button type="submit" class="btn btn-default" (click)="onClickActive()"
+            [fxHide]="!ShowActiver" fxFlex="45">Activer
+    </button>
+  </div>
+
 </form>
 
-<div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center">
 
-  <!--Bouton activer-->
-  <button mat-raised-button type="submit" class="btn btn-default" (click)="onClickActive()"
-          [fxHide]="!ShowActiver" fxFlex="45">Activer
-  </button>
-
-</div>
 
 <!--Bouton de retour-->
 <button mat-fab color="accent" class="btn-close" (click)="onClickClose()">

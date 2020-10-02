@@ -305,7 +305,7 @@ export class OneUserComponent implements OnInit {
 
       if ( isDeleted ) user.archived = true;
 
-      if ( isActivate ) user.activated = true;
+      if ( isActivate ) { user.activated = true; this.ShowActiver = false ; }
 
       this.restUser.updateUser(user).subscribe(user => {
 
@@ -313,7 +313,7 @@ export class OneUserComponent implements OnInit {
         this.usersService.nextUserUpdated(user);
 
         let msg: string = isDeleted ? 'Suppression' : 'Modification';
-        this.messagesService.openSnackBar(msg+' de lutilisateur '+user.firstName + " " + user.lastName +' enregistrée', 5000, 'success');
+        this.messagesService.openSnackBar(msg+' de l\'utilisateur '+user.firstName + " " + user.lastName +' enregistrée', 5000, 'success');
 
         if ( isDeleted ) this.onClickClose();
 
