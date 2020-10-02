@@ -1,3 +1,7 @@
+<div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center" color="accent" [fxHide]="!noCar">
+  Aucune voiture trouvée.
+</div>
+
 <mat-card class="card" *ngFor="let car of carsFiltered;" fxLayout="row wrap"
           (click)="onClickCar(car)">
   <mat-card-header  >

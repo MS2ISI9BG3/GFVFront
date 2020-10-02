@@ -32,6 +32,7 @@ export class ListCarComponent implements OnInit {
   carsFiltered: Car[] = [];
 
   public isMobile: boolean = true;
+  public noCar: boolean = false;
 
   /**
    * Creates an instance of ListCarComponent.
@@ -63,7 +64,8 @@ export class ListCarComponent implements OnInit {
       .subscribe(cars => {
 
         this.cars = cars;
-        this.carsFiltered = this.removeDeletedCars(cars);;
+        this.carsFiltered = this.removeDeletedCars(cars);
+        this.noCar = (this.carsFiltered.length == 0);
         this.carService.nextCars(cars);
         // this.populateCarsFromService();
 

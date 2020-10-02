@@ -1,3 +1,7 @@
+<div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center" color="accent" [fxHide]="!noPlace">
+  Aucun site trouvé.
+</div>
+
 <mat-card *ngFor="let place of placesFiltered;" (click)="onClickPlace(place)" class="card" #container>
   <mat-card-header>
     <div mat-card-avatar><mat-icon mat-list-icon color="accent">place</mat-icon></div>

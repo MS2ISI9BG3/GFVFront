@@ -26,6 +26,7 @@ export class ListModelComponent implements OnInit {
   modelsFiltered: Model[] = [];
 
   public isMobile: boolean = true;
+  public noModel: boolean = false;
 
   constructor(
     private restModel: RestModelService,
@@ -52,6 +53,7 @@ export class ListModelComponent implements OnInit {
 
       this.models = models;
       this.modelsFiltered = this.removeDeletedModels(models);
+      this.noModel = (this.modelsFiltered.length == 0);
       this.modelsService.nextMOdels(models);
       this.populateModelsFromService();
 
@@ -88,13 +90,13 @@ export class ListModelComponent implements OnInit {
   onInputSearch(event: any) {
 
     try {
-      
+
       if ( !isString(event.toString()) ) throw new Error();
 
       const inputValue: string = event.trim().toLocaleLowerCase();
 
       if ( inputValue.length >= 3 ) {
-        this.modelsFiltered = this.removeDeletedModels(this.models).filter( 
+        this.modelsFiltered = this.removeDeletedModels(this.models).filter(
           model => model.modelName.toLocaleLowerCase().search(inputValue) > -1
         );
       } else {

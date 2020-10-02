@@ -30,6 +30,7 @@ export class ListBrandComponent implements OnInit {
   brandsFiltered: Brand[] = [];
 
   public isMobile: boolean = true;
+  public noBrand: boolean = false;
 
   /**
    * Creates an instance of ListBrandComponent.
@@ -66,6 +67,7 @@ export class ListBrandComponent implements OnInit {
 
       this.brands = brands;
       this.brandsFiltered = this.removeDeletedBrands(brands);
+      this.noBrand = (this.brandsFiltered.length == 0 );
       this.brandsService.nextBrands(brands);
       this.populateBrandsFromService();
 
@@ -108,13 +110,13 @@ export class ListBrandComponent implements OnInit {
   onInputSearch(event: any) {
 
     try {
-      
+
       if ( !isString(event.toString()) ) throw new Error();
 
       const inputValue: string = event.trim().toLocaleLowerCase();
 
       if ( inputValue.length >= 3 ) {
-        this.brandsFiltered = this.removeDeletedBrands(this.brands).filter( 
+        this.brandsFiltered = this.removeDeletedBrands(this.brands).filter(
           brand => brand.brandName.toLocaleLowerCase().search(inputValue) > -1
         );
       } else {

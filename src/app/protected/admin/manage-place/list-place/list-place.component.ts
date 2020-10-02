@@ -29,6 +29,7 @@ export class ListPlaceComponent implements OnInit {
    */
   placesFiltered: Place[] = [];
   public isMobile: boolean = true;
+  public noPlace: boolean = false;
 
   /**
    * Creates an instance of ListPlaceComponent.
@@ -65,6 +66,7 @@ export class ListPlaceComponent implements OnInit {
 
       this.places = places;
       this.placesFiltered = this.removeDeletedPlaces(places);
+      this.noPlace = (this.placesFiltered.length == 0);
       this.placesService.nextPlaces(places);
       this.populatePlacesFromService();
 
@@ -114,7 +116,7 @@ export class ListPlaceComponent implements OnInit {
       const inputValue: string = event.trim().toLocaleLowerCase();
 
       if ( inputValue.length >= 3 ) {
-        this.placesFiltered = this.removeDeletedPlaces(this.places).filter( 
+        this.placesFiltered = this.removeDeletedPlaces(this.places).filter(
           place => place.siteName.toLocaleLowerCase().search(inputValue) > -1
         );
       } else {

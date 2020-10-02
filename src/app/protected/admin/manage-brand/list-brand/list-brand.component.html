@@ -1,3 +1,7 @@
+<div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center" color="accent" [fxHide]="!noBrand">
+  Aucune marque trouvée.
+</div>
+
 <mat-card *ngFor="let brand of brandsFiltered;" (click)="onClickBrand(brand)" class="card">
     <mat-card-header>
         <div mat-card-avatar><mat-icon mat-list-icon color="accent">label_important</mat-icon></div>

@@ -1,3 +1,7 @@
+<div fxLayout="row" fxFlex.gt-sm="40" fxLayoutAlign="space-evenly center" color="accent" [fxHide]="!noModel">
+  Aucun modèle de voiture trouvé.
+</div>
+
 <mat-card *ngFor="let model of modelsFiltered;" (click)="onClickModel(model)" class="card">
     <mat-card-header>
         <div mat-card-avatar><mat-icon mat-list-icon color="accent">label</mat-icon></div>
