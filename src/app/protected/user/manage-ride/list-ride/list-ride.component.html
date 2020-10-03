@@ -1,5 +1,5 @@
-<div *ngFor="let ride of ridessFiltered;">
-  <mat-card class="card my-3" *ngIf="ride.status !== 'COMPLETED'" (click)="onClickRide(ride)">
+<div *ngFor="let ride of ridessFiltered">
+  <mat-card class="card my-3" (click)="onClickRide(ride)">
     <mat-card-header>
       <div mat-card-avatar fxLayoutAlign="center center">
         <mat-icon
