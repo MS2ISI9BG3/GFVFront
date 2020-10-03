@@ -109,9 +109,9 @@ export class RestRideService {
    * Trajet terminé, permettant de remettre la voiture disponible.
    * @param ride - trajet à terminer pour remettre la voiture disponible
    */
-  public returnedCar(ride: (Ride | number)): Observable<{message: string}> {
+  public returnedCar(ride: (Ride | number)): Observable<Ride> {
     let id = ride instanceof Ride ? ride.rideId : ride;
-    return this.http.put<{message: string}>(this.baseUrl + "returned/" + id, this.httpOptions)
+    return this.http.put<Ride>(this.baseUrl + "returned/" + id, this.httpOptions)
       .pipe(
         catchError(error => of(error))
       );
