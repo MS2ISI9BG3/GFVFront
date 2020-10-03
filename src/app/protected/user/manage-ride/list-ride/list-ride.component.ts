@@ -79,12 +79,12 @@ export class ListRideComponent implements OnInit {
     //if (rides) console.log('DATE RIDE: '+rides[0].arrivalDate);
     //if (rides) console.log('DATE RIDE MOMENT: '+moment(rides[0].arrivalDate).format('DD MM YYYY'));
     if (routeType == 'current') {
-      this.rides = rides.filter(r => r.status != 'REJECTED').filter(r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day'));
-      this.ridessFiltered = rides.filter(r => r.status != 'REJECTED').filter(r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day'));
+      this.rides = rides.filter(r => r.status != 'REJECTED' && r.status != 'COMPLETED').filter(r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day'));
+      this.ridessFiltered = rides.filter(r => r.status != 'REJECTED' && r.status != 'COMPLETED').filter(r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day'));
       this.rideSort(true);
     } else if (routeType == 'history') {
-      this.rides = rides.filter(r => r.status == 'REJECTED' || (r.status != 'REJECTED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')));
-      this.ridessFiltered = rides.filter(r => r.status == 'REJECTED' || (r.status != 'REJECTED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')));
+      this.rides = rides.filter(r => r.status == 'REJECTED' || r.status == 'COMPLETED' || (r.status != 'REJECTED' && r.status != 'COMPLETED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')));
+      this.ridessFiltered = rides.filter(r => r.status == 'REJECTED' || r.status == 'COMPLETED' || (r.status != 'REJECTED' && r.status != 'COMPLETED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')));
 
       this.rideSort(false);
     } else {
