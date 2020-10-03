@@ -25,7 +25,7 @@ export class OneUserComponent implements OnInit {
    */
   public userForm: FormGroup;
   public user: User;
-  public queryUserId: string = null; // Null: add place, id: show and update place
+  public queryUserLogin: string = null;
   public isToUpdate: boolean = false;
   public formMode: FormMode = FormMode.show;
   public ShowActiver: boolean = false;
@@ -69,7 +69,7 @@ export class OneUserComponent implements OnInit {
     //Si un id a été passé en paramètre de la route,
     //le composant est en mode affichage d'un utilisateur (ou modification si l'utilisateur clic sur le bouton edit)
     //Si pas d'id, mode création d'un nouvel utilisateur
-    this.queryUserId ? this.showAndUpdateUser(this.queryUserId) : this.createUser();
+    this.queryUserLogin ? this.showAndUpdateUser(this.queryUserLogin) : this.createUser();
   }
 
   /**
@@ -147,8 +147,8 @@ export class OneUserComponent implements OnInit {
    */
   populateQueryParams() {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.queryUserId = params['id'] ? params['id'] : null;
-      console.log('queryPlaceId: '+this.queryUserId);
+      this.queryUserLogin = params['id'] ? params['id'] : null;
+      console.log('queryPlaceId: '+this.queryUserLogin);
     });
   }
 
@@ -259,7 +259,7 @@ export class OneUserComponent implements OnInit {
         this.usersService.nextUserUpdated(user);
 
         this.messagesService.openSnackBar('Création de l\'utilisateur  ' + user.firstName + ' ' + user.lastName + ' réussi.', 5000, 'success');
-        this.showAndUpdateUser(user.id.toString());
+        this.showAndUpdateUser(user.login.toString());
 
       }, error => {
         this.formMode = FormMode.create;
