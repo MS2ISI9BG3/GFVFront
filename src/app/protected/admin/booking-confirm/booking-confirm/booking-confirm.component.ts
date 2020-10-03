@@ -7,6 +7,7 @@ import { MessagesService } from 'src/app/core/services/messages/messages.service
 import { MatDialog } from '@angular/material';
 import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
 import { DeviceDetectorService } from 'ngx-device-detector';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-booking-confirm',
@@ -30,6 +31,7 @@ export class BookingConfirmComponent implements OnInit {
   ridesRefusedFiltered: Ride[] = [];
   ridesToReturnedCar: Ride[] = [];
   public isMobile: boolean = true;
+  private dayFormat: string = moment().format('YYYY-MM-DD');
 
   /**
    * Creates an instance of ListRideComponent.
@@ -141,17 +143,15 @@ export class BookingConfirmComponent implements OnInit {
 
   updateRetournedCar(ride: Ride) {
     this.restRide.returnedCar(ride)
-      .subscribe( (msgRide: {message: string}) => {
+      .subscribe( (resRide: Ride) => {
 
-        if ( msgRide && msgRide.message ) {
+        if ( ride && resRide ) {
 
-          this.restRide.getRide(ride.rideId.toString()).subscribe( (oneRide: Ride) => {
-            this.ridesToReturnedCar.push(oneRide);
+            this.ridesToReturnedCar.push(resRide);
             this.ridesConfirmed.splice(this.ridesConfirmed.indexOf(ride), 1);
             this.ridesConfirmedFiltered.splice(this.ridesConfirmed.indexOf(ride), 1);
 
-            this.messagesService.openSnackBar(msgRide.message, 3000, 'success');
-          });
+            this.messagesService.openSnackBar('Retour du véhicule confirmé', 3000, 'success');
 
         } else this.messagesService.openSnackBar('Une erreur est survenue lors de l\'enregistrement du retour du véhicule', 5000, 'danger');
       });

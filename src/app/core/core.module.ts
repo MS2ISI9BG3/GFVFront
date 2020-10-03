@@ -10,6 +10,7 @@ import { MenuHeaderComponent } from './menu-components/menu-header/menu-header.c
 import { MenuContentComponent } from './menu-components/menu-content/menu-content.component';
 import { MaterialModule } from '../shared/dependencies/material-module';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { ErrorInterceptorService } from './services/helpers/error-interceptor.service';
 
 /**
  * Rôle: démarer l'application
@@ -37,6 +38,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   exports: [],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
     DeviceDetectorService
   ]
 })
