@@ -1,0 +1,33 @@
+<form [formGroup]="passwordForm" fxLayout="row wrap">
+
+  <!--Mot de passe -->
+  <mat-form-field class="input-form" appearance="fill" color="primary">
+    <mat-label color="primary">Mot de passe</mat-label>
+    <input matInput [type]="'password'" [formControl]="passwordFormControl">
+    <mat-error *ngIf="passwordFormControl.hasError('required') && (passwordFormControl.dirty || passwordFormControl.touched)">
+      <span>Le mot de passe doit être saisie</span>
+    </mat-error>
+    <mat-error *ngIf="passwordFormControl.hasError('minLength') && (passwordFormControl.dirty || passwordFormControl.touched)">
+      <span>Le mot de passe doit être de 4 caractères minimum.</span>
+    </mat-error>
+  </mat-form-field>
+
+  <!--Confirmation-->
+  <mat-form-field class="input-form" appearance="fill" color="primary">
+    <mat-label>Confirmation</mat-label>
+    <input matInput [type]="'password'" [formControl]="confirmationFormControl">
+    <mat-error *ngIf="confirmationFormControl.hasError('required') && (confirmationFormControl.dirty || confirmationFormControl.touched)">
+      <span>La confirmation du mot de passe doit être saisie</span>
+    </mat-error>
+    <mat-error *ngIf="confirmationFormControl.hasError('minLength') && (confirmationFormControl.dirty || confirmationFormControl.touched)">
+      <span>Le mot de passe doit être de 4 caractères minimum.</span>
+    </mat-error>
+  </mat-form-field>
+
+</form>
+
+<!--Bouton de validation du formulaire-->
+<button mat-fab color="primary" class="btn-done" [disabled]="passwordForm.invalid" (click)="onClickBtnPassword(formMode)">
+  <mat-icon *ngIf="formMode == 'create' || formMode == 'update'">done</mat-icon>
+  <mat-icon *ngIf="formMode == 'show'">edit</mat-icon>
+</button>
