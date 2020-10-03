@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { ActivateComponent } from './activate/activate.component';
+import { CreationComponent } from './creation/creation.component';
 import { ErrorComponent } from 'src/app/error/error-components/error/error.component';
 
 const routes: Routes = [
   { path: '', children: [
       { path: 'login', component: LoginComponent },
-      { path: 'activation', component: ActivateComponent },
+      { path: 'creation', component: CreationComponent },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: '**', component: ErrorComponent, data: { error: 404 } }
   ] }

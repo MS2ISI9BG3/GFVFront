@@ -158,6 +158,20 @@ export class AuthenticationService {
   }
 
   /**
+   * Active le compte d'un utilisateur et enregistre son mot de passe
+   * @param {string} activationKey
+   * * @param {string} newpassword
+   * @returns {Observable<boolean>}
+   * @memberof AuthenticationService
+   */
+  resetPassword(activationKey: string, newpassword: string): Observable<boolean> {
+
+    return this.http.post<boolean>(this.baseUrl+'api/account/reset-password/finish', { "key":activationKey, "newPassword":newpassword }, this.httpOptions).pipe(
+      map( () => { return true; } )
+    );
+  }
+
+  /**
    * Déconnecte l'utilisateur de l'application
    * @memberof AuthenticationService
    */
