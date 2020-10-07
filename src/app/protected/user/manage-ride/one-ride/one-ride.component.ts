@@ -292,7 +292,7 @@ export class OneRideComponent implements OnInit {
         this.ride = ride;
         this.ridesService.nextRideCreated(ride);
         this.messagesService.openSnackBar(
-          'Création du trajet du ' + ride.departureDate + ' au départ de ' + ride.departureSite.siteName + ' enregistrée',
+          'Création du trajet du ' + moment(ride.departureDate).format('DD/MM/YYYY') + ' au départ de ' + ride.departureSite.siteName + ' enregistrée',
           5000, 'success'
         );
 
@@ -335,7 +335,7 @@ export class OneRideComponent implements OnInit {
         this.ridesService.nextRideUpdated(ride);
 
         let msg: string = isDeleted ? 'Suppression' : 'Modification';
-        this.messagesService.openSnackBar(msg + ' du trajet du ' + ride.departureDate, 5000, 'success');
+        this.messagesService.openSnackBar(msg + ' du trajet du ' + moment(ride.departureDate).format('DD/MM/YYYY'), 5000, 'success');
 
         if (isDeleted) this.onClickClose();
 
