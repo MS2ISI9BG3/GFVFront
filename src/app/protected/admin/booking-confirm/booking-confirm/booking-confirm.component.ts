@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Ride} from '../../../../shared/models/entities/ride';
 import {RestRideService} from '../../../../core/services/rest/rest-ride.service';
 import {Router} from '@angular/router';
 import {isString} from "util";
-import { MessagesService } from 'src/app/core/services/messages/messages.service';
-import { MatDialog } from '@angular/material';
+import {MessagesService} from 'src/app/core/services/messages/messages.service';
+import {MatDialog} from '@angular/material';
 import {ConfirmDialogComponent} from "../../../../shared/components/confirm-dialog/confirm-dialog.component";
-import { DeviceDetectorService } from 'ngx-device-detector';
+import {DeviceDetectorService} from 'ngx-device-detector';
 import * as moment from 'moment';
 
 @Component({
@@ -43,7 +43,7 @@ export class BookingConfirmComponent implements OnInit {
     private restRide: RestRideService,
     private messagesService: MessagesService,
     public dialog: MatDialog,
-		private deviceDetector: DeviceDetectorService
+    private deviceDetector: DeviceDetectorService
   ) {
   }
 
@@ -87,9 +87,9 @@ export class BookingConfirmComponent implements OnInit {
    */
   onClickConfirmedRide(ride: Ride) {
     this.restRide.confirmedRide(ride)
-      .subscribe( (resRide: Ride)   => {
+      .subscribe((resRide: Ride) => {
 
-        if ( resRide ) {
+        if (resRide) {
 
           this.ridesConfirmed.push(resRide);
           this.ridesConfirmedFiltered.push(resRide);
@@ -108,8 +108,9 @@ export class BookingConfirmComponent implements OnInit {
    */
   onClickRefusedRide(ride: Ride) {
     this.restRide.refusedRide(ride)
-      .subscribe( (resRide: Ride) => {
-        if ( resRide ) {
+      .subscribe((resRide: Ride) => {
+
+        if (resRide) {
 
           this.ridesRefused.push(resRide);
           this.ridesRefusedFiltered.push(resRide);
@@ -131,26 +132,27 @@ export class BookingConfirmComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "250px",
       data: {
-          title: "Confirmer",
-          msg: "Confirmez-vous le retour des clés et la vérification de l'état du véhicule "+ride.car.matricule.toUpperCase()+" ?"}
+        title: "Confirmer",
+        msg: "Confirmez-vous le retour des clés et la vérification de l'état du véhicule " + ride.car.matricule.toUpperCase() + " ?"
+      }
     });
     dialogRef.afterClosed().subscribe(dialogResult => {
-      console.log('dialogResult: '+dialogResult);
-      if ( dialogResult ) this.updateRetournedCar(ride);
-   });
+      console.log('dialogResult: ' + dialogResult);
+      if (dialogResult) this.updateRetournedCar(ride);
+    });
   }
 
   updateRetournedCar(ride: Ride) {
     this.restRide.returnedCar(ride)
-      .subscribe( (resRide: Ride) => {
+      .subscribe((resRide: Ride) => {
 
-        if ( ride && resRide ) {
+        if (ride && resRide) {
 
-            this.ridesToReturnedCar.push(resRide);
-            this.ridesConfirmed.splice(this.ridesConfirmed.indexOf(ride), 1);
-            this.ridesConfirmedFiltered.splice(this.ridesConfirmed.indexOf(ride), 1);
+          this.ridesToReturnedCar.push(resRide);
+          this.ridesConfirmed.splice(this.ridesConfirmed.indexOf(ride), 1);
+          this.ridesConfirmedFiltered.splice(this.ridesConfirmed.indexOf(ride), 1);
 
-            this.messagesService.openSnackBar('Retour du véhicule confirmé', 3000, 'success');
+          this.messagesService.openSnackBar('Retour du véhicule confirmé', 3000, 'success');
 
         } else this.messagesService.openSnackBar('Une erreur est survenue lors de l\'enregistrement du retour du véhicule', 5000, 'danger');
       });
@@ -171,13 +173,13 @@ export class BookingConfirmComponent implements OnInit {
 
       if (inputValue.length >= 3) {
         this.ridesToConfirmedFiltered = this.ridesToConfirmed.filter(
-          ride => (ride.departureSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalDate.toLocaleLowerCase().search(inputValue) > -1 || ride.departureDate.toLocaleLowerCase().search(inputValue) > -1 )
+          ride => (ride.departureSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.user.firstName.toLocaleLowerCase().search(inputValue) > -1 || ride.user.lastName.toLocaleLowerCase().search(inputValue) > -1 || ride.car.matricule.toLocaleLowerCase().search(inputValue) > -1 || ride.car.carBrand.brandName.toLocaleLowerCase().search(inputValue) > -1)
         );
         this.ridesRefusedFiltered = this.ridesRefused.filter(
-          ride => (ride.departureSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalDate.toLocaleLowerCase().search(inputValue) > -1 || ride.departureDate.toLocaleLowerCase().search(inputValue) > -1 )
+          ride => (ride.departureSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.user.firstName.toLocaleLowerCase().search(inputValue) > -1 || ride.user.lastName.toLocaleLowerCase().search(inputValue) > -1 || ride.car.matricule.toLocaleLowerCase().search(inputValue) > -1 || ride.car.carBrand.brandName.toLocaleLowerCase().search(inputValue) > -1)
         );
         this.ridesConfirmedFiltered = this.ridesConfirmed.filter(
-          ride => (ride.departureSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalDate.toLocaleLowerCase().search(inputValue) > -1 || ride.departureDate.toLocaleLowerCase().search(inputValue) > -1 )
+          ride => (ride.departureSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.arrivalSite.siteName.toLocaleLowerCase().search(inputValue) > -1 || ride.user.firstName.toLocaleLowerCase().search(inputValue) > -1 || ride.user.lastName.toLocaleLowerCase().search(inputValue) > -1 || ride.car.matricule.toLocaleLowerCase().search(inputValue) > -1 || ride.car.carBrand.brandName.toLocaleLowerCase().search(inputValue) > -1)
         );
       } else {
         throw new Error();
