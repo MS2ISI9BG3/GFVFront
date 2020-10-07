@@ -29,7 +29,7 @@
     <!--Kilometrage-->
     <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary">
       <mat-label>Kilometrage</mat-label>
-      <input matInput [formControl]="odometerFormControl" required>
+      <input matInput [formControl]="odometerFormControl" [readonly]="formMode == 'show' ? true : false" required>
       <mat-error
         *ngIf="odometerFormControl.hasError('pattern') && (odometerFormControl.dirty || odometerFormControl.touched)">
         <span>Le kilometrage doit être saisie</span>
@@ -39,7 +39,7 @@
 
   <mat-form-field class="input-form" appearance="fill" color="primary">
     <mat-label>Vin (17 c.)</mat-label>
-    <input matInput [formControl]="vinFormControl">
+    <input matInput [formControl]="vinFormControl" [readonly]="formMode == 'show' ? true : false">
     <mat-error
       *ngIf="vinFormControl.hasError('required') && (vinFormControl.dirty || vinFormControl.touched)">
       <span>Le Vin doit être saisie</span>
@@ -57,7 +57,7 @@
     <!--places-->
     <mat-form-field fxFlex="45" class="input-form" appearance="fill" color="primary">
       <mat-label>Nombre de places</mat-label>
-      <input matInput [formControl]="placesFormControl">
+      <input matInput [formControl]="placesFormControl" [readonly]="formMode == 'show' ? true : false">
     </mat-form-field>
 
     <!--site de rattachement  de la  voiture-->
