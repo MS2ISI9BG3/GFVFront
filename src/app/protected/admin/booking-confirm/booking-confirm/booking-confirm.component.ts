@@ -109,7 +109,6 @@ export class BookingConfirmComponent implements OnInit {
   onClickRefusedRide(ride: Ride) {
     this.restRide.refusedRide(ride)
       .subscribe( (resRide: Ride) => {
-
         if ( resRide ) {
 
           this.ridesRefused.push(resRide);

@@ -48,6 +48,10 @@ export class RestRideService {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
     return this.http.put<IRide>(this.baseUrl, iRide, this.httpOptions)
       .pipe(
+        map( (ride: IRide) => {
+          return this.mapperRide.mapRide(ride);
+        },
+        error => of(error)),
         catchError(error => of(error))
       );
   }
@@ -77,6 +81,10 @@ export class RestRideService {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
     return this.http.put<IRide>(this.baseUrl + "canceled/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
+        map( (ride: IRide) => {
+          return this.mapperRide.mapRide(ride);
+        },
+        error => of(error)),
         catchError(error => of(error))
       );
   }
@@ -87,8 +95,12 @@ export class RestRideService {
    */
   public confirmedRide(ride: Ride): Observable<Ride> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<Ride>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<IRide>(this.baseUrl + "confirmed/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
+        map( (ride: IRide) => {
+          return this.mapperRide.mapRide(ride);
+        },
+        error => of(error)),
         catchError(error => of(error))
       );
   }
@@ -99,8 +111,12 @@ export class RestRideService {
    */
   public refusedRide(ride: Ride): Observable<Ride> {
     let iRide: IRide = this.mapperRide.mapIRide(ride);
-    return this.http.put<Ride>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
+    return this.http.put<IRide>(this.baseUrl + "refused/" + ride.rideId, iRide, this.httpOptions)
       .pipe(
+        map( (ride: IRide) => {
+          return this.mapperRide.mapRide(ride);
+        },
+        error => of(error)),
         catchError(error => of(error))
       );
   }
@@ -111,8 +127,12 @@ export class RestRideService {
    */
   public returnedCar(ride: (Ride | number)): Observable<Ride> {
     let id = ride instanceof Ride ? ride.rideId : ride;
-    return this.http.put<Ride>(this.baseUrl + "returned/" + id, this.httpOptions)
+    return this.http.put<IRide>(this.baseUrl + "returned/" + id, this.httpOptions)
       .pipe(
+        map( (ride: IRide) => {
+          return this.mapperRide.mapRide(ride);
+        },
+        error => of(error)),
         catchError(error => of(error))
       );
   }
@@ -123,8 +143,12 @@ export class RestRideService {
    */
   public deleteRide(ride: (Ride | number)): Observable<Ride> {
     let id = ride instanceof Ride ? ride.rideId : ride;
-    return this.http.delete(this.baseUrl + id, this.httpOptions)
+    return this.http.delete<IRide>(this.baseUrl + id, this.httpOptions)
       .pipe(
+        map( (ride: IRide) => {
+          return this.mapperRide.mapRide(ride);
+        },
+        error => of(error)),
         catchError(error => of(error))
       );
   }
