@@ -40,10 +40,10 @@
         <mat-form-field>
           <mat-label>Date de départ</mat-label>
           <input [matDatepicker]="departureDate" matInput required
-                 [readonly]="formMode == 'show'" [formControl]="departureDateFormControl" [min]="todayDate"
+                 [readonly]="formMode == 'show' ? true : false" [formControl]="departureDateFormControl" [min]="todayDate"
                  (dateChange)="onSelectionChangeDepartureDate()"
           >
-          <mat-datepicker-toggle [for]="departureDate" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker-toggle [for]="departureDate" *ngIf="formMode != 'show'" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #departureDate></mat-datepicker>
         </mat-form-field>
       </div>
@@ -75,11 +75,11 @@
         <mat-form-field>
           <mat-label>Date d'arrivée</mat-label>
           <input [matDatepicker]="arrivalDate" matInput
-                 [readonly]="formMode == 'show'" [formControl]="arrivalDateFormControl"
+                 [readonly]="formMode == 'show' ? true : false" [formControl]="arrivalDateFormControl"
                  [min]="rideForm.value.departureDate || todayDate"
                  (dateChange)="onSelectionChangeArrivalDate()"
           >
-          <mat-datepicker-toggle [for]="arrivalDate" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker-toggle [for]="arrivalDate"  *ngIf="formMode != 'show'" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #arrivalDate></mat-datepicker>
         </mat-form-field>
       </div>
