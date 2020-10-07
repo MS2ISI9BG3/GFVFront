@@ -125,7 +125,7 @@ export class ListCarComponent implements OnInit {
 
       if (inputValue.length >= 3) {
         this.carsFiltered = this.cars.filter(
-          car => (car.matricule.toLocaleLowerCase().search(inputValue) > -1)
+          car => (car.matricule.toLocaleLowerCase().search(inputValue) > -1 || car.carModel.modelName.toLocaleLowerCase().search(inputValue) > -1 || car.carBrand.brandName.toLocaleLowerCase().search(inputValue) > -1)
         );
       } else {
         throw new Error();

@@ -117,7 +117,7 @@ export class ListPlaceComponent implements OnInit {
 
       if ( inputValue.length >= 3 ) {
         this.placesFiltered = this.removeDeletedPlaces(this.places).filter(
-          place => place.siteName.toLocaleLowerCase().search(inputValue) > -1
+          place => ( place.siteName.toLocaleLowerCase().search(inputValue) > -1 || place.siteAddress.toLocaleLowerCase().search(inputValue) > -1 )
         );
       } else {
         throw new Error();

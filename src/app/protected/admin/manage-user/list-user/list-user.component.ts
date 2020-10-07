@@ -114,7 +114,7 @@ export class ListUserComponent implements OnInit {
 
       if ( inputValue.length >= 3 ) {
         this.usersFiltered = this.removeDeletedUsers(this.users).filter(
-          user => (user.firstName.toLocaleLowerCase().search(inputValue) > -1 || user.lastName.toLocaleLowerCase().search(inputValue) > -1 )
+          user => (user.firstName.toLocaleLowerCase().search(inputValue) > -1 || user.lastName.toLocaleLowerCase().search(inputValue) > -1  || user.email.toLocaleLowerCase().search(inputValue) > -1 )
         );
       } else {
         throw new Error();
