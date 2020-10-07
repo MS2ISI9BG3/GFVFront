@@ -1,3 +1,7 @@
+<div color="accent" [fxHide]="!noRide">
+  Aucun trajet trouvé.
+</div>
+
 <div *ngFor="let ride of ridessFiltered">
   <mat-card class="card my-3" (click)="onClickRide(ride)">
     <mat-card-header>

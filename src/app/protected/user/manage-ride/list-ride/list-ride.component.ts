@@ -25,6 +25,7 @@ export class ListRideComponent implements OnInit {
   ridessFiltered: Ride[] = [];
   typeRide: 'current' | 'history' = 'current';
   public isMobile: boolean = true;
+  public noRide: boolean = false;
 
   /**
    * Creates an instance of ListRideComponent.
@@ -82,10 +83,11 @@ export class ListRideComponent implements OnInit {
       this.rides = rides.filter(r => r.status != 'REJECTED' && r.status != 'COMPLETED').filter(r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day'));
       this.ridessFiltered = rides.filter(r => r.status != 'REJECTED' && r.status != 'COMPLETED').filter(r => moment(r.arrivalDate, 'YYYY-MM-DD').isSameOrAfter(moment(), 'day'));
       this.rideSort(true);
+      this.noRide = (this.ridessFiltered.length == 0);
     } else if (routeType == 'history') {
       this.rides = rides.filter(r => r.status == 'REJECTED' || r.status == 'COMPLETED' || (r.status != 'REJECTED' && r.status != 'COMPLETED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')));
       this.ridessFiltered = rides.filter(r => r.status == 'REJECTED' || r.status == 'COMPLETED' || (r.status != 'REJECTED' && r.status != 'COMPLETED' && moment(r.arrivalDate, 'YYYY-MM-DD').isBefore(moment(), 'day')));
-
+      this.noRide = (this.ridessFiltered.length == 0);
       this.rideSort(false);
     } else {
       this.rides = [];
