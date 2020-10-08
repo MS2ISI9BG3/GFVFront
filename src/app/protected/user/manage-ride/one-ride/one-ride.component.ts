@@ -40,6 +40,10 @@ export class OneRideComponent implements OnInit {
   public rides: Ride[];
   public isCurrentRideHistory: boolean = true;
 
+  public formModeShow: string = FormMode.show;
+  public formModeUpdate: string = FormMode.update;
+  public formModeCreate: string = FormMode.create;
+
   /**
    * Creates an instance of OneRideComponent.
    * @param formBuilder

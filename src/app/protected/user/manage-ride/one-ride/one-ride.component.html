@@ -134,7 +134,7 @@
 
 <!--Bouton de suppression-->
 <button mat-fab *ngIf="formMode == 'show'" color="primary"
-[ngClass]="((formMode == 'show' && !isCurrentRideHistory) || (formMode == 'create' || formMode == 'update')) ? 'btn-delete' : 'btn-done'"
+[ngClass]="((formMode == formModeShow && !isCurrentRideHistory) || (formMode == formModeCreate || formMode == formModeUpdate)) ? 'btn-delete' : 'btn-done'"
 (click)="onClickDelete()">
   <mat-icon>delete</mat-icon>
 </button>

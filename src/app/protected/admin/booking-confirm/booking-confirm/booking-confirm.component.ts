@@ -31,7 +31,7 @@ export class BookingConfirmComponent implements OnInit {
   ridesRefusedFiltered: Ride[] = [];
   ridesToReturnedCar: Ride[] = [];
   public isMobile: boolean = true;
-  private dayFormat: string = moment().format('YYYY-MM-DD');
+  public dayFormat: string = moment().format('YYYY-MM-DD');
 
   /**
    * Creates an instance of ListRideComponent.
