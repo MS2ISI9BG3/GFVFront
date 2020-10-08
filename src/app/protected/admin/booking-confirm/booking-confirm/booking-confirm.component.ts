@@ -32,6 +32,7 @@ export class BookingConfirmComponent implements OnInit {
   ridesToReturnedCar: Ride[] = [];
   public isMobile: boolean = true;
   public dayFormat: string = moment().format('YYYY-MM-DD');
+  public noBooking: boolean = false;
 
   /**
    * Creates an instance of ListRideComponent.
@@ -59,7 +60,7 @@ export class BookingConfirmComponent implements OnInit {
     this.restRide.getRides()
       .subscribe(rides => {
         this.rides = rides;
-
+        this.noBooking = (this.rides.length == 0);
         this.rides.forEach(ride => {
           switch (ride.status) {
             case 'VALIDATION_PENDING':

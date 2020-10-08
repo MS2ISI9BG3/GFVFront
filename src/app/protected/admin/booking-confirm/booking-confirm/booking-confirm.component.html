@@ -1,3 +1,7 @@
+<div color="accent" [fxHide]="!noBooking">
+  Aucun prêt trouvé.
+</div>
+
 <div *ngIf="ridesToConfirmed.length > 0">
   <h2>Trajets à confirmer : </h2>
   <mat-card class="card my-3" *ngFor="let ride of ridesToConfirmedFiltered;">
